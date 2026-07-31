@@ -197,6 +197,9 @@
                     <button onclick="switchView('portal')" id="nav-btn-portal" class="px-3.5 py-2 rounded-xl transition text-brand-lime font-bold bg-slate-800/80 border border-slate-700/60">
                         <i class="fa-solid fa-house mr-1.5 text-xs"></i> Hub Utama
                     </button>
+                    <button onclick="switchView('kelompok')" id="nav-btn-kelompok" class="px-3.5 py-2 rounded-xl transition text-slate-300 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-users-rectangle mr-1.5 text-xs text-brand-lime"></i> 3 Kelompok KKN
+                    </button>
                     <button onclick="switchView('siklus')" id="nav-btn-siklus" class="px-3.5 py-2 rounded-xl transition text-slate-300 hover:text-white hover:bg-slate-800">
                         <i class="fa-solid fa-compass mr-1.5 text-xs text-brand-lime"></i> Siklus Sisdamas
                     </button>
@@ -380,6 +383,60 @@
 
             </div>
 
+            <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 gap-2">
+                    <div>
+                        <span class="text-xs text-brand-lime font-bold uppercase tracking-wider">KOLABORASI 3 KELOMPOK</span>
+                        <h3 class="text-xl sm:text-2xl font-black text-white mt-0.5">Sinergi Kelompok 112, 113, & 114</h3>
+                    </div>
+                    <button onclick="switchView('kelompok')" class="self-start sm:self-auto px-4 py-2 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-extrabold text-xs rounded-xl transition flex items-center space-x-1.5 shadow">
+                        <span>Buka Detail 3 Kelompok</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div onclick="switchView('kelompok'); selectKelompok('k112');" class="bg-slate-950/80 p-5 rounded-xl border border-brand-lime/30 hover:border-brand-lime transition cursor-pointer space-y-3 group">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2.5 py-1 bg-brand-lime/20 text-brand-lime text-xs font-black rounded uppercase">Kelompok 112</span>
+                            <span class="text-[10px] text-slate-400">15 Mahasiswa</span>
+                        </div>
+                        <h4 class="font-bold text-white group-hover:text-brand-lime transition">Digitalisasi & Fiqih Lingkungan</h4>
+                        <p class="text-xs text-slate-400 line-clamp-2">Pengembangan Portal Digital Desa Berdata & Fiqh al-Bi'ah di Dusun 1 & 2.</p>
+                        <div class="text-xs text-brand-lime font-semibold flex items-center justify-between pt-2 border-t border-slate-800/80">
+                            <span>Kordes: M. Nuruzzaman</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </div>
+                    </div>
+
+                    <div onclick="switchView('kelompok'); selectKelompok('k113');" class="bg-slate-950/80 p-5 rounded-xl border border-blue-500/30 hover:border-blue-400 transition cursor-pointer space-y-3 group">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2.5 py-1 bg-blue-500/20 text-blue-400 text-xs font-black rounded uppercase">Kelompok 113</span>
+                            <span class="text-[10px] text-slate-400">15 Mahasiswa</span>
+                        </div>
+                        <h4 class="font-bold text-white group-hover:text-blue-400 transition">Restorasi Irigasi & Santri</h4>
+                        <p class="text-xs text-slate-400 line-clamp-2">Pembersihan bendungan sawah & edukasi ekoteologi MDTA di Dusun 3 & 5.</p>
+                        <div class="text-xs text-blue-400 font-semibold flex items-center justify-between pt-2 border-t border-slate-800/80">
+                            <span>Kordes: Ahmad Fauzi</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </div>
+                    </div>
+
+                    <div onclick="switchView('kelompok'); selectKelompok('k114');" class="bg-slate-950/80 p-5 rounded-xl border border-teal-400/30 hover:border-teal-400 transition cursor-pointer space-y-3 group">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2.5 py-1 bg-teal-400/20 text-teal-300 text-xs font-black rounded uppercase">Kelompok 114</span>
+                            <span class="text-[10px] text-slate-400">15 Mahasiswa</span>
+                        </div>
+                        <h4 class="font-bold text-white group-hover:text-teal-300 transition">Bank Sampah & Ecobrick</h4>
+                        <p class="text-xs text-slate-400 line-clamp-2">Pengolahan sampah organik, komposter, dan pelatihan ecobrick di Dusun 4.</p>
+                        <div class="text-xs text-teal-300 font-semibold flex items-center justify-between pt-2 border-t border-slate-800/80">
+                            <span>Kordes: Siti Rahmawati</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- REAL-TIME METRICS GRID & TODAY'S FOCUS -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
                 
@@ -482,6 +539,41 @@
 
             <!-- Selected Cycle Detail Card -->
             <div class="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-10 shadow-xl" id="cycle-detail-card">
+                <!-- Injected via JS -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW: PORTAL PROFIL 3 KELOMPOK KKN        -->
+    <!-- ========================================== -->
+    <div id="view-kelompok" class="view-section min-h-screen hidden pb-28 pt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-6 gap-4">
+                <div>
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-lime/10 border border-brand-lime/30 text-brand-lime text-xs font-bold uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-users-rectangle"></i>
+                        <span>Kolaborasi 45 Mahasiswa KKN</span>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white">Portal Halaman 3 Kelompok KKN</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Pilih kelompok untuk melihat profil, divisi tim, program kerja, dan dusun binaan.</p>
+                </div>
+
+                <button onclick="switchView('portal')" class="self-start md:self-auto px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 flex items-center space-x-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Kembali ke Hub Utama</span>
+                </button>
+            </div>
+
+            <!-- Group Selector Tabs -->
+            <div class="grid grid-cols-3 gap-3" id="kelompok-tabs">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Group Selected Detail Panel -->
+            <div class="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-10 shadow-xl" id="kelompok-detail-card">
                 <!-- Injected via JS -->
             </div>
 
@@ -721,6 +813,10 @@
             <i class="fa-solid fa-house text-base"></i>
             <span>Beranda</span>
         </button>
+        <button onclick="switchView('kelompok')" id="dock-btn-kelompok" class="flex flex-col items-center space-y-1 p-2 hover:text-white">
+            <i class="fa-solid fa-users text-base"></i>
+            <span>Kelompok</span>
+        </button>
         <button onclick="switchView('siklus')" id="dock-btn-siklus" class="flex flex-col items-center space-y-1 p-2 hover:text-white">
             <i class="fa-solid fa-compass text-base"></i>
             <span>Siklus</span>
@@ -808,6 +904,84 @@
 
     <script>
         // DATA MODELS
+        const KELOMPOK_DATA = [
+            {
+                id: 'k112',
+                number: '112',
+                title: 'Kelompok 112 Sisdamas',
+                tagline: 'Digitalisasi Desa & Fiqih Lingkungan',
+                kordes: 'Muhamad Nuruzzaman',
+                phone: '6281234567890',
+                dusun: 'Dusun 1 (Rahong Pusat) & Dusun 2 (Cikadu)',
+                membersCount: 15,
+                badgeClass: 'bg-brand-lime text-brand-dark',
+                accentColor: '#CDF22B',
+                description: 'Kelompok 112 berfokus pada integrasi teknologi informasi desa, penyusunan Portal Sisdamas, serta edukasi Fiqh al-Bi\'ah bagi pengajar MDTA & jamaah masjid.',
+                programs: [
+                    'Pengembangan Portal Digital Desa Berdata (Sisdamas Hub)',
+                    'Kajian Fiqh al-Bi\'ah & Penyusunan Silabus Ekoteologi MDTA',
+                    'Digitalisasi Profil RT/RW & Pemetaan Spasial Sumber Air'
+                ],
+                structure: [
+                    { role: 'Kordes / Tech Lead', name: 'Muhamad Nuruzzaman' },
+                    { role: 'Sekretaris Kelompok', name: 'Nabila Azzahra' },
+                    { role: 'Bendahara Kelompok', name: 'Fikri Haikal' },
+                    { role: 'Divisi Humas & Pubdok', name: 'Aisyah Putri & Tim' },
+                    { role: 'Divisi Lapangan', name: 'Rizky Ramadhan & Tim' }
+                ]
+            },
+            {
+                id: 'k113',
+                number: '113',
+                title: 'Kelompok 113 Sisdamas',
+                tagline: 'Restorasi Irigasi & Edukasi Santri',
+                kordes: 'Ahmad Fauzi',
+                phone: '6281234567891',
+                dusun: 'Dusun 3 (Sukahening) & Dusun 5 (Pasir Panjang)',
+                membersCount: 15,
+                badgeClass: 'bg-blue-500 text-white',
+                accentColor: '#1E45FB',
+                description: 'Kelompok 113 menitikberatkan aksi pada pembersihan bendungan irigasi pertanian sawah warga serta gerakan mengaji berbasis wawasan lingkungan.',
+                programs: [
+                    'Restorasi Bendungan & Saluran Irigasi Sawah Dusun 5',
+                    'Gerakan Jum\'at Bersih Sumber Mata Air & Sungai Desa',
+                    'Kuliah Ekoteologi Santri & Pembinaan Karang Taruna'
+                ],
+                structure: [
+                    { role: 'Kordes', name: 'Ahmad Fauzi' },
+                    { role: 'Sekretaris Kelompok', name: 'Rina Kartika' },
+                    { role: 'Bendahara Kelompok', name: 'Dimi Rizki' },
+                    { role: 'Divisi Acara & Agama', name: 'Zulkifli & Tim' },
+                    { role: 'Divisi K3 & Logistik', name: 'Rifky M. & Tim' }
+                ]
+            },
+            {
+                id: 'k114',
+                number: '114',
+                title: 'Kelompok 114 Sisdamas',
+                tagline: 'Bank Sampah & Pengolahan Organik',
+                kordes: 'Siti Rahmawati',
+                phone: '6281234567892',
+                dusun: 'Dusun 4 (Mekar Jaya)',
+                membersCount: 15,
+                badgeClass: 'bg-teal-400 text-brand-dark',
+                accentColor: '#2DD4BF',
+                description: 'Kelompok 114 berfokus pada pendirian Bank Sampah Unit desa, sosialisasi komposter organik rumah tangga, dan kerajinan ecobrick bersama anak sekolah.',
+                programs: [
+                    'Pembentukan Bank Sampah Unit Dusun 4 Mekar Jaya',
+                    'Pelatihan Komposter Rumah Tangga & Pembuatan Ecobrick',
+                    'Edukasi Pemilahan Sampah Organik/Anorganik di Sekolah'
+                ],
+                structure: [
+                    { role: 'Kordes', name: 'Siti Rahmawati' },
+                    { role: 'Sekretaris Kelompok', name: 'Dewi Lestari' },
+                    { role: 'Bendahara Kelompok', name: 'Andi Wijaya' },
+                    { role: 'Divisi Lingkungan', name: 'Bagas Kurnia & Tim' },
+                    { role: 'Divisi Pubdok', name: 'Anisa Fitri & Tim' }
+                ]
+            }
+        ];
+
         const SISDAMAS_CYCLES = [
             {
                 id: 1,
@@ -990,13 +1164,25 @@
         // STATE VARIABLES
         let currentView = 'portal';
         let activeCycleId = 1;
+        let activeKelompokId = 'k112';
         let activeGalleryFilter = 'semua';
         let lightboxIndex = 0;
         let selectedDusunId = 'd1';
         let filteredPhotos = [...PHOTOS_GALLERY];
 
-        // INITIALIZATION
+        // INITIALIZATION WITH HISTORY & HASH ROUTING
         document.addEventListener('DOMContentLoaded', () => {
+            // Cek hash awal pada URL (misal: website.com/#kelompok)
+            const initialHash = window.location.hash.replace('#', '');
+            const validViews = ['portal', 'kelompok', 'siklus', 'galeri', 'logbook', 'dusun', 'humas'];
+            const startView = validViews.includes(initialHash) ? initialHash : 'portal';
+            
+            // Simpan state awal tanpa menambah history baru
+            history.replaceState({ view: startView }, '', '#' + startView);
+            switchView(startView, false);
+
+            renderKelompokTabs();
+            renderKelompokDetail();
             renderCycleTabs();
             renderCycleDetail();
             renderGallery();
@@ -1005,12 +1191,34 @@
             renderDusunDetail();
         });
 
+        // HANDLE BROWSER BACK & FORWARD BUTTONS
+        window.addEventListener('popstate', (event) => {
+            const validViews = ['portal', 'kelompok', 'siklus', 'galeri', 'logbook', 'dusun', 'humas'];
+            const targetView = (event.state && event.state.view) 
+                ? event.state.view 
+                : (window.location.hash.replace('#', '') || 'portal');
+
+            if (validViews.includes(targetView)) {
+                switchView(targetView, false); // Jangan push state baru saat menangani back/forward
+            }
+        });
+
         // SPA MULTI-PORTAL ROUTER
-        function switchView(target) {
+        function switchView(target, pushHistory = true) {
+            const validViews = ['portal', 'kelompok', 'siklus', 'galeri', 'logbook', 'dusun', 'humas'];
+            if (!validViews.includes(target)) {
+                target = 'portal';
+            }
+
             currentView = target;
 
+            // Catat pergerakan halaman ke History Browser jika dipicu oleh klik menu pengguna
+            if (pushHistory) {
+                history.pushState({ view: target }, '', '#' + target);
+            }
+
             // Hide all sub-portal views
-            ['portal', 'siklus', 'galeri', 'logbook', 'dusun', 'humas'].forEach(v => {
+            validViews.forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 if (el) el.classList.add('hidden');
             });
@@ -1022,7 +1230,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             // Update Nav UI
-            ['portal', 'siklus', 'galeri', 'logbook', 'dusun'].forEach(v => {
+            ['portal', 'kelompok', 'siklus', 'galeri', 'logbook', 'dusun'].forEach(v => {
                 const navBtn = document.getElementById(`nav-btn-${v}`);
                 const dockBtn = document.getElementById(`dock-btn-${v}`);
 
@@ -1040,6 +1248,9 @@
             if (target === 'portal') {
                 glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(205, 242, 43, 0.12) 0%, transparent 40%)';
                 initParticles(['fa-leaf', 'fa-seedling'], 'text-brand-lime/20');
+            } else if (target === 'kelompok') {
+                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.22) 0%, transparent 50%), radial-gradient(circle at 80% 30%, rgba(205, 242, 43, 0.15) 0%, transparent 40%)';
+                initParticles(['fa-user-group', 'fa-graduation-cap'], 'text-brand-lime/20');
             } else if (target === 'siklus') {
                 glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.25) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(205, 242, 43, 0.1) 0%, transparent 40%)';
                 initParticles(['fa-compass', 'fa-check'], 'text-blue-500/20');
@@ -1055,6 +1266,111 @@
             } else if (target === 'humas') {
                 glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.22) 0%, transparent 50%)';
             }
+        }
+
+        // KELOMPOK 3 PAGES RENDER LOGIC
+        function renderKelompokTabs() {
+            const container = document.getElementById('kelompok-tabs');
+            container.innerHTML = KELOMPOK_DATA.map(k => {
+                const isActive = k.id === activeKelompokId;
+                return `
+                    <button onclick="selectKelompok('${k.id}')" class="p-4 rounded-2xl border text-left relative overflow-hidden transition ${
+                        isActive
+                            ? 'border-brand-lime bg-slate-800 shadow-xl ring-1 ring-brand-lime/40'
+                            : 'border-slate-800 bg-brand-card hover:bg-slate-800'
+                    }">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-black uppercase tracking-wider ${isActive ? 'text-brand-lime' : 'text-slate-400'}">
+                                ${k.title.split(' ')[0]} ${k.number}
+                            </span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${k.badgeClass}">
+                                Active
+                            </span>
+                        </div>
+                        <h4 class="text-xs sm:text-sm font-bold line-clamp-1 ${isActive ? 'text-white' : 'text-slate-300'}">
+                            ${k.tagline}
+                        </h4>
+                        ${isActive ? '<div class="absolute bottom-0 left-0 right-0 h-1 bg-brand-lime"></div>' : ''}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function renderKelompokDetail() {
+            const k = KELOMPOK_DATA.find(item => item.id === activeKelompokId);
+            const container = document.getElementById('kelompok-detail-card');
+            container.innerHTML = `
+                <div class="space-y-8">
+                    <!-- Header Info -->
+                    <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-6 gap-4">
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-3">
+                                <span class="px-3 py-1 text-xs font-black rounded-lg uppercase ${k.badgeClass}">Kelompok ${k.number}</span>
+                                <span class="text-xs text-slate-400"><i class="fa-solid fa-users text-brand-lime mr-1"></i>${k.membersCount} Personel Mahasiswa</span>
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-white">${k.title}</h3>
+                            <p class="text-sm font-semibold text-brand-lime">${k.tagline}</p>
+                            <p class="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">${k.description}</p>
+                        </div>
+
+                        <a href="https://wa.me/${k.phone}?text=Halo%20Kordes%20Kelompok%20${k.number}%20KKN%20Desa%20Rahong" target="_blank" class="self-start md:self-auto px-5 py-3 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl shadow-lg flex items-center space-x-2 transition active:scale-95">
+                            <i class="fa-brands fa-whatsapp text-base"></i>
+                            <span>Hubungi Kordes (${k.kordes.split(' ')[0]})</span>
+                        </a>
+                    </div>
+
+                    <!-- Grid Content: Programs & Structure -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        
+                        <!-- Main Work Programs -->
+                        <div class="lg:col-span-7 space-y-4">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-2">
+                                <i class="fa-solid fa-list-check text-brand-lime"></i>
+                                <span>Fokus Program Kerja Utama:</span>
+                            </h4>
+                            <div class="space-y-3">
+                                ${k.programs.map((p, idx) => `
+                                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 flex items-start space-x-3">
+                                        <span class="w-6 h-6 rounded-lg bg-brand-blue/30 text-blue-400 border border-blue-500/40 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span>
+                                        <p class="text-xs sm:text-sm font-semibold text-slate-200 leading-snug">${p}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 flex items-center space-x-3">
+                                <i class="fa-solid fa-map-pin text-brand-lime text-lg"></i>
+                                <div>
+                                    <span class="text-[10px] text-slate-400 uppercase font-bold block">Wilayah Dusun Binaan:</span>
+                                    <span class="text-xs font-bold text-white">${k.dusun}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Leadership Structure -->
+                        <div class="lg:col-span-5 bg-slate-900/60 p-6 rounded-xl border border-slate-800 space-y-4">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-2">
+                                <i class="fa-solid fa-sitemap text-brand-lime"></i>
+                                <span>Struktur Pengurus Kelompok ${k.number}:</span>
+                            </h4>
+                            <div class="space-y-2.5">
+                                ${k.structure.map(s => `
+                                    <div class="flex items-center justify-between p-3 bg-slate-950/80 rounded-lg border border-slate-800/80 text-xs">
+                                        <span class="text-slate-400 font-medium">${s.role}</span>
+                                        <span class="font-bold text-white">${s.name}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectKelompok(id) {
+            activeKelompokId = id;
+            renderKelompokTabs();
+            renderKelompokDetail();
         }
 
         // FLOATING PARTICLES LOGIC
