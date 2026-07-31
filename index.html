@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Portal Digital KKN Sisdamas Desa Rahong 2026</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            900: '#064e3b',
+                            950: '#022c22'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
+            position: relative;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Ambient Dynamic Glow Background */
+        .bg-glow {
+            position: fixed;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(20, 184, 166, 0.1) 0%, transparent 40%);
+            animation: pulseGlow 15s infinite alternate linear;
+            z-index: -2;
+            pointer-events: none;
+            transition: background 0.5s ease;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(10deg) scale(1.1); }
+        }
+
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Floating Particles System */
+        #particle-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1; overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            opacity: 0.5;
+            animation: fall linear infinite, spin linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(110vh); opacity: 0; }
+        }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* View Section Transition Animations */
+        .view-section {
+            animation: fadeInView 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeInView {
+            from { opacity: 0; transform: translateY(12px) scale(0.99); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 4px; }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+</head>
+<body class="antialiased selection:bg-emerald-500 selection:text-white">
+
+    <!-- Ambient Dynamic Backgrounds & Particles -->
+    <div class="bg-glow" id="main-glow"></div>
+    <div id="particle-container"></div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-24 left-1/2 -translate-x-1/2 z-[120] flex flex-col gap-2 w-[90%] max-w-sm pointer-events-none"></div>
+
+    <!-- MAIN HEADER NAVBAR -->
+    <header class="sticky top-0 z-40 glass-nav shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo & Dynamic Portal Title -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('portal')">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 p-0.5 shadow-md flex items-center justify-center">
+                        <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
+                            <i class="fa-solid fa-leaf text-emerald-400 text-xl" id="nav-brand-icon"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-bold text-lg tracking-tight text-white leading-none">
+                                KKN Rahong <span class="text-emerald-400">2026</span>
+                            </span>
+                            <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                Sisdamas
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-400 font-light mt-0.5" id="nav-subtitle-text">
+                            UIN SGD Bandung × UNSUR
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Desktop Sub-Portal Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-1 text-sm font-medium">
+                    <button onclick="switchView('portal')" id="nav-btn-portal" class="px-3.5 py-2 rounded-xl transition text-emerald-400 font-semibold bg-slate-800/80 border border-slate-700/50">
+                        <i class="fa-solid fa-house mr-1.5 text-xs"></i> Hub Utama
+                    </button>
+                    <button onclick="switchView('siklus')" id="nav-btn-siklus" class="px-3.5 py-2 rounded-xl transition text-slate-300 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-compass mr-1.5 text-xs text-emerald-400"></i> Siklus Sisdamas
+                    </button>
+                    <button onclick="switchView('galeri')" id="nav-btn-galeri" class="px-3.5 py-2 rounded-xl transition text-slate-300 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-image mr-1.5 text-xs text-emerald-400"></i> Galeri Impact
+                    </button>
+                    <button onclick="switchView('logbook')" id="nav-btn-logbook" class="px-3.5 py-2 rounded-xl transition text-slate-300 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-newspaper mr-1.5 text-xs text-emerald-400"></i> Logbook & Pers
+                    </button>
+                    <button onclick="switchView('dusun')" id="nav-btn-dusun" class="px-3.5 py-2 rounded-xl transition text-slate-300 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-map-location-dot mr-1.5 text-xs text-emerald-400"></i> Peta 5 Dusun
+                    </button>
+                </nav>
+
+                <!-- Header Actions & Humas Button -->
+                <div class="flex items-center space-x-3">
+                    <div class="hidden sm:flex items-center space-x-2 bg-slate-800/80 border border-slate-700 rounded-full px-3 py-1.5 text-xs">
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                        </span>
+                        <span class="text-slate-300 font-medium">Siklus I Active</span>
+                    </div>
+
+                    <button onclick="switchView('humas')" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs tracking-wide transition shadow-md flex items-center space-x-1.5 active:scale-95">
+                        <i class="fa-solid fa-headset"></i>
+                        <span class="hidden sm:inline">Layanan Humas</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: PORTAL HUB UTAMA (BERANDA)        -->
+    <!-- ========================================== -->
+    <div id="view-portal" class="view-section min-h-screen pb-28 pt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            
+            <!-- Hero Impact Title -->
+            <div class="text-center max-w-4xl mx-auto space-y-5 pt-4">
+                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-medium">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span>Portal Transparansi Digital Sisdamas Desa Rahong 2026</span>
+                </div>
+
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                    Pemberdayaan Desa <br class="hidden sm:inline" />
+                    Berbasis <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-green-300">Ekoteologi</span>
+                </h1>
+
+                <p class="text-slate-300 text-base sm:text-lg font-normal leading-relaxed max-w-2xl mx-auto">
+                    Pusat Navigasi & Rekam Jejak Interaktif Pengabdian Masyarakat Kolaboratif UIN Sunan Gunung Djati Bandung x Universitas Suryakancana (UNSUR).
+                </p>
+            </div>
+
+            <!-- CORE SUB-PORTAL CARDS HUB -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Card 1: Siklus Sisdamas -->
+                <div onclick="switchView('siklus')" class="group relative overflow-hidden rounded-2xl glass-card p-6 cursor-pointer border border-slate-700/80 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1 shadow-lg">
+                    <div class="absolute -right-8 -bottom-8 w-28 h-28 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition"></div>
+                    <div class="space-y-4 relative z-10">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">Metodologi KKN</span>
+                            <h3 class="text-xl font-bold text-white mt-0.5 group-hover:text-emerald-400 transition">Portal Siklus Sisdamas</h3>
+                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">Pantau perkembangan 4 tahap Sisdamas mulai dari Refleksi Sosial hingga Evaluasi RKM.</p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs text-emerald-400 font-semibold">
+                            <span>Buka Portal Siklus</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Galeri Impact -->
+                <div onclick="switchView('galeri')" class="group relative overflow-hidden rounded-2xl glass-card p-6 cursor-pointer border border-slate-700/80 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1 shadow-lg">
+                    <div class="absolute -right-8 -bottom-8 w-28 h-28 bg-teal-500/10 rounded-full blur-2xl group-hover:bg-teal-500/20 transition"></div>
+                    <div class="space-y-4 relative z-10">
+                        <div class="w-12 h-12 rounded-xl bg-teal-500/20 text-teal-400 border border-teal-500/30 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-images"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold text-teal-400 uppercase tracking-wider">Dokumentasi Aksi</span>
+                            <h3 class="text-xl font-bold text-white mt-0.5 group-hover:text-teal-400 transition">Galeri Visual Impact</h3>
+                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">Foto momen nyata irigasi, bank sampah, kajian fiqih lingkungan, dan edukasi MDTA.</p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs text-teal-400 font-semibold">
+                            <span>Buka Galeri Foto</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Logbook & Pers -->
+                <div onclick="switchView('logbook')" class="group relative overflow-hidden rounded-2xl glass-card p-6 cursor-pointer border border-slate-700/80 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1 shadow-lg">
+                    <div class="absolute -right-8 -bottom-8 w-28 h-28 bg-green-500/10 rounded-full blur-2xl group-hover:bg-green-500/20 transition"></div>
+                    <div class="space-y-4 relative z-10">
+                        <div class="w-12 h-12 rounded-xl bg-green-500/20 text-green-400 border border-green-500/30 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-newspaper"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold text-green-400 uppercase tracking-wider">Pusat Publikasi</span>
+                            <h3 class="text-xl font-bold text-white mt-0.5 group-hover:text-green-400 transition">Logbook & Siaran Pers</h3>
+                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">Rilis pers resmi humas KKN, catatan harian jurnalistik, serta liputan pengabdian.</p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs text-green-400 font-semibold">
+                            <span>Baca Berita KKN</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Peta 5 Dusun -->
+                <div onclick="switchView('dusun')" class="group relative overflow-hidden rounded-2xl glass-card p-6 cursor-pointer border border-slate-700/80 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1 shadow-lg">
+                    <div class="absolute -right-8 -bottom-8 w-28 h-28 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition"></div>
+                    <div class="space-y-4 relative z-10">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">Pemetaan Wilayah</span>
+                            <h3 class="text-xl font-bold text-white mt-0.5 group-hover:text-emerald-400 transition">Peta Fokus 5 Dusun</h3>
+                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">Cakupan program terbagi di Dusun Rahong Pusat, Cikadu, Sukahening, Mekar Jaya, & Pasir Panjang.</p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs text-emerald-400 font-semibold">
+                            <span>Lihat Detail Dusun</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- REAL-TIME METRICS GRID & TODAY'S FOCUS -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                
+                <div class="lg:col-span-8 bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-chart-line text-emerald-400"></i>
+                            <h3 class="font-bold text-white text-base">Metrik Capaian KKN 2026</h3>
+                        </div>
+                        <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-medium">Real-time Data</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/60 text-center space-y-1">
+                            <div class="text-2xl font-extrabold text-emerald-400">112, 113, 114</div>
+                            <div class="text-xs font-semibold text-slate-200">Kelompok KKN</div>
+                        </div>
+                        <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/60 text-center space-y-1">
+                            <div class="text-2xl font-extrabold text-emerald-400">5 Dusun</div>
+                            <div class="text-xs font-semibold text-slate-200">Cakupan Desa</div>
+                        </div>
+                        <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/60 text-center space-y-1">
+                            <div class="text-2xl font-extrabold text-emerald-400">45 Mahasiswa</div>
+                            <div class="text-xs font-semibold text-slate-200">UIN SGD x UNSUR</div>
+                        </div>
+                        <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/60 text-center space-y-1">
+                            <div class="text-2xl font-extrabold text-emerald-400">12 Proktis</div>
+                            <div class="text-xs font-semibold text-slate-200">Aksi Ekoteologi</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="p-3 bg-emerald-500/20 text-emerald-400 rounded-xl">
+                                <i class="fa-solid fa-graduation-cap text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white">Kolaborasi Kelembagaan</h4>
+                                <p class="text-[11px] text-slate-400">LP2M UIN Sunan Gunung Djati Bandung × LPPM Universitas Suryakancana</p>
+                            </div>
+                        </div>
+                        <button onclick="switchView('humas')" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-xs text-white font-semibold rounded-xl transition whitespace-nowrap">
+                            Kontak Humas
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 bg-gradient-to-br from-emerald-950/60 to-slate-900 border border-emerald-500/30 rounded-2xl p-6 space-y-4 shadow-xl flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wide flex items-center space-x-1.5">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Fokus Hari Ini:</span>
+                            </span>
+                            <span class="text-[11px] text-slate-400">08 Juli 2026</span>
+                        </div>
+                        <h4 class="text-lg font-bold text-white">Rembug Warga Siklus I & Isu Irigasi Dusun 5</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Pelaksanaan silaturahmi terbuka bersama tokoh masyarakat, Karang Taruna, dan pemetaan awal bendungan irigasi sawah.
+                        </p>
+                    </div>
+
+                    <button onclick="switchView('logbook')" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3 rounded-xl text-xs transition shadow flex items-center justify-center space-x-2">
+                        <span>Baca Catatan Lapangan</span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: PORTAL SIKLUS SISDAMAS            -->
+    <!-- ========================================== -->
+    <div id="view-siklus" class="view-section min-h-screen hidden pb-28 pt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            
+            <!-- Portal Header -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-6 gap-4">
+                <div>
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-compass"></i>
+                        <span>Metodologi KKN</span>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white">Portal 4 Siklus Sisdamas</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Sistem Pemberdayaan Masyarakat terstruktur, terukur, dan partisipatif.</p>
+                </div>
+
+                <button onclick="switchView('portal')" class="self-start md:self-auto px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 flex items-center space-x-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Kembali ke Hub Utama</span>
+                </button>
+            </div>
+
+            <!-- Stepper Tabs -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="cycle-tabs">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Selected Cycle Detail Card -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-10 shadow-xl" id="cycle-detail-card">
+                <!-- Injected via JS -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: PORTAL GALERI VISUAL & IMPACT     -->
+    <!-- ========================================== -->
+    <div id="view-galeri" class="view-section min-h-screen hidden pb-28 pt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-800 pb-6 gap-4">
+                <div>
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-images"></i>
+                        <span>Dokumentasi Lapangan</span>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white">Galeri Visual & Momen Impact</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Dokumentasi foto asli kegiatan mahasiswa KKN bersama warga Desa Rahong.</p>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-2" id="gallery-filters">
+                    <button onclick="filterGallery('semua')" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500 text-slate-950 transition">Semua</button>
+                    <button onclick="filterGallery('kegiatan')" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Kegiatan</button>
+                    <button onclick="filterGallery('lingkungan')" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Lingkungan</button>
+                    <button onclick="filterGallery('ekoteologi')" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Ekoteologi</button>
+                    <button onclick="filterGallery('edukasi')" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Edukasi</button>
+                </div>
+            </div>
+
+            <!-- Photos Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-grid">
+                <!-- Gallery photos injected via JS -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: PORTAL LOGBOOK & PRESS RELEASE    -->
+    <!-- ========================================== -->
+    <div id="view-logbook" class="view-section min-h-screen hidden pb-28 pt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-800 pb-6 gap-6">
+                <div>
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-bold uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-newspaper"></i>
+                        <span>Pusat Publikasi & Jurnalistik</span>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white">Logbook & Siaran Pers Resmi</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Laporan harian, berita utama, dan rilis pers media KKN Rahong 2026.</p>
+                </div>
+
+                <!-- Search Input -->
+                <div class="relative w-full md:w-72">
+                    <input
+                        type="text"
+                        id="news-search-input"
+                        placeholder="Cari topik / berita..."
+                        oninput="searchNews()"
+                        class="w-full pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    />
+                    <i class="fa-solid fa-magnifying-glass text-slate-400 absolute left-3.5 top-3.5 text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Featured Article Lead -->
+            <div id="featured-article-container">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Grid Articles -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="news-grid">
+                <!-- Injected via JS -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 5: PORTAL PETA FOKUS 5 DUSUN          -->
+    <!-- ========================================== -->
+    <div id="view-dusun" class="view-section min-h-screen hidden pb-28 pt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            
+            <div class="border-b border-slate-800 pb-6 space-y-2">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <span>Cakupan Wilayah Desa</span>
+                </div>
+                <h2 class="text-3xl font-extrabold text-white">Peta Fokus Aksi 5 Dusun Desa Rahong</h2>
+                <p class="text-xs sm:text-sm text-slate-400">Pilih Dusun untuk melihat penanggung jawab, program kerja, dan status aksi di lapangan.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Dusun Buttons -->
+                <div class="lg:col-span-5 space-y-3" id="dusun-selector-list">
+                    <!-- Injected via JS -->
+                </div>
+
+                <!-- Dusun Details Card -->
+                <div class="lg:col-span-7 bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 sm:p-8 space-y-6" id="dusun-detail-card">
+                    <!-- Injected via JS -->
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 6: PORTAL LAYANAN HUMAS & KONTAK     -->
+    <!-- ========================================== -->
+    <div id="view-humas" class="view-section min-h-screen hidden pb-28 pt-8">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            
+            <div class="text-center space-y-3 border-b border-slate-800 pb-6">
+                <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto text-2xl shadow-lg">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <h2 class="text-3xl font-extrabold text-white">Layanan Humas & Publikasi</h2>
+                <p class="text-xs sm:text-sm text-slate-400 max-w-lg mx-auto">
+                    Kanal komunikasi resmi KKN Sisdamas Desa Rahong 2026 UIN Sunan Gunung Djati Bandung × UNSUR.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Contact Info Card -->
+                <div class="glass-card p-6 rounded-2xl space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center space-x-2">
+                        <i class="fa-solid fa-user-shield text-emerald-400"></i>
+                        <span>Struktur Koordinator</span>
+                    </h3>
+
+                    <div class="space-y-3 text-xs">
+                        <div class="bg-slate-900/80 p-3.5 rounded-xl space-y-1 border border-slate-800">
+                            <span class="text-slate-400 uppercase font-bold text-[10px] block">Kordes KKN (Tech Lead):</span>
+                            <span class="font-bold text-emerald-300 text-sm">Muhamad Nuruzzaman</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-3.5 rounded-xl space-y-1 border border-slate-800">
+                            <span class="text-slate-400 uppercase font-bold text-[10px] block">Tim Humas & Pers:</span>
+                            <span class="font-semibold text-slate-200">Kelompok 112, 113, 114</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-3.5 rounded-xl space-y-1 border border-slate-800">
+                            <span class="text-slate-400 uppercase font-bold text-[10px] block">Email Publikasi Resmi:</span>
+                            <span class="font-semibold text-slate-200">humas.kknrahong2026@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive WhatsApp Generator -->
+                <div class="glass-card p-6 rounded-2xl space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center space-x-2">
+                        <i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i>
+                        <span>Kirim Pesan Cepat WA</span>
+                    </h3>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Anda <span class="text-emerald-400">*</span></label>
+                            <input type="text" id="wa-sender-name" placeholder="Masukkan nama..." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-emerald-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Tujuan Pesan <span class="text-emerald-400">*</span></label>
+                            <select id="wa-intent" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-emerald-500">
+                                <option value="Informasi Program KKN">Tanya Informasi Program KKN</option>
+                                <option value="Liputan Media & Pers">Liputan Media / Pers</option>
+                                <option value="Kunjungan DPL / Monitoring">Kunjungan DPL & Monitoring</option>
+                                <option value="Undangan Kegiatan Desa">Undangan Aksi Gotong Royong</option>
+                            </select>
+                        </div>
+
+                        <button onclick="sendDirectWhatsApp()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3 rounded-xl text-xs transition shadow flex items-center justify-center space-x-2 mt-2 active:scale-95">
+                            <i class="fa-brands fa-whatsapp text-base"></i>
+                            <span>Buka Chat WhatsApp</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MOBILE BOTTOM DOCK NAVBAR -->
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 px-2 py-2 flex items-center justify-around text-[10px] font-medium text-slate-400 pb-safe">
+        <button onclick="switchView('portal')" id="dock-btn-portal" class="flex flex-col items-center space-y-1 p-2 text-emerald-400">
+            <i class="fa-solid fa-house text-base"></i>
+            <span>Beranda</span>
+        </button>
+        <button onclick="switchView('siklus')" id="dock-btn-siklus" class="flex flex-col items-center space-y-1 p-2 hover:text-white">
+            <i class="fa-solid fa-compass text-base"></i>
+            <span>Siklus</span>
+        </button>
+        <button onclick="switchView('galeri')" id="dock-btn-galeri" class="flex flex-col items-center space-y-1 p-2 hover:text-white">
+            <i class="fa-solid fa-images text-base"></i>
+            <span>Galeri</span>
+        </button>
+        <button onclick="switchView('logbook')" id="dock-btn-logbook" class="flex flex-col items-center space-y-1 p-2 hover:text-white">
+            <i class="fa-solid fa-newspaper text-base"></i>
+            <span>Logbook</span>
+        </button>
+        <button onclick="switchView('dusun')" id="dock-btn-dusun" class="flex flex-col items-center space-y-1 p-2 hover:text-white">
+            <i class="fa-solid fa-map text-base"></i>
+            <span>Dusun</span>
+        </button>
+    </div>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <button onclick="closeLightbox()" class="absolute top-5 right-5 p-2 bg-slate-800 text-white rounded-full hover:bg-slate-700 z-10">
+            <i class="fa-solid fa-xmark text-xl w-6 h-6 flex items-center justify-center"></i>
+        </button>
+        <button onclick="prevLightbox()" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-slate-800/80 text-white rounded-full hover:bg-slate-700 hidden sm:block">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button onclick="nextLightbox()" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-slate-800/80 text-white rounded-full hover:bg-slate-700 hidden sm:block">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <div class="max-w-4xl w-full bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]">
+            <div class="md:w-3/5 bg-black flex items-center justify-center min-h-[300px]">
+                <img id="lightbox-img" src="" alt="Lightbox" class="max-h-[70vh] w-full object-contain">
+            </div>
+            <div class="md:w-2/5 p-6 space-y-4 flex flex-col justify-between overflow-y-auto text-white">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span id="lightbox-cat" class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-bold uppercase rounded border border-emerald-500/30"></span>
+                        <span id="lightbox-date" class="text-slate-400"></span>
+                    </div>
+                    <h3 id="lightbox-title" class="text-lg font-bold text-white leading-snug"></h3>
+                    <p id="lightbox-desc" class="text-xs text-slate-300 leading-relaxed"></p>
+                    <div class="flex items-center space-x-1.5 text-xs text-emerald-400 font-medium">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span id="lightbox-dusun"></span>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+                    <span id="lightbox-counter" class="text-xs text-slate-500"></span>
+                    <button onclick="copyShareLink()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 rounded-lg flex items-center space-x-1 transition">
+                        <i class="fa-solid fa-share-nodes"></i>
+                        <span id="share-btn-text">Bagikan Link</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTICLE READER MODAL -->
+    <div id="news-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="max-w-3xl w-full bg-white text-slate-900 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto relative">
+            <button onclick="closeNewsModal()" class="absolute top-5 right-5 p-2 bg-slate-100 text-slate-700 rounded-full hover:bg-slate-200">
+                <i class="fa-solid fa-xmark text-lg w-5 h-5 flex items-center justify-center"></i>
+            </button>
+            <div class="space-y-3">
+                <div class="flex items-center space-x-3 text-xs text-slate-500">
+                    <span id="news-modal-cat" class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded"></span>
+                    <span>•</span>
+                    <span id="news-modal-date"></span>
+                    <span>•</span>
+                    <span id="news-modal-author"></span>
+                </div>
+                <h2 id="news-modal-title" class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight"></h2>
+            </div>
+            <div id="news-modal-content" class="border-t border-b border-slate-200 py-4 text-sm sm:text-base leading-relaxed space-y-4 text-slate-700"></div>
+            <div class="flex items-center justify-between pt-2">
+                <button onclick="copyShareLink()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2 rounded-xl text-xs font-semibold flex items-center space-x-1.5">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>Bagikan Berita Ini</span>
+                </button>
+                <button onclick="closeNewsModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2 rounded-xl text-xs font-semibold">Tutup Artikel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DATA MODELS
+        const SISDAMAS_CYCLES = [
+            {
+                id: 1,
+                number: '01',
+                title: 'Siklus I: Refleksi Sosial & Rembug Warga',
+                status: 'In Progress',
+                statusBadgeClass: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+                progress: 75,
+                dateRange: '07 Juli - 14 Juli 2026',
+                summary: 'Proses penyatuan pemikiran mahasiswa bersama tokoh masyarakat, kelompok tani, dan warga desa untuk memetakan kesadaran kritis kolektif.',
+                objectives: [
+                    'Silaturahmi resmi ke Perangkat Desa Rahong & Karang Taruna',
+                    'Pelaksanaan Rembug Warga di 5 Dusun utama',
+                    'Identifikasi isu utama lingkungan dan sanitasi irigasi',
+                    'Penyusunan tim pendamping warga berbasis RT'
+                ],
+                tools: ['Refleksi Historis', 'Diagram Venn Kelembagaan', 'Alur Sejarah Desa'],
+                output: 'Dokumen Rekapitulasi Refleksi Sosial & Kesepakatan Kolektif Awal'
+            },
+            {
+                id: 2,
+                number: '02',
+                title: 'Siklus II: Pemetaan Sosial & Potensi Desa',
+                status: 'Upcoming',
+                statusBadgeClass: 'bg-slate-800 text-slate-400 border-slate-700',
+                progress: 10,
+                dateRange: '15 Juli - 22 Juli 2026',
+                summary: 'Pengumpulan data spasial dan sosial secara partisipatif untuk menggali potensi sumber daya alam, pertanian, serta modal sosial Desa Rahong.',
+                objectives: [
+                    'Pemetaan spasial jalur irigasi & bendungan Dusun 5',
+                    'Pendataan potensi limbah rumah tangga & lokasi bank sampah',
+                    'Sensus partisipatif kegiatan keagamaan & MDTA',
+                    'Penyusunan Peta Isu dan Potensi KKN'
+                ],
+                tools: ['Transect Walk (Penelusuran Lokasi)', 'Peta Tematik Spasial', 'Pohon Masalah'],
+                output: 'Buku Peta Potensi & Masalah Ekoteologi Desa Rahong'
+            },
+            {
+                id: 3,
+                number: '03',
+                title: 'Siklus III: Perencanaan Partisipatif & RKM',
+                status: 'Upcoming',
+                statusBadgeClass: 'bg-slate-800 text-slate-400 border-slate-700',
+                progress: 0,
+                dateRange: '23 Juli - 30 Juli 2026',
+                summary: 'Penyusunan Rencana Kerja Masyarakat (RKM) yang menitikberatkan pada solusi nyata berbasis sinergi keagamaan dan pelestarian alam.',
+                objectives: [
+                    'Musyawarah Rencana Kerja KKN bersama Kepala Desa & BPD',
+                    'Penyusunan RKM prioritas bidang Ekoteologi & Pendidikan',
+                    'Pembentukan kelompok kerja (Pokja) Sampah & Irigasi Desa',
+                    'Penetapan anggaran stimulan & jadwal eksekusi'
+                ],
+                tools: ['Matriks Prioritas Program', 'Rancangan Anggaran RKM', 'FGD Pemuda'],
+                output: 'Dokumen Matriks Rencana Kerja Masyarakat (RKM) Legal'
+            },
+            {
+                id: 4,
+                number: '04',
+                title: 'Siklus IV: Pelaksanaan Ekoteologi & Evaluasi',
+                status: 'Upcoming',
+                statusBadgeClass: 'bg-slate-800 text-slate-400 border-slate-700',
+                progress: 0,
+                dateRange: '31 Juli - 10 Agustus 2026',
+                summary: 'Eksekusi program aksi lapangan secara gotong-royong, diakhiri dengan evaluasi dampak serta serah terima sistem ke pihak desa.',
+                objectives: [
+                    'Aksi Bersih Bendungan & Restorasi Irigasi Dusun 5',
+                    'Pelatihan Pemilahan Sampah Organik & Ecobrick di Sekolah',
+                    'Penyelenggaraan Tabligh Ekoteologi & Kuliah Lingkungan MDTA',
+                    'Pameran Hasil Karya KKN & Penyerahan Portal Digital Desa'
+                ],
+                tools: ['Monev Partisipatif', 'Kuisioner Dampak Warga', 'Laporan Akhir Sisdamas'],
+                output: 'Portal Digital Aktif, Modul Ekoteologi & Laporan Final KKN'
+            }
+        ];
+
+        const PHOTOS_GALLERY = [
+            {
+                id: 1,
+                category: 'kegiatan',
+                title: 'Rembug Warga Siklus I Desa Rahong',
+                date: '08 Juli 2026',
+                dusun: 'Dusun 1 Rahong Pusat',
+                src: 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?auto=format&fit=crop&w=800&q=80',
+                aspect: 'aspect-[4/3]',
+                description: 'Diskusi hangat bersama tokoh masyarakat, RT/RW, dan Karang Taruna Desa Rahong dalam rangka menggali aspirasi awal Siklus I Sisdamas.'
+            },
+            {
+                id: 2,
+                category: 'lingkungan',
+                title: 'Observasi Bendungan & Irigasi Dusun 5',
+                date: '09 Juli 2026',
+                dusun: 'Dusun 5 Pasir Panjang',
+                src: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
+                aspect: 'aspect-[16/9]',
+                description: 'Mahasiswa KKN kelompok 112 dan 113 menyusuri saluran irigasi sawah untuk memetakan titik penyumbatan sampah dan debit air.'
+            },
+            {
+                id: 3,
+                category: 'ekoteologi',
+                title: 'Kajian Ekoteologi & Fiqh al-Bi\'ah',
+                date: '10 Juli 2026',
+                dusun: 'Dusun 2 Cikadu',
+                src: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=800&q=80',
+                aspect: 'aspect-[3/4]',
+                description: 'Diskusi prinsip Fiqih Lingkungan bersama ustadz dan pengajar MDTA untuk silabus edukasi keagamaan.'
+            },
+            {
+                id: 4,
+                category: 'edukasi',
+                title: 'Edukasi Kebersihan & Pemilahan Sampah MDTA',
+                date: '11 Juli 2026',
+                dusun: 'Dusun 3 Sukahening',
+                src: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80',
+                aspect: 'aspect-[4/3]',
+                description: 'Mengajarkan anak-anak sekolah MDTA membedakan sampah organik dan anorganik dengan metode permainan interaktif.'
+            },
+            {
+                id: 5,
+                category: 'kegiatan',
+                title: 'Silaturahmi Kantor Kades Rahong',
+                date: '07 Juli 2026',
+                dusun: 'Desa Rahong',
+                src: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80',
+                aspect: 'aspect-[16/9]',
+                description: 'Penerimaan resmi tim mahasiswa KKN UIN SGD Bandung x UNSUR oleh Kepala Desa Rahong beserta jajaran sekretariat.'
+            },
+            {
+                id: 6,
+                category: 'lingkungan',
+                title: 'Survei Calon Lokasi Bank Sampah',
+                date: '12 Juli 2026',
+                dusun: 'Dusun 4 Mekar Jaya',
+                src: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80',
+                aspect: 'aspect-[3/4]',
+                description: 'Peninjauan lahan terbuka warga yang disepakati untuk dijadikan tempat pengolahan komposter dan ecobrick.'
+            }
+        ];
+
+        const PRESS_RELEASES = [
+            {
+                id: 'pr-1',
+                isFeatured: true,
+                title: 'Sinergi UIN SGD & UNSUR Luncurkan Program KKN Ekoteologi di Desa Rahong 2026',
+                date: '08 Juli 2026',
+                author: 'Tim Humas KKN Rahong',
+                category: 'Siaran Pers Resmi',
+                excerpt: 'Langkah awal pemberdayaan berbasis Sisdamas resmi dimulai melalui Rembug Warga dan penyamaan persepsi gerakan pelestarian lingkungan berlandaskan nilai keagamaan.',
+                content: `Desa Rahong — Tim KKN Kolaborasi dari UIN Sunan Gunung Djati Bandung dan Universitas Suryakancana (UNSUR) Cianjur secara resmi memulai rangkaian Pengabdian Kepada Masyarakat Berbasis Sisdamas (Sistem Pemberdayaan Masyarakat) 2026.\n\nKegiatan yang mengusung tema "Pemberdayaan Desa Berbasis Ekoteologi" ini melibatkan gabungan Kelompok 112, 113, dan 114 dengan fokus utama pada restorasi lingkungan irigasi pertanian, pemilahan sampah mandiri, serta penguatan pendidikan karakter berwawasan lingkungan di MDTA setempat.\n\nKepala Desa Rahong menyambut hangat kedatangan 45 mahasiswa tersebut. Dalam sambutannya, beliau menegaskan pentingnya kolaborasi ilmiah akademisi dengan kearifan lokal warga. "Kami berharap kehadiran adik-adik mahasiswa tidak hanya membawa program di atas kertas, melainkan aksi nyata yang dampaknya bisa diteruskan warga secara mandiri," ungkapnya saat musyawarah terbuka.`
+            },
+            {
+                id: 'pr-2',
+                isFeatured: false,
+                title: 'Memetakan Isu Air & Irigasi: Langkah KKN Sisdamas di Dusun 5 Pasir Panjang',
+                date: '10 Juli 2026',
+                author: 'Kelompok 112 KKN',
+                category: 'Catatan Lapangan',
+                excerpt: 'Pemeriksaan langsung bendungan desa mengungkapkan pentingnya integrasi edukasi buang sampah dengan perbaikan sistem pengairan sawah.',
+                content: `Dusun 5 Pasir Panjang — Memasuki tahapan observasi Siklus I, tim mahasiswa melakukan penelusuran aliran irigasi sepanjang 2.5 kilometer yang mengaliri puluhan hektar sawah warga Desa Rahong.\n\nDari hasil Transect Walk bersama pengurus Mitra Cai (P3A), ditemukan beberapa titik penyumbatan sampah plastik limbah rumah tangga. Kondisi ini menurunkan efisiensi aliran air menuju area persawahan bagian hilir.`
+            },
+            {
+                id: 'pr-3',
+                isFeatured: false,
+                title: 'Digitalisasi Transparansi: Portal KKN Desa Rahong Resmi Diperkenalkan',
+                date: '12 Juli 2026',
+                author: 'Tim Media & IT',
+                category: 'Teknologi & Inovasi',
+                excerpt: 'Portal interaktif dikembangkan menggunakan Tailwind CSS untuk menjamin transparansi publikasi KKN.',
+                content: `Desa Rahong — Sebagai wujud digital legacy, KKN Desa Rahong meluncurkan web portal resmi. Platform ini memuat seluruh rekam jejak logbook harian, status 4 Siklus Sisdamas, galeri foto resolusi tinggi, serta peta dampak kegiatan.`
+            }
+        ];
+
+        const DUSUN_IMPACT_DATA = [
+            { id: 'd1', name: 'Dusun 1 Rahong Pusat', focus: 'Pusat Pemerintahan & Digitalisasi Desa', icon: 'fa-building-columns', activeProg: 3, status: 'Aktif Refleksi' },
+            { id: 'd2', name: 'Dusun 2 Cikadu', focus: 'Fiqih Lingkungan & Keagamaan MDTA', icon: 'fa-book-open', activeProg: 2, status: 'Aktif Refleksi' },
+            { id: 'd3', name: 'Dusun 3 Sukahening', focus: 'Edukasi Ekoteologi & Pemuda Karang Taruna', icon: 'fa-graduation-cap', activeProg: 2, status: 'Persiapan Siklus II' },
+            { id: 'd4', name: 'Dusun 4 Mekar Jaya', focus: 'Bank Sampah & Pengolahan Organik', icon: 'fa-leaf', activeProg: 3, status: 'Survei Lokasi' },
+            { id: 'd5', name: 'Dusun 5 Pasir Panjang', focus: 'Restorasi Irigasi & Bendungan Air', icon: 'fa-droplets', activeProg: 2, status: 'Observasi Aliran' }
+        ];
+
+        // STATE VARIABLES
+        let currentView = 'portal';
+        let activeCycleId = 1;
+        let activeGalleryFilter = 'semua';
+        let lightboxIndex = 0;
+        let selectedDusunId = 'd1';
+        let filteredPhotos = [...PHOTOS_GALLERY];
+
+        // INITIALIZATION
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCycleTabs();
+            renderCycleDetail();
+            renderGallery();
+            renderNews();
+            renderDusunSelector();
+            renderDusunDetail();
+        });
+
+        // SPA MULTI-PORTAL ROUTER
+        function switchView(target) {
+            currentView = target;
+
+            // Hide all sub-portal views
+            ['portal', 'siklus', 'galeri', 'logbook', 'dusun', 'humas'].forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (el) el.classList.add('hidden');
+            });
+
+            // Show selected target view
+            const targetEl = document.getElementById(`view-${target}`);
+            if (targetEl) targetEl.classList.remove('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Update Desktop Nav UI Active State
+            ['portal', 'siklus', 'galeri', 'logbook', 'dusun'].forEach(v => {
+                const navBtn = document.getElementById(`nav-btn-${v}`);
+                const dockBtn = document.getElementById(`dock-btn-${v}`);
+
+                if (v === target) {
+                    if (navBtn) navBtn.className = "px-3.5 py-2 rounded-xl transition text-emerald-400 font-semibold bg-slate-800/80 border border-slate-700/50 shadow-sm";
+                    if (dockBtn) dockBtn.className = "flex flex-col items-center space-y-1 p-2 text-emerald-400 font-bold";
+                } else {
+                    if (navBtn) navBtn.className = "px-3.5 py-2 rounded-xl transition text-slate-300 hover:text-white hover:bg-slate-800";
+                    if (dockBtn) dockBtn.className = "flex flex-col items-center space-y-1 p-2 hover:text-white text-slate-400";
+                }
+            });
+
+            // Dynamic Ambient Background Glow Adjustments
+            const glow = document.getElementById('main-glow');
+            if (target === 'portal') {
+                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(20, 184, 166, 0.1) 0%, transparent 40%)';
+                initParticles(['fa-leaf', 'fa-seedling'], 'text-emerald-500/20');
+            } else if (target === 'siklus') {
+                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%)';
+                initParticles(['fa-compass', 'fa-check'], 'text-blue-500/20');
+            } else if (target === 'galeri') {
+                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 40%)';
+                initParticles(['fa-image', 'fa-camera'], 'text-teal-500/20');
+            } else if (target === 'logbook') {
+                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(234, 179, 8, 0.1) 0%, transparent 40%)';
+                initParticles(['fa-newspaper', 'fa-file-lines'], 'text-green-500/20');
+            } else if (target === 'dusun') {
+                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 50%), radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.1) 0%, transparent 40%)';
+                initParticles(['fa-map-pin', 'fa-location-dot'], 'text-emerald-400/20');
+            } else if (target === 'humas') {
+                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.2) 0%, transparent 50%)';
+            }
+        }
+
+        // FLOATING PARTICLES LOGIC
+        function initParticles(iconsArray, colorClass) {
+            const container = document.getElementById('particle-container');
+            container.innerHTML = '';
+            for (let i = 0; i < 12; i++) {
+                const particle = document.createElement('i');
+                const randomIcon = iconsArray[Math.floor(Math.random() * iconsArray.length)];
+                particle.className = `fa-solid ${randomIcon} particle ${colorClass}`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.animationDuration = `${6 + Math.random() * 10}s, ${4 + Math.random() * 6}s`;
+                particle.style.fontSize = `${12 + Math.random() * 18}px`;
+                particle.style.animationDelay = `-${Math.random() * 10}s`;
+                container.appendChild(particle);
+            }
+        }
+
+        // SISDAMAS CYCLES RENDER LOGIC
+        function renderCycleTabs() {
+            const container = document.getElementById('cycle-tabs');
+            container.innerHTML = SISDAMAS_CYCLES.map(c => {
+                const isActive = c.id === activeCycleId;
+                return `
+                    <button onclick="selectCycle(${c.id})" class="p-4 rounded-2xl border text-left relative overflow-hidden transition ${
+                        isActive
+                            ? 'border-emerald-500 bg-emerald-950/40 shadow-md ring-1 ring-emerald-500/30'
+                            : 'border-slate-800 bg-slate-900/60 hover:bg-slate-800'
+                    }">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-black uppercase tracking-wider ${isActive ? 'text-emerald-400' : 'text-slate-500'}">
+                                Siklus ${c.number}
+                            </span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold border ${c.statusBadgeClass}">
+                                ${c.status}
+                            </span>
+                        </div>
+                        <h4 class="text-xs sm:text-sm font-bold line-clamp-2 ${isActive ? 'text-white' : 'text-slate-400'}">
+                            ${c.title.split(':')[1] || c.title}
+                        </h4>
+                        ${isActive ? '<div class="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500"></div>' : ''}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function renderCycleDetail() {
+            const c = SISDAMAS_CYCLES.find(item => item.id === activeCycleId);
+            const container = document.getElementById('cycle-detail-card');
+            container.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <span class="px-3 py-1 bg-emerald-500 text-slate-950 text-xs font-black rounded-lg uppercase">Tahap ${c.number}</span>
+                            <span class="text-xs px-3 py-1 rounded-lg font-semibold border ${c.statusBadgeClass}">Status: ${c.status}</span>
+                            <span class="text-xs text-slate-400 flex items-center space-x-1">
+                                <i class="fa-regular fa-calendar text-emerald-400"></i>
+                                <span>${c.dateRange}</span>
+                            </span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-white">${c.title}</h3>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">${c.summary}</p>
+                        
+                        <div class="space-y-2 pt-2">
+                            <div class="flex justify-between text-xs font-medium">
+                                <span class="text-slate-400">Progres Capaian Siklus</span>
+                                <span class="text-emerald-400 font-bold">${c.progress}%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden p-0.5 border border-slate-700">
+                                <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500" style="width: ${c.progress}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4 space-y-2">
+                            <div class="flex items-center space-x-2 text-xs font-bold text-emerald-400 uppercase tracking-wide">
+                                <i class="fa-solid fa-file-contract"></i>
+                                <span>Target Luaran Dokumen:</span>
+                            </div>
+                            <p class="text-sm font-semibold text-slate-200">${c.output}</p>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 bg-slate-800/60 rounded-xl p-6 border border-slate-700/80 space-y-6">
+                        <div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-3 flex items-center space-x-2">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>Rencana Aksi Kunci:</span>
+                            </h4>
+                            <ul class="space-y-2.5">
+                                ${c.objectives.map(o => `
+                                    <li class="flex items-start space-x-2.5 text-xs sm:text-sm text-slate-300">
+                                        <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                                        <span>${o}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                        <div class="pt-4 border-t border-slate-700/70">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center space-x-2">
+                                <i class="fa-solid fa-layer-group text-emerald-400"></i>
+                                <span>Instrumen Sisdamas:</span>
+                            </h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${c.tools.map(t => `<span class="bg-slate-900 border border-slate-700 text-slate-300 text-xs px-2.5 py-1 rounded-md">${t}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectCycle(id) {
+            activeCycleId = id;
+            renderCycleTabs();
+            renderCycleDetail();
+        }
+
+        // GALLERY RENDER & LIGHTBOX
+        function filterGallery(cat) {
+            activeGalleryFilter = cat;
+            filteredPhotos = cat === 'semua' ? PHOTOS_GALLERY : PHOTOS_GALLERY.filter(p => p.category === cat);
+            renderGallery();
+        }
+
+        function renderGallery() {
+            const container = document.getElementById('gallery-grid');
+            container.innerHTML = filteredPhotos.map((p, idx) => `
+                <div onclick="openLightbox(${idx})" class="group relative bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition cursor-pointer border border-slate-700/80 flex flex-col">
+                    <div class="relative w-full overflow-hidden bg-slate-900 ${p.aspect}">
+                        <img src="${p.src}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
+                        <div class="absolute top-3 left-3 z-10">
+                            <span class="px-2.5 py-1 bg-slate-950/80 text-emerald-400 text-[10px] font-bold uppercase rounded-md border border-slate-700">${p.category}</span>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-slate-800/90 flex-1 flex flex-col justify-between">
+                        <h3 class="text-sm font-bold text-white group-hover:text-emerald-400 transition line-clamp-1">${p.title}</h3>
+                        <div class="mt-3 pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs text-slate-400">
+                            <span class="flex items-center space-x-1">
+                                <i class="fa-solid fa-location-dot text-slate-500"></i>
+                                <span>${p.dusun}</span>
+                            </span>
+                            <span>${p.date}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openLightbox(idx) {
+            lightboxIndex = idx;
+            const p = filteredPhotos[lightboxIndex];
+            document.getElementById('lightbox-img').src = p.src;
+            document.getElementById('lightbox-cat').innerText = p.category;
+            document.getElementById('lightbox-date').innerText = p.date;
+            document.getElementById('lightbox-title').innerText = p.title;
+            document.getElementById('lightbox-desc').innerText = p.description;
+            document.getElementById('lightbox-dusun').innerText = p.dusun;
+            document.getElementById('lightbox-counter').innerText = `${lightboxIndex + 1} dari ${filteredPhotos.length} Foto`;
+            document.getElementById('lightbox-modal').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.add('hidden');
+        }
+
+        function prevLightbox() {
+            lightboxIndex = (lightboxIndex > 0) ? lightboxIndex - 1 : filteredPhotos.length - 1;
+            openLightbox(lightboxIndex);
+        }
+
+        function nextLightbox() {
+            lightboxIndex = (lightboxIndex < filteredPhotos.length - 1) ? lightboxIndex + 1 : 0;
+            openLightbox(lightboxIndex);
+        }
+
+        // LOGBOOK & NEWS LOGIC
+        function renderNews() {
+            const featured = PRESS_RELEASES.find(n => n.isFeatured);
+            const featuredContainer = document.getElementById('featured-article-container');
+            
+            if (featured) {
+                featuredContainer.innerHTML = `
+                    <div class="bg-slate-900 rounded-2xl overflow-hidden shadow-xl border border-slate-800 grid grid-cols-1 lg:grid-cols-12 mb-8">
+                        <div class="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between space-y-6 text-white">
+                            <div class="space-y-4">
+                                <div class="flex flex-wrap items-center gap-3 text-xs">
+                                    <span class="px-3 py-1 rounded-full bg-emerald-500 text-slate-950 font-black uppercase">Berita Utama</span>
+                                    <span class="text-slate-400"><i class="fa-regular fa-calendar text-emerald-400 mr-1"></i>${featured.date}</span>
+                                </div>
+                                <h3 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">${featured.title}</h3>
+                                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">${featured.excerpt}</p>
+                            </div>
+                            <div class="flex items-center justify-between pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-400"><i class="fa-solid fa-user-pen text-emerald-400 mr-1"></i>${featured.author}</span>
+                                <button onclick="openNewsModal('${featured.id}')" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm transition flex items-center space-x-1.5">
+                                    <span>Baca Selengkapnya</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-5 bg-slate-800 min-h-[240px] relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80" alt="Featured" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                `;
+            }
+
+            const gridContainer = document.getElementById('news-grid');
+            gridContainer.innerHTML = PRESS_RELEASES.map(n => `
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-emerald-500/50 transition">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between text-xs text-slate-500">
+                            <span class="font-bold text-emerald-400 bg-emerald-950 px-2.5 py-0.5 rounded border border-emerald-800">${n.category}</span>
+                            <span>${n.date}</span>
+                        </div>
+                        <h3 onclick="openNewsModal('${n.id}')" class="text-base font-bold text-white line-clamp-2 hover:text-emerald-400 cursor-pointer transition">${n.title}</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm line-clamp-3 leading-relaxed">${n.excerpt}</p>
+                    </div>
+                    <div class="pt-5 mt-4 border-t border-slate-800 flex items-center justify-between text-xs">
+                        <span class="text-slate-500 font-medium">${n.author}</span>
+                        <button onclick="openNewsModal('${n.id}')" class="text-emerald-400 hover:text-emerald-300 font-bold flex items-center space-x-1">
+                            <span>Baca</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function searchNews() {
+            const query = document.getElementById('news-search-input').value.toLowerCase();
+            const filtered = PRESS_RELEASES.filter(n => 
+                n.title.toLowerCase().includes(query) || 
+                n.excerpt.toLowerCase().includes(query) || 
+                n.category.toLowerCase().includes(query)
+            );
+            
+            const gridContainer = document.getElementById('news-grid');
+            gridContainer.innerHTML = filtered.map(n => `
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-emerald-500/50 transition">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between text-xs text-slate-500">
+                            <span class="font-bold text-emerald-400 bg-emerald-950 px-2.5 py-0.5 rounded border border-emerald-800">${n.category}</span>
+                            <span>${n.date}</span>
+                        </div>
+                        <h3 onclick="openNewsModal('${n.id}')" class="text-base font-bold text-white line-clamp-2 hover:text-emerald-400 cursor-pointer transition">${n.title}</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm line-clamp-3 leading-relaxed">${n.excerpt}</p>
+                    </div>
+                    <div class="pt-5 mt-4 border-t border-slate-800 flex items-center justify-between text-xs">
+                        <span class="text-slate-500 font-medium">${n.author}</span>
+                        <button onclick="openNewsModal('${n.id}')" class="text-emerald-400 hover:text-emerald-300 font-bold flex items-center space-x-1">
+                            <span>Baca</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openNewsModal(id) {
+            const n = PRESS_RELEASES.find(item => item.id === id);
+            document.getElementById('news-modal-cat').innerText = n.category;
+            document.getElementById('news-modal-date').innerText = n.date;
+            document.getElementById('news-modal-author').innerText = n.author;
+            document.getElementById('news-modal-title').innerText = n.title;
+            document.getElementById('news-modal-content').innerHTML = n.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+            document.getElementById('news-modal').classList.remove('hidden');
+        }
+
+        function closeNewsModal() {
+            document.getElementById('news-modal').classList.add('hidden');
+        }
+
+        // DUSUN IMPACT MAP LOGIC
+        function renderDusunSelector() {
+            const container = document.getElementById('dusun-selector-list');
+            container.innerHTML = DUSUN_IMPACT_DATA.map(d => {
+                const isSelected = d.id === selectedDusunId;
+                return `
+                    <button onclick="selectDusun('${d.id}')" class="w-full p-4 rounded-xl border text-left flex items-center justify-between transition ${
+                        isSelected 
+                            ? 'bg-emerald-600 border-emerald-500 text-white shadow-lg' 
+                            : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700/80'
+                    }">
+                        <div class="flex items-center space-x-3">
+                            <div class="p-2.5 rounded-lg ${isSelected ? 'bg-slate-900 text-emerald-400' : 'bg-slate-700 text-slate-300'}">
+                                <i class="fa-solid ${d.icon} text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm sm:text-base">${d.name}</h4>
+                                <p class="text-xs ${isSelected ? 'text-emerald-100' : 'text-slate-400'}">${d.focus}</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right ${isSelected ? 'text-white' : 'text-slate-500'}"></i>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function renderDusunDetail() {
+            const d = DUSUN_IMPACT_DATA.find(item => item.id === selectedDusunId);
+            const container = document.getElementById('dusun-detail-card');
+            container.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-xl">
+                            <i class="fa-solid ${d.icon} text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">${d.name}</h3>
+                            <span class="text-xs text-emerald-400 font-medium">Status Aksi: ${d.status}</span>
+                        </div>
+                    </div>
+                    <span class="text-xs bg-slate-700 text-slate-300 px-3 py-1 rounded-full font-semibold">
+                        ${d.activeProg} Program Kerja
+                    </span>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Fokus Utama Program:</h4>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 space-y-2">
+                        <div class="text-sm font-bold text-emerald-300">${d.focus}</div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Pengorganisasian warga tingkat RT untuk percepatan program KKN Sisdamas dengan mengikutsertakan pemuda Karang Taruna dan tokoh agama lokal.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-700">
+                            <span class="text-slate-400 block mb-1">Penanggung Jawab:</span>
+                            <span class="font-semibold text-slate-200">Tim KKN Kelompok ${d.id === 'd5' ? '112 & 113' : '114'}</span>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-700">
+                            <span class="text-slate-400 block mb-1">Status Lapangan:</span>
+                            <span class="font-semibold text-emerald-400">Aktif Berlangsung</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button onclick="switchView('galeri')" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 rounded-xl text-xs transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-image text-emerald-400"></i>
+                        <span>Lihat Foto Kegiatan di ${d.name}</span>
+                    </button>
+                </div>
+            `;
+        }
+
+        function selectDusun(id) {
+            selectedDusunId = id;
+            renderDusunSelector();
+            renderDusunDetail();
+        }
+
+        // HUMAS DIRECT WHATSAPP GENERATOR
+        function sendDirectWhatsApp() {
+            const sender = document.getElementById('wa-sender-name').value.trim();
+            const intent = document.getElementById('wa-intent').value;
+
+            if (!sender) {
+                showToast('Mohon isi nama Anda terlebih dahulu.');
+                return;
+            }
+
+            const message = `Halo Humas KKN Sisdamas Desa Rahong 2026,
+Saya: ${sender}
+Keperluan: ${intent}
+
+Saya menghubungi via Portal Digital KKN Rahong. Mohon informasi lebih lanjut ya, terima kasih!`;
+
+            const waUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(message)}`;
+            window.open(waUrl, '_blank');
+        }
+
+        function copyShareLink() {
+            navigator.clipboard.writeText(window.location.href);
+            const btnText = document.getElementById('share-btn-text');
+            if (btnText) {
+                btnText.innerText = 'Link Tersalin!';
+                setTimeout(() => btnText.innerText = 'Bagikan Link', 2000);
+            }
+        }
+
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-800 border border-emerald-500/50 text-white px-4 py-3 rounded-xl shadow-xl flex items-center space-x-2 text-xs transition-all duration-300';
+            toast.innerHTML = `<i class="fa-solid fa-circle-info text-emerald-400"></i><span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
