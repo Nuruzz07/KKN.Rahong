@@ -124,6 +124,7 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-32 left-1/2 -translate-x-1/2 z-[120] flex flex-col gap-2 w-[90%] max-w-sm pointer-events-none"></div>
 
+    <!-- Institutional Header Strip -->
     <div class="bg-brand-blue text-white text-[10px] sm:text-xs py-1.5 px-4 font-semibold border-b border-blue-600/50">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -209,6 +210,7 @@
         </div>
     </header>
 
+    <!-- STICKY TOP TAB BAR FOR ALL DEVICES -->
     <nav class="sticky top-20 z-30 bg-slate-950/90 backdrop-blur-md border-b border-slate-800 py-2.5 px-4 overflow-x-auto no-scrollbar whitespace-nowrap shadow-md">
         <div class="max-w-7xl mx-auto flex items-center space-x-2 text-xs font-semibold">
             <button onclick="switchView('portal')" id="top-tab-portal" class="px-3.5 py-2 rounded-xl transition flex items-center space-x-2 bg-brand-lime text-brand-dark font-black shadow-sm">
@@ -242,6 +244,7 @@
         </div>
     </nav>
 
+    <!-- VIEW 1: PORTAL HUB UTAMA (BERANDA) -->
     <div id="view-portal" class="view-section min-h-screen pb-28 pt-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -538,6 +541,7 @@
         </div>
     </div>
 
+    <!-- VIEW 2: PORTAL SIKLUS SISDAMAS -->
     <div id="view-siklus" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -570,6 +574,7 @@
         </div>
     </div>
 
+    <!-- VIEW 3: PORTAL PROFIL 3 KELOMPOK KKN -->
     <div id="view-kelompok" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -599,9 +604,132 @@
                 <!-- Injected via JS -->
             </div>
 
+            <!-- VISUAL ORGANIZATIONAL HIERARCHY CHART SECTION -->
+            <div class="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl mt-8">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 gap-2">
+                    <div>
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-lime/10 border border-brand-lime/30 text-brand-lime text-xs font-bold uppercase tracking-wider mb-1">
+                            <i class="fa-solid fa-sitemap"></i>
+                            <span>Bagan Komando KKN Desa Rahong 2026</span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-black text-white">Diagram Hierarki Struktur Organisasi</h3>
+                    </div>
+                    <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full font-mono">Hierarki Resmi DPL - Kordes - KKP</span>
+                </div>
+
+                <!-- TREE HIERARCHY DIAGRAM CONTAINER (SCROLLABLE ON MOBILE) -->
+                <div class="overflow-x-auto pb-4 pt-2">
+                    <div class="min-w-[768px] flex flex-col items-center space-y-6 text-center">
+                        
+                        <!-- LEVEL 1: DPL -->
+                        <div class="relative group">
+                            <div class="bg-gradient-to-r from-blue-600 to-brand-blue border-2 border-blue-400 text-white px-6 py-3.5 rounded-2xl shadow-xl w-72">
+                                <span class="bg-blue-900/80 text-blue-200 text-[10px] font-black px-2.5 py-0.5 rounded uppercase block mb-1">LEVEL 1 • DOSEN PEMBIMBING LAPANGAN</span>
+                                <h4 class="font-extrabold text-base">Adi Kurnia, M. Si</h4>
+                                <span class="text-[11px] text-brand-lime font-mono block mt-0.5"><i class="fa-solid fa-phone mr-1"></i>0853-1198-6141</span>
+                            </div>
+                            <!-- Vertical Connector Line Down -->
+                            <div class="w-0.5 h-8 bg-brand-blue mx-auto"></div>
+                        </div>
+
+                        <!-- LEVEL 2: KORDES UTAMA (ANDA) -->
+                        <div class="relative group">
+                            <div class="bg-gradient-to-r from-brand-lime via-lime-400 to-emerald-400 border-2 border-brand-lime text-brand-dark px-6 py-4 rounded-2xl shadow-2xl w-80 ring-4 ring-brand-lime/20">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="bg-brand-dark text-brand-lime text-[9px] font-black px-2 py-0.5 rounded uppercase">LEVEL 2 • KORDES UTAMA</span>
+                                    <span class="bg-brand-dark/20 text-brand-dark text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">3 Kelompok</span>
+                                </div>
+                                <h4 class="font-black text-lg">Muhamad Nuruzzaman</h4>
+                                <p class="text-[11px] font-semibold text-slate-900 mt-0.5">Koordinator Desa (Kordes) & Anggota HumasLog 112</p>
+                                <span class="text-xs font-mono font-black text-brand-dark block mt-1"><i class="fa-solid fa-phone mr-1"></i>0878-1529-8453</span>
+                            </div>
+                            <!-- Vertical Connector Line Down -->
+                            <div class="w-0.5 h-8 bg-brand-lime mx-auto"></div>
+                        </div>
+
+                        <!-- LEVEL 3 SPLIT CONNECTOR LINE (3 KKP BRANCHES) -->
+                        <div class="w-full relative px-12">
+                            <!-- Horizontal Branching Line -->
+                            <div class="h-0.5 bg-slate-700 w-full mx-auto"></div>
+                        </div>
+
+                        <!-- LEVEL 3: 3 KETUA KELOMPOK (KKP 1, 2, 3) -->
+                        <div class="grid grid-cols-3 gap-6 w-full px-2 items-start">
+                            
+                            <!-- BRANCH 1: KKP 1 (KELOMPOK 112) -->
+                            <div class="space-y-4 flex flex-col items-center">
+                                <div class="w-0.5 h-6 bg-slate-700 -mt-6"></div>
+                                <div class="bg-slate-900 border-2 border-brand-lime p-4 rounded-2xl shadow-lg w-full space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="px-2 py-0.5 bg-brand-lime/20 text-brand-lime font-black text-[10px] rounded uppercase">KKP 1 • KKN 112</span>
+                                        <span class="text-[10px] text-slate-400">15 Orang</span>
+                                    </div>
+                                    <h5 class="font-extrabold text-sm text-white">Muhammad Jiyaulhaq</h5>
+                                    <span class="text-[10px] text-brand-lime font-mono block"><i class="fa-solid fa-phone mr-1"></i>0821-8579-3331</span>
+                                    <p class="text-[11px] text-slate-300 border-t border-slate-800 pt-2 mt-1">Digitalisasi Desa & Fiqih Lingkungan (Dusun 1 & 2)</p>
+                                </div>
+
+                                <!-- Sub-Branch 112 Divisions -->
+                                <div class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-left space-y-2 text-xs">
+                                    <span class="text-[10px] font-bold text-brand-lime uppercase block border-b border-slate-800 pb-1">Sub-Struktur 112:</span>
+                                    <div>• <b>Sekretaris:</b> Chalita Dzakya</div>
+                                    <div>• <b>Bendahara:</b> Mida Nurhamidah</div>
+                                    <div>• <b>Kadiv Acara:</b> Muhamad Vikri</div>
+                                    <div>• <b>Kadiv HumasLog:</b> Faiz Farhan H.</div>
+                                    <div>• <b>Kadiv PDD:</b> Aisyah Asri</div>
+                                </div>
+                            </div>
+
+                            <!-- BRANCH 2: KKP 2 (KELOMPOK 113) -->
+                            <div class="space-y-4 flex flex-col items-center">
+                                <div class="w-0.5 h-6 bg-slate-700 -mt-6"></div>
+                                <div class="bg-slate-900 border-2 border-blue-500 p-4 rounded-2xl shadow-lg w-full space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 font-black text-[10px] rounded uppercase">KKP 2 • KKN 113</span>
+                                        <span class="text-[10px] text-slate-400">15 Orang</span>
+                                    </div>
+                                    <h5 class="font-extrabold text-sm text-white">M. Kahfi Sya'bani</h5>
+                                    <span class="text-[10px] text-blue-400 font-mono block"><i class="fa-solid fa-phone mr-1"></i>0812-2301-9054</span>
+                                    <p class="text-[11px] text-slate-300 border-t border-slate-800 pt-2 mt-1">Restorasi Irigasi & Edukasi Santri (Dusun 3 & 5)</p>
+                                </div>
+
+                                <div class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-left space-y-2 text-xs">
+                                    <span class="text-[10px] font-bold text-blue-400 uppercase block border-b border-slate-800 pb-1">Sub-Struktur 113:</span>
+                                    <div>• <b>Fokus Aksi:</b> Pembersihan Bendungan Sawah & MDTA</div>
+                                    <div>• <b>Posko:</b> Kp. Rahong Dusun 01</div>
+                                </div>
+                            </div>
+
+                            <!-- BRANCH 3: KKP 3 (KELOMPOK 114) -->
+                            <div class="space-y-4 flex flex-col items-center">
+                                <div class="w-0.5 h-6 bg-slate-700 -mt-6"></div>
+                                <div class="bg-slate-900 border-2 border-teal-400 p-4 rounded-2xl shadow-lg w-full space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="px-2 py-0.5 bg-teal-400/20 text-teal-300 font-black text-[10px] rounded uppercase">KKP 3 • KKN 114</span>
+                                        <span class="text-[10px] text-slate-400">15 Orang</span>
+                                    </div>
+                                    <h5 class="font-extrabold text-sm text-white">M. Faqih Zumujiy</h5>
+                                    <span class="text-[10px] text-teal-300 font-mono block"><i class="fa-solid fa-phone mr-1"></i>0812-8225-0414</span>
+                                    <p class="text-[11px] text-slate-300 border-t border-slate-800 pt-2 mt-1">Bank Sampah & Ecobrick (Dusun 4 Mekar Jaya)</p>
+                                </div>
+
+                                <div class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-left space-y-2 text-xs">
+                                    <span class="text-[10px] font-bold text-teal-300 uppercase block border-b border-slate-800 pb-1">Sub-Struktur 114:</span>
+                                    <div>• <b>Fokus Aksi:</b> Komposter Organik & Ecobrick</div>
+                                    <div>• <b>Posko:</b> Kp. Peusar Dusun 05</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
+    <!-- VIEW 4: PORTAL GALERI VISUAL & IMPACT -->
     <div id="view-galeri" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -617,11 +745,11 @@
 
                 <!-- Category Filters -->
                 <div class="flex flex-wrap gap-2" id="gallery-filters">
-                    <button onclick="filterGallery('semua')" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-lime text-brand-dark transition">Semua</button>
-                    <button onclick="filterGallery('kegiatan')" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Kegiatan</button>
-                    <button onclick="filterGallery('lingkungan')" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Lingkungan</button>
-                    <button onclick="filterGallery('ekoteologi')" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Ekoteologi</button>
-                    <button onclick="filterGallery('edukasi')" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Edukasi</button>
+                    <button onclick="filterGallery('semua')" id="gal-filter-semua" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-lime text-brand-dark transition">Semua</button>
+                    <button onclick="filterGallery('kegiatan')" id="gal-filter-kegiatan" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Kegiatan</button>
+                    <button onclick="filterGallery('lingkungan')" id="gal-filter-lingkungan" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Lingkungan</button>
+                    <button onclick="filterGallery('ekoteologi')" id="gal-filter-ekoteologi" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Ekoteologi</button>
+                    <button onclick="filterGallery('edukasi')" id="gal-filter-edukasi" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Edukasi</button>
                 </div>
             </div>
 
@@ -633,6 +761,7 @@
         </div>
     </div>
 
+    <!-- VIEW 5: PORTAL LOGBOOK & PRESS RELEASE -->
     <div id="view-logbook" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -672,6 +801,7 @@
         </div>
     </div>
 
+    <!-- VIEW 6: PORTAL PETA FOKUS 5 DUSUN -->
     <div id="view-dusun" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -701,6 +831,7 @@
         </div>
     </div>
 
+    <!-- VIEW 7: PORTAL LAYANAN HUMAS & GUIDELINES -->
     <div id="view-humas" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -864,7 +995,7 @@
 
         <div class="max-w-4xl w-full bg-brand-card border border-brand-border rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]">
             <div class="md:w-3/5 bg-black flex items-center justify-center min-h-[300px]">
-                <img id="lightbox-img" src="" alt="Lightbox" class="max-h-[70vh] w-full object-contain">
+                <img id="lightbox-img" src="" alt="Lightbox" class="max-h-[70vh] w-full object-contain" onerror="this.onerror=null;this.src='https://placehold.co/800x600/1a1a1a/CDF22B?text=Dokumentasi+KKN+112'">
             </div>
             <div class="md:w-2/5 p-6 space-y-4 flex flex-col justify-between overflow-y-auto text-white">
                 <div class="space-y-3">
@@ -1305,31 +1436,34 @@
 
             // Dynamic Ambient Background Glow Adjustments
             const glow = document.getElementById('main-glow');
-            if (target === 'portal') {
-                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(205, 242, 43, 0.12) 0%, transparent 40%)';
-                initParticles(['fa-leaf', 'fa-seedling'], 'text-brand-lime/20');
-            } else if (target === 'kelompok') {
-                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.22) 0%, transparent 50%), radial-gradient(circle at 80% 30%, rgba(205, 242, 43, 0.15) 0%, transparent 40%)';
-                initParticles(['fa-user-group', 'fa-graduation-cap'], 'text-brand-lime/20');
-            } else if (target === 'siklus') {
-                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.25) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(205, 242, 43, 0.1) 0%, transparent 40%)';
-                initParticles(['fa-compass', 'fa-check'], 'text-blue-500/20');
-            } else if (target === 'galeri') {
-                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(205, 242, 43, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(30, 69, 251, 0.15) 0%, transparent 40%)';
-                initParticles(['fa-image', 'fa-camera'], 'text-brand-lime/20');
-            } else if (target === 'logbook') {
-                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.2) 0%, transparent 50%)';
-                initParticles(['fa-newspaper', 'fa-file-lines'], 'text-blue-400/20');
-            } else if (target === 'dusun') {
-                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(205, 242, 43, 0.15) 0%, transparent 50%)';
-                initParticles(['fa-map-pin', 'fa-location-dot'], 'text-brand-lime/20');
-            } else if (target === 'humas') {
-                glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.22) 0%, transparent 50%)';
+            if (glow) {
+                if (target === 'portal') {
+                    glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.18) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(205, 242, 43, 0.12) 0%, transparent 40%)';
+                    initParticles(['fa-leaf', 'fa-seedling'], 'text-brand-lime/20');
+                } else if (target === 'kelompok') {
+                    glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.22) 0%, transparent 50%), radial-gradient(circle at 80% 30%, rgba(205, 242, 43, 0.15) 0%, transparent 40%)';
+                    initParticles(['fa-user-group', 'fa-graduation-cap'], 'text-brand-lime/20');
+                } else if (target === 'siklus') {
+                    glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.25) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(205, 242, 43, 0.1) 0%, transparent 40%)';
+                    initParticles(['fa-compass', 'fa-check'], 'text-blue-500/20');
+                } else if (target === 'galeri') {
+                    glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(205, 242, 43, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(30, 69, 251, 0.15) 0%, transparent 40%)';
+                    initParticles(['fa-image', 'fa-camera'], 'text-brand-lime/20');
+                } else if (target === 'logbook') {
+                    glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.2) 0%, transparent 50%)';
+                    initParticles(['fa-newspaper', 'fa-file-lines'], 'text-blue-400/20');
+                } else if (target === 'dusun') {
+                    glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(205, 242, 43, 0.15) 0%, transparent 50%)';
+                    initParticles(['fa-map-pin', 'fa-location-dot'], 'text-brand-lime/20');
+                } else if (target === 'humas') {
+                    glow.style.background = 'radial-gradient(circle at 50% 50%, rgba(30, 69, 251, 0.22) 0%, transparent 50%)';
+                }
             }
         }
 
         function renderKelompokTabs() {
             const container = document.getElementById('kelompok-tabs');
+            if (!container) return;
             container.innerHTML = KELOMPOK_DATA.map(k => {
                 const isActive = k.id === activeKelompokId;
                 return `
@@ -1358,6 +1492,7 @@
         function renderKelompokDetail() {
             const k = KELOMPOK_DATA.find(item => item.id === activeKelompokId);
             const container = document.getElementById('kelompok-detail-card');
+            if (!container || !k) return;
             
             let divisionsHtml = '';
             if (k.divisions && k.divisions.length > 0) {
@@ -1534,6 +1669,7 @@
         // FLOATING PARTICLES LOGIC
         function initParticles(iconsArray, colorClass) {
             const container = document.getElementById('particle-container');
+            if (!container) return;
             container.innerHTML = '';
             for (let i = 0; i < 12; i++) {
                 const particle = document.createElement('i');
@@ -1549,6 +1685,7 @@
 
         function renderCycleTabs() {
             const container = document.getElementById('cycle-tabs');
+            if (!container) return;
             container.innerHTML = SISDAMAS_CYCLES.map(c => {
                 const isActive = c.id === activeCycleId;
                 return `
@@ -1577,6 +1714,7 @@
         function renderCycleDetail() {
             const c = SISDAMAS_CYCLES.find(item => item.id === activeCycleId);
             const container = document.getElementById('cycle-detail-card');
+            if (!container || !c) return;
             container.innerHTML = `
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     <div class="lg:col-span-7 space-y-6">
@@ -1648,15 +1786,31 @@
         function filterGallery(cat) {
             activeGalleryFilter = cat;
             filteredPhotos = cat === 'semua' ? PHOTOS_GALLERY : PHOTOS_GALLERY.filter(p => p.category === cat);
+            renderGalleryFilters();
             renderGallery();
+        }
+
+        function renderGalleryFilters() {
+            const categories = ['semua', 'kegiatan', 'lingkungan', 'ekoteologi', 'edukasi'];
+            categories.forEach(c => {
+                const btn = document.getElementById(`gal-filter-${c}`);
+                if (btn) {
+                    if (c === activeGalleryFilter) {
+                        btn.className = "gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-lime text-brand-dark transition shadow";
+                    } else {
+                        btn.className = "gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+                    }
+                }
+            });
         }
 
         function renderGallery() {
             const container = document.getElementById('gallery-grid');
+            if (!container) return;
             container.innerHTML = filteredPhotos.map((p, idx) => `
                 <div onclick="openLightbox(${idx})" class="group relative bg-brand-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition cursor-pointer border border-brand-border flex flex-col">
                     <div class="relative w-full overflow-hidden bg-slate-950 ${p.aspect}">
-                        <img src="${p.src}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
+                        <img src="${p.src}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/800x600/1a1a1a/CDF22B?text=Dokumentasi+KKN+112'">
                         <div class="absolute top-3 left-3 z-10">
                             <span class="px-2.5 py-1 bg-black/80 text-brand-lime text-[10px] font-black uppercase rounded-md border border-slate-700">${p.category}</span>
                         </div>
@@ -1678,18 +1832,28 @@
         function openLightbox(idx) {
             lightboxIndex = idx;
             const p = filteredPhotos[lightboxIndex];
-            document.getElementById('lightbox-img').src = p.src;
-            document.getElementById('lightbox-cat').innerText = p.category;
-            document.getElementById('lightbox-date').innerText = p.date;
-            document.getElementById('lightbox-title').innerText = p.title;
-            document.getElementById('lightbox-desc').innerText = p.description;
-            document.getElementById('lightbox-dusun').innerText = p.dusun;
-            document.getElementById('lightbox-counter').innerText = `${lightboxIndex + 1} dari ${filteredPhotos.length} Foto`;
-            document.getElementById('lightbox-modal').classList.remove('hidden');
+            if (!p) return;
+            const img = document.getElementById('lightbox-img');
+            if (img) img.src = p.src;
+            const cat = document.getElementById('lightbox-cat');
+            if (cat) cat.innerText = p.category;
+            const date = document.getElementById('lightbox-date');
+            if (date) date.innerText = p.date;
+            const title = document.getElementById('lightbox-title');
+            if (title) title.innerText = p.title;
+            const desc = document.getElementById('lightbox-desc');
+            if (desc) desc.innerText = p.description;
+            const dusun = document.getElementById('lightbox-dusun');
+            if (dusun) dusun.innerText = p.dusun;
+            const counter = document.getElementById('lightbox-counter');
+            if (counter) counter.innerText = `${lightboxIndex + 1} dari ${filteredPhotos.length} Foto`;
+            const modal = document.getElementById('lightbox-modal');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function closeLightbox() {
-            document.getElementById('lightbox-modal').classList.add('hidden');
+            const modal = document.getElementById('lightbox-modal');
+            if (modal) modal.classList.add('hidden');
         }
 
         function prevLightbox() {
@@ -1706,7 +1870,7 @@
             const featured = PRESS_RELEASES.find(n => n.isFeatured);
             const featuredContainer = document.getElementById('featured-article-container');
             
-            if (featured) {
+            if (featuredContainer && featured) {
                 featuredContainer.innerHTML = `
                     <div class="bg-brand-card rounded-2xl overflow-hidden shadow-xl border border-brand-border grid grid-cols-1 lg:grid-cols-12 mb-8">
                         <div class="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between space-y-6 text-white">
@@ -1727,36 +1891,40 @@
                             </div>
                         </div>
                         <div class="lg:col-span-5 bg-slate-900 min-h-[240px] relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80" alt="Featured" class="w-full h-full object-cover">
+                            <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80" alt="Featured" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/800x600/1a1a1a/CDF22B?text=Liputan+KKN+112'">
                         </div>
                     </div>
                 `;
             }
 
             const gridContainer = document.getElementById('news-grid');
-            gridContainer.innerHTML = PRESS_RELEASES.map(n => `
-                <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between hover:border-brand-lime/50 transition">
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between text-xs text-slate-500">
-                            <span class="font-bold text-brand-lime bg-slate-900 px-2.5 py-0.5 rounded border border-slate-800">${n.category}</span>
-                            <span>${n.date}</span>
+            if (gridContainer) {
+                gridContainer.innerHTML = PRESS_RELEASES.map(n => `
+                    <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between hover:border-brand-lime/50 transition">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between text-xs text-slate-500">
+                                <span class="font-bold text-brand-lime bg-slate-900 px-2.5 py-0.5 rounded border border-slate-800">${n.category}</span>
+                                <span>${n.date}</span>
+                            </div>
+                            <h3 onclick="openNewsModal('${n.id}')" class="text-base font-bold text-white line-clamp-2 hover:text-brand-lime cursor-pointer transition">${n.title}</h3>
+                            <p class="text-slate-400 text-xs sm:text-sm line-clamp-3 leading-relaxed">${n.excerpt}</p>
                         </div>
-                        <h3 onclick="openNewsModal('${n.id}')" class="text-base font-bold text-white line-clamp-2 hover:text-brand-lime cursor-pointer transition">${n.title}</h3>
-                        <p class="text-slate-400 text-xs sm:text-sm line-clamp-3 leading-relaxed">${n.excerpt}</p>
+                        <div class="pt-5 mt-4 border-t border-slate-800 flex items-center justify-between text-xs">
+                            <span class="text-slate-500 font-medium">${n.author}</span>
+                            <button onclick="openNewsModal('${n.id}')" class="text-brand-lime hover:underline font-bold flex items-center space-x-1">
+                                <span>Baca</span>
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="pt-5 mt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-                        <span class="text-slate-500 font-medium">${n.author}</span>
-                        <button onclick="openNewsModal('${n.id}')" class="text-brand-lime hover:underline font-bold flex items-center space-x-1">
-                            <span>Baca</span>
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+                `).join('');
+            }
         }
 
         function searchNews() {
-            const query = document.getElementById('news-search-input').value.toLowerCase();
+            const input = document.getElementById('news-search-input');
+            if (!input) return;
+            const query = input.value.toLowerCase();
             const filtered = PRESS_RELEASES.filter(n => 
                 n.title.toLowerCase().includes(query) || 
                 n.excerpt.toLowerCase().includes(query) || 
@@ -1764,6 +1932,7 @@
             );
             
             const gridContainer = document.getElementById('news-grid');
+            if (!gridContainer) return;
             gridContainer.innerHTML = filtered.map(n => `
                 <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between hover:border-brand-lime/50 transition">
                     <div class="space-y-3">
@@ -1787,20 +1956,29 @@
 
         function openNewsModal(id) {
             const n = PRESS_RELEASES.find(item => item.id === id);
-            document.getElementById('news-modal-cat').innerText = n.category;
-            document.getElementById('news-modal-date').innerText = n.date;
-            document.getElementById('news-modal-author').innerText = n.author;
-            document.getElementById('news-modal-title').innerText = n.title;
-            document.getElementById('news-modal-content').innerHTML = n.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
-            document.getElementById('news-modal').classList.remove('hidden');
+            if (!n) return;
+            const cat = document.getElementById('news-modal-cat');
+            if (cat) cat.innerText = n.category;
+            const date = document.getElementById('news-modal-date');
+            if (date) date.innerText = n.date;
+            const author = document.getElementById('news-modal-author');
+            if (author) author.innerText = n.author;
+            const title = document.getElementById('news-modal-title');
+            if (title) title.innerText = n.title;
+            const content = document.getElementById('news-modal-content');
+            if (content) content.innerHTML = n.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+            const modal = document.getElementById('news-modal');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function closeNewsModal() {
-            document.getElementById('news-modal').classList.add('hidden');
+            const modal = document.getElementById('news-modal');
+            if (modal) modal.classList.add('hidden');
         }
 
         function renderDusunSelector() {
             const container = document.getElementById('dusun-selector-list');
+            if (!container) return;
             container.innerHTML = DUSUN_IMPACT_DATA.map(d => {
                 const isSelected = d.id === selectedDusunId;
                 return `
@@ -1827,6 +2005,7 @@
         function renderDusunDetail() {
             const d = DUSUN_IMPACT_DATA.find(item => item.id === selectedDusunId);
             const container = document.getElementById('dusun-detail-card');
+            if (!container || !d) return;
             container.innerHTML = `
                 <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                     <div class="flex items-center space-x-3">
@@ -1880,8 +2059,10 @@
         }
 
         function sendDirectWhatsApp() {
-            const sender = document.getElementById('wa-sender-name').value.trim();
-            const intent = document.getElementById('wa-intent').value;
+            const nameEl = document.getElementById('wa-sender-name');
+            const intentEl = document.getElementById('wa-intent');
+            const sender = nameEl ? nameEl.value.trim() : '';
+            const intent = intentEl ? intentEl.value : '';
 
             if (!sender) {
                 showToast('Mohon isi nama Anda terlebih dahulu.');
@@ -1899,7 +2080,18 @@ Saya menghubungi via Portal Digital KKN 112 Rahong. Mohon informasi lebih lanjut
         }
 
         function copyShareLink() {
-            navigator.clipboard.writeText(window.location.href);
+            try {
+                const tempInput = document.createElement('input');
+                tempInput.value = window.location.href;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+            } catch (e) {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(window.location.href);
+                }
+            }
             const btnText = document.getElementById('share-btn-text');
             if (btnText) {
                 btnText.innerText = 'Link Tersalin!';
@@ -1909,6 +2101,7 @@ Saya menghubungi via Portal Digital KKN 112 Rahong. Mohon informasi lebih lanjut
 
         function showToast(msg) {
             const container = document.getElementById('toast-container');
+            if (!container) return;
             const toast = document.createElement('div');
             toast.className = 'bg-brand-card border border-brand-lime/50 text-white px-4 py-3 rounded-xl shadow-xl flex items-center space-x-2 text-xs transition-all duration-300';
             toast.innerHTML = `<i class="fa-solid fa-circle-info text-brand-lime"></i><span>${msg}</span>`;
