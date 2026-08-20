@@ -2110,6 +2110,9 @@
                 date: '14 Agustus 2026',
                 author: 'Muhamad Nuruzzaman (112Collective)',
                 category: 'Kompasiana / Kampusiana',
+                kompasianaUrl: 'https://www.kompasiana.com/kknrahonghebat1829/6a7f1e6534777c10f561bac5/sinergi-kkn-112-warga-perbaiki-bendungan-si-cantik-di-desa-rahong',
+                coverImage: 'berita-bendungan-1.jpg',
+                secondaryImage: 'berita-bendungan-2.jpg',
                 excerpt: 'Aksi Padat Karya Tunai Desa (PKTD) Dana Desa 2026 melibatkan 30-40 warga RW 05, mahasiswa KKN 112 UIN SGD Bandung, dan mahasiswa UNSUR Cianjur untuk memperbaiki tanggul Bendungan Si Cantik yang sempat jebol.',
                 content: `CIANJUR, KOMPASIANA — Semangat gotong royong dan kepedulian terhadap fasilitas desa kembali ditunjukkan secara nyata oleh masyarakat Desa Rahong, Kecamatan Cilaku, Kabupaten Cianjur. Mahasiswa Kuliah Kerja Nyata (KKN) Sisdamas Kelompok 112 UIN Sunan Gunung Djati Bandung berkolaborasi dengan mahasiswa Universitas Suryakancana (UNSUR), Pengurus RW 05, serta Kepala Dusun setempat turun langsung ke lapangan membantu warga memperbaiki tanggul di Bendungan Si Cantik yang sempat jebol dan mengalami kerusakan.\n\nKegiatan kerja bakti ini merupakan bagian dari aksi pemeliharaan saluran air melalui skema program Padat Karya Tunai Desa (PKTD) yang bersumber dari Dana Desa Tahun 2026. Sebanyak kurang lebih 30 hingga 40 orang yang terdiri dari perangkat kewilayahan, warga RW 05, dan mahasiswa lintas kampus berbaur bahu-membahu menata bebatuan serta material guna memulihkan kembali fungsi tanggul dan aliran air bendungan.\n\nMenjaga Urat Nadi Pengairan Warga\nKeberadaan Bendungan Si Cantik di wilayah RW 05 memegang peranan krusial bagi kehidupan masyarakat sekitar, khususnya dalam menyuplai air untuk area persawahan, lahan pertanian, dan pemenuhan kebutuhan sanitasi sehari-hari warga. Kerusakan pada struktur tanggul bendungan dikhawatirkan dapat menghambat pasokan air irigasi apabila tidak segera ditangani secara bersama-sama.\n\nSejak pagi hari, antusiasme warga terlihat sangat tinggi. Dengan peralatan sederhana, warga bersama para mahasiswa mengangkat batu, membersihkan endapan lumpur, dan menyusun kembali struktur tanggul penahan air. Kehadiran Kepala Dusun dan tokoh warga di lokasi turut memberikan arahan teknis serta menyuntikkan semangat kebersamaan di tengah teriknya cuaca.\n\nKolaborasi Harmonis Mahasiswa dan Masyarakat\nKerja bakti pemulihan Bendungan Si Cantik ini juga menjadi wujud kolaborasi produktif antara mahasiswa KKN UIN Sunan Gunung Djati Bandung dan mahasiswa UNSUR Cianjur. Tidak hanya menjalankan agenda program kerja di atas kertas, mahasiswa terjun langsung merasakan dinamika sosial pedesaan dan belajar arti penting solidaritas kemasyarakatan.\n\n"Gotong royong di Bendungan Si Cantik ini bukan sekadar memperbaiki fisik tanggul yang rusak, melainkan merawat tali silaturahmi antara mahasiswa dengan warga dan aparatur desa. Melihat kekompakan puluhan warga dan mahasiswa dari dua kampus yang bersatu, inilah esensi pengabdian masyarakat yang sesungguhnya," ungkap salah satu perwakilan mahasiswa KKN.\n\nMelalui kerja bakti pemeliharaan saluran air ini, diharapkan aliran irigasi dari Bendungan Si Cantik dapat kembali mengalir lancar, memberikan manfaat jangka panjang bagi ketahanan pangan lokal di RW 05 Desa Rahong, serta memperkokoh tradisi gotong royong antarwarga.`
             },
@@ -2696,16 +2699,24 @@
                                 <h3 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">${featured.title}</h3>
                                 <p class="text-slate-300 text-sm sm:text-base leading-relaxed">${featured.excerpt}</p>
                             </div>
-                            <div class="flex items-center justify-between pt-4 border-t border-slate-800">
+                            <div class="flex flex-wrap items-center justify-between pt-4 border-t border-slate-800 gap-3">
                                 <span class="text-xs text-slate-400"><i class="fa-solid fa-user-pen text-brand-lime mr-1"></i>${featured.author}</span>
-                                <button onclick="openNewsModal('${featured.id}')" class="bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black px-5 py-2.5 rounded-xl text-xs sm:text-sm transition flex items-center space-x-1.5">
-                                    <span>Baca Selengkapnya</span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </button>
+                                <div class="flex items-center space-x-2">
+                                    ${featured.kompasianaUrl ? `
+                                        <a href="${featured.kompasianaUrl}" target="_blank" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs transition flex items-center space-x-1.5 shadow">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                            <span>Baca di Kompasiana ↗</span>
+                                        </a>
+                                    ` : ''}
+                                    <button onclick="openNewsModal('${featured.id}')" class="bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black px-4 py-2 rounded-xl text-xs sm:text-sm transition flex items-center space-x-1.5">
+                                        <span>Baca Selengkapnya</span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="lg:col-span-5 bg-slate-900 min-h-[240px] relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80" alt="Featured" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/800x600/1a1a1a/CDF22B?text=Liputan+KKN+112'">
+                        <div class="lg:col-span-5 bg-slate-900 min-h-[260px] relative overflow-hidden flex items-center justify-center">
+                            <img src="${featured.coverImage || 'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80'}" alt="${featured.title}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/800x600/1a1a1a/CDF22B?text=Liputan+KKN+112'">
                         </div>
                     </div>
                 `;
@@ -2714,8 +2725,13 @@
             const gridContainer = document.getElementById('news-grid');
             if (gridContainer) {
                 gridContainer.innerHTML = PRESS_RELEASES.map(n => `
-                    <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between hover:border-brand-lime/50 transition">
+                    <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between hover:border-brand-lime/50 transition space-y-4">
                         <div class="space-y-3">
+                            ${n.coverImage ? `
+                                <div class="w-full h-44 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 mb-2">
+                                    <img src="${n.coverImage}" alt="${n.title}" class="w-full h-full object-cover hover:scale-105 transition duration-300" onerror="this.onerror=null;this.src='https://placehold.co/800x600/1a1a1a/CDF22B?text=Liputan+KKN+112'">
+                                </div>
+                            ` : ''}
                             <div class="flex items-center justify-between text-xs text-slate-500">
                                 <span class="font-bold text-brand-lime bg-slate-900 px-2.5 py-0.5 rounded border border-slate-800">${n.category}</span>
                                 <span>${n.date}</span>
@@ -2723,12 +2739,19 @@
                             <h3 onclick="openNewsModal('${n.id}')" class="text-base font-bold text-white line-clamp-2 hover:text-brand-lime cursor-pointer transition">${n.title}</h3>
                             <p class="text-slate-400 text-xs sm:text-sm line-clamp-3 leading-relaxed">${n.excerpt}</p>
                         </div>
-                        <div class="pt-5 mt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-                            <span class="text-slate-500 font-medium">${n.author}</span>
-                            <button onclick="openNewsModal('${n.id}')" class="text-brand-lime hover:underline font-bold flex items-center space-x-1">
-                                <span>Baca</span>
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
+                        <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
+                            <span class="text-slate-500 font-medium truncate max-w-[120px]">${n.author}</span>
+                            <div class="flex items-center space-x-2">
+                                ${n.kompasianaUrl ? `
+                                    <a href="${n.kompasianaUrl}" target="_blank" class="text-blue-400 hover:text-blue-300 font-bold flex items-center space-x-1 text-[11px] bg-blue-500/10 border border-blue-500/20 px-2 py-1 rounded">
+                                        <span>Kompasiana ↗</span>
+                                    </a>
+                                ` : ''}
+                                <button onclick="openNewsModal('${n.id}')" class="text-brand-lime hover:underline font-bold flex items-center space-x-1">
+                                    <span>Baca</span>
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 `).join('');
@@ -2773,7 +2796,46 @@
             const title = document.getElementById('news-modal-title');
             if (title) title.innerText = n.title;
             const content = document.getElementById('news-modal-content');
-            if (content) content.innerHTML = n.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+            
+            let htmlContent = '';
+            if (n.coverImage) {
+                htmlContent += `
+                    <div class="space-y-2 mb-4">
+                        <img src="${n.coverImage}" alt="${n.title}" class="w-full h-auto max-h-[380px] object-cover rounded-xl shadow-lg border border-slate-200">
+                        <p class="text-[11px] text-slate-500 italic text-center">Bahu-membahu di aliran sungai: Warga dan mahasiswa saat menata material batu penahan arus di Bendungan Si Cantik, Desa Rahong. (Foto: 112Collective)</p>
+                    </div>
+                `;
+            }
+            
+            const paragraphs = n.content.split('\n\n');
+            paragraphs.forEach((p, idx) => {
+                htmlContent += `<p class="leading-relaxed">${p}</p>`;
+                if (idx === 1 && n.secondaryImage) {
+                    htmlContent += `
+                        <div class="my-5 space-y-2">
+                            <img src="${n.secondaryImage}" alt="Aksi Gotong Royong" class="w-full h-auto max-h-[380px] object-cover rounded-xl shadow-lg border border-slate-200">
+                            <p class="text-[11px] text-slate-500 italic text-center">Aksi kebersamaan puluhan warga RW 05 dan mahasiswa KKN 112 & UNSUR saat perbaikan tanggul. (Foto: 112Collective)</p>
+                        </div>
+                    `;
+                }
+            });
+
+            if (n.kompasianaUrl) {
+                htmlContent += `
+                    <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="space-y-0.5">
+                            <span class="text-xs font-bold text-blue-900 block">Artikel Ini Juga Dipublikasikan di Kompasiana:</span>
+                            <p class="text-xs text-blue-700">Baca versi publikasi media nasional dan berikan dukungan/tanggapan Anda.</p>
+                        </div>
+                        <a href="${n.kompasianaUrl}" target="_blank" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-black rounded-lg transition shadow flex items-center justify-center space-x-1.5 shrink-0">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>Buka Artikel Asli di Kompasiana ↗</span>
+                        </a>
+                    </div>
+                `;
+            }
+
+            if (content) content.innerHTML = htmlContent;
             const modal = document.getElementById('news-modal');
             if (modal) modal.classList.remove('hidden');
         }
