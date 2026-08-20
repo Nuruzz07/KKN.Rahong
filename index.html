@@ -167,7 +167,6 @@
 </head>
 <body class="antialiased selection:bg-brand-lime selection:text-brand-dark">
 
-    <!-- Ambient Dynamic Backgrounds & Particles -->
     <div class="bg-glow" id="main-glow"></div>
     <div id="particle-container"></div>
 
@@ -235,7 +234,7 @@
         </div>
     </header>
 
-    <!-- SLIDE-OVER DRAWER MENU OVERLAY (☰) -->
+    <!-- SLIDE-OVER DRAWER MENU OVERLAY (☰) - CATEGORIZED ACCORDION MENU -->
     <div id="drawer-menu" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300">
         <div class="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-brand-card border-l border-brand-border p-6 shadow-2xl flex flex-col justify-between overflow-y-auto">
             
@@ -256,67 +255,85 @@
                     </button>
                 </div>
 
-                <!-- Navigation List -->
-                <div class="space-y-1.5 text-xs font-semibold">
-                    <button onclick="navigateFromDrawer('welcome')" class="w-full text-left px-3.5 py-3 rounded-xl bg-slate-900/90 text-brand-lime font-bold hover:bg-slate-800 transition flex items-center space-x-3">
-                        <i class="fa-solid fa-qrcode w-5 text-center text-brand-lime"></i>
-                        <span>1. Menu Awal (QR Gateway)</span>
-                    </button>
-
-                    <button onclick="navigateFromDrawer('portal')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
-                        <i class="fa-solid fa-house w-5 text-center text-brand-lime"></i>
-                        <span>2. Hub Utama / Beranda</span>
-                    </button>
-
-                    <button onclick="navigateFromDrawer('regulasi')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
-                        <i class="fa-solid fa-scale-balanced w-5 text-center text-brand-lime"></i>
-                        <span>3. Pilar I: Regulasi RW 05 (Hukum)</span>
-                    </button>
-
-                    <button onclick="navigateFromDrawer('paranje')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
-                        <i class="fa-solid fa-leaf w-5 text-center text-brand-lime"></i>
-                        <span>4. Pilar II: Aksi Kp. Paranje & 3R</span>
-                    </button>
+                <!-- CATEGORIZED MENU GROUPS -->
+                <div class="space-y-4 text-xs">
                     
-                    <button onclick="navigateFromDrawer('kelompok')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
-                        <i class="fa-solid fa-users w-5 text-center text-brand-lime"></i>
-                        <span>5. Bagan Tim KKN & Peta Dusun 4</span>
-                    </button>
+                    <!-- CATEGORY 1: BERANDA & TIM -->
+                    <div class="space-y-1">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-brand-lime px-2 block mb-1">
+                            <i class="fa-solid fa-house-user mr-1"></i> 1. Beranda & Tim
+                        </span>
+                        <button onclick="navigateFromDrawer('welcome')" class="w-full text-left px-3 py-2.5 rounded-xl bg-slate-900/90 text-brand-lime font-bold hover:bg-slate-800 transition flex items-center space-x-2.5">
+                            <i class="fa-solid fa-qrcode w-4 text-center text-brand-lime"></i>
+                            <span>Menu Awal (QR Gateway)</span>
+                        </button>
+                        <button onclick="navigateFromDrawer('portal')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
+                            <i class="fa-solid fa-house w-4 text-center text-brand-lime"></i>
+                            <span>Hub Utama / Beranda</span>
+                        </button>
+                        <button onclick="navigateFromDrawer('kelompok')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
+                            <i class="fa-solid fa-users w-4 text-center text-brand-lime"></i>
+                            <span>Bagan Tim KKN & 3 Kelompok</span>
+                        </button>
+                    </div>
 
-                    <button onclick="navigateFromDrawer('siklus')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
-                        <i class="fa-solid fa-compass w-5 text-center text-brand-lime"></i>
-                        <span>6. Progres 4 Siklus Sisdamas</span>
-                    </button>
+                    <!-- CATEGORY 2: PILAR PROGRAM EKOTEOLOGI -->
+                    <div class="space-y-1 pt-2 border-t border-slate-800/80">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-blue-400 px-2 block mb-1">
+                            <i class="fa-solid fa-leaf mr-1"></i> 2. Pilar Program Ekoteologi
+                        </span>
+                        <button onclick="navigateFromDrawer('regulasi')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
+                            <i class="fa-solid fa-scale-balanced w-4 text-center text-brand-lime"></i>
+                            <span>Pilar I: Regulasi RW 05 (Hukum)</span>
+                        </button>
+                        <button onclick="navigateFromDrawer('paranje')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
+                            <i class="fa-solid fa-leaf w-4 text-center text-brand-lime"></i>
+                            <span>Pilar II: Aksi Kp. Paranje & 3R</span>
+                        </button>
+                        <button onclick="navigateFromDrawer('siklus')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
+                            <i class="fa-solid fa-compass w-4 text-center text-brand-lime"></i>
+                            <span>Progres 4 Siklus Sisdamas</span>
+                        </button>
+                    </div>
 
-                    <button onclick="navigateFromDrawer('galeri')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
-                        <i class="fa-solid fa-images w-5 text-center text-brand-lime"></i>
-                        <span>7. Galeri Foto Dokumentasi</span>
-                    </button>
+                    <!-- CATEGORY 3: DATA & WILAYAH DESA -->
+                    <div class="space-y-1 pt-2 border-t border-slate-800/80">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-teal-300 px-2 block mb-1">
+                            <i class="fa-solid fa-map-location-dot mr-1"></i> 3. Data & Wilayah Desa
+                        </span>
+                        <button onclick="navigateFromDrawer('dusun')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
+                            <i class="fa-solid fa-map-location-dot w-4 text-center text-brand-lime"></i>
+                            <span>Profil & Peta Spasial Desa</span>
+                        </button>
+                        <button onclick="navigateFromDrawer('unduhan')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
+                            <i class="fa-solid fa-folder-arrow-down w-4 text-center text-brand-lime"></i>
+                            <span>Pusat Unduhan Berkas (PDF)</span>
+                        </button>
+                    </div>
 
-                    <button onclick="navigateFromDrawer('logbook')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
-                        <i class="fa-solid fa-newspaper w-5 text-center text-brand-lime"></i>
-                        <span>8. Logbook Berita & Siaran Pers</span>
-                    </button>
+                    <!-- CATEGORY 4: PUBLIKASI & KONTAK -->
+                    <div class="space-y-1 pt-2 border-t border-slate-800/80">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400 px-2 block mb-1">
+                            <i class="fa-solid fa-bullhorn mr-1"></i> 4. Publikasi & Kontak
+                        </span>
+                        <button onclick="navigateFromDrawer('galeri')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
+                            <i class="fa-solid fa-images w-4 text-center text-brand-lime"></i>
+                            <span>Galeri Foto Dokumentasi</span>
+                        </button>
+                        <button onclick="navigateFromDrawer('logbook')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
+                            <i class="fa-solid fa-newspaper w-4 text-center text-brand-lime"></i>
+                            <span>Logbook Berita & Siaran Pers</span>
+                        </button>
+                        <button onclick="navigateFromDrawer('suara')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
+                            <i class="fa-solid fa-comments w-4 text-center text-brand-lime"></i>
+                            <span>Suara Warga & Aspirasi</span>
+                        </button>
+                        <button onclick="navigateFromDrawer('humas')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
+                            <i class="fa-solid fa-headset w-4 text-center text-brand-lime"></i>
+                            <span>Guidelines & Kontak Humas</span>
+                        </button>
+                    </div>
 
-                    <button onclick="navigateFromDrawer('dusun')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
-                        <i class="fa-solid fa-map-location-dot w-5 text-center text-brand-lime"></i>
-                        <span>9. Profil & Peta Spasial Desa</span>
-                    </button>
-
-                    <button onclick="navigateFromDrawer('unduhan')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
-                        <i class="fa-solid fa-folder-arrow-down w-5 text-center text-brand-lime"></i>
-                        <span>10. Pusat Unduhan Berkas (PDF)</span>
-                    </button>
-
-                    <button onclick="navigateFromDrawer('suara')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
-                        <i class="fa-solid fa-comments w-5 text-center text-brand-lime"></i>
-                        <span>11. Suara Warga & Aspirasi</span>
-                    </button>
-
-                    <button onclick="navigateFromDrawer('humas')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
-                        <i class="fa-solid fa-headset w-5 text-center text-brand-lime"></i>
-                        <span>12. Guidelines & Kontak Humas</span>
-                    </button>
                 </div>
             </div>
 
@@ -439,11 +456,11 @@
                     <div onclick="switchView('kelompok')" class="bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 hover:border-brand-lime/60 transition shadow-xl cursor-pointer group">
                         <div class="space-y-1">
                             <span class="text-[10px] font-black uppercase tracking-wider text-brand-lime px-2 py-0.5 rounded bg-brand-lime/10 border border-brand-lime/20 inline-block">Tim KKN 112</span>
-                            <h3 class="text-base font-bold text-white group-hover:text-brand-lime transition">Bagan Komando & Peta Dusun 4</h3>
-                            <p class="text-xs text-slate-400">Diagram struktur komando LP2M-DPL-Kordes, Peta Spasial Dusun 4 HD, & 15 mahasiswa.</p>
+                            <h3 class="text-base font-bold text-white group-hover:text-brand-lime transition">Bagan Komando & 3 Kelompok</h3>
+                            <p class="text-xs text-slate-400">Diagram struktur komando LP2M-DPL-Kordes, Peta Dusun 4 HD, & 15 mahasiswa.</p>
                         </div>
                         <div class="space-y-2 pt-2 border-t border-slate-800 text-xs font-semibold text-brand-lime flex items-center justify-between">
-                            <span>Buka Halaman Tim & Peta</span>
+                            <span>Buka Halaman Tim</span>
                             <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
                         </div>
                     </div>
@@ -466,7 +483,7 @@
                         <div class="space-y-1">
                             <span class="text-[10px] font-black uppercase tracking-wider text-teal-300 px-2 py-0.5 rounded bg-teal-400/10 border border-teal-400/20 inline-block">Arsip PDF</span>
                             <h3 class="text-base font-bold text-white group-hover:text-teal-300 transition">Pusat Unduhan Berkas</h3>
-                            <p class="text-xs text-slate-400">Unduh PDF Peraturan RW 05, Peta Dusun 4, Modul 3R 112.COLLECTIVE, & Profil Desa.</p>
+                            <p class="text-xs text-slate-400">Unduh PDF Peraturan RW 05, Modul 3R 112.COLLECTIVE, & Buku Profil Desa Rahong 2025.</p>
                         </div>
                         <div class="space-y-2 pt-2 border-t border-slate-800 text-xs font-semibold text-teal-300 flex items-center justify-between">
                             <span>Unduh PDF Berkas</span>
@@ -2103,7 +2120,7 @@
         ];
 
         // STATE VARIABLES
-        let currentView = 'welcome'; // DEFAULT VIEW IS WELCOME SCREEN
+        let currentView = 'welcome';
         let activeCycleId = 1;
         let activeKelompokId = 'k112';
         let activeGalleryFilter = 'semua';
@@ -2117,6 +2134,7 @@
         let dusunMarkers = {};
         let mapScale = 1.0;
 
+        // INITIALIZATION WITH BROWSER HASH ROUTING & HISTORY
         document.addEventListener('DOMContentLoaded', () => {
             renderKelompokTabs();
             renderKelompokDetail();
@@ -2128,9 +2146,26 @@
             renderDusunDetail();
 
             initPoskoMap();
-            
-            // Set default view to Welcome Screen
-            switchView('welcome', false);
+
+            // Read URL Hash for direct page opening
+            const initialHash = window.location.hash.replace('#', '');
+            const validViews = ['welcome', 'portal', 'regulasi', 'paranje', 'kelompok', 'siklus', 'galeri', 'logbook', 'dusun', 'unduhan', 'suara', 'humas'];
+            const startView = validViews.includes(initialHash) ? initialHash : 'welcome';
+
+            if (!window.location.hash) {
+                history.replaceState({ view: startView }, '', '#' + startView);
+            }
+            switchView(startView, false);
+        });
+
+        // LISTEN TO BROWSER BACK/FORWARD BUTTON (POPSTATE EVENT)
+        window.addEventListener('popstate', (e) => {
+            const hash = window.location.hash.replace('#', '');
+            if (hash) {
+                switchView(hash, false);
+            } else {
+                switchView('welcome', false);
+            }
         });
 
         function toggleMenu() {
@@ -2149,11 +2184,16 @@
             switchView(target);
         }
 
-        function switchView(target) {
+        // SPA ROUTER SWITCH VIEW WITH BROWSER HISTORY INTEGRATION
+        function switchView(target, pushHistory = true) {
             const validViews = ['welcome', 'portal', 'regulasi', 'paranje', 'kelompok', 'siklus', 'galeri', 'logbook', 'dusun', 'unduhan', 'suara', 'humas'];
             if (!validViews.includes(target)) target = 'welcome';
 
             currentView = target;
+
+            if (pushHistory && window.location.hash !== '#' + target) {
+                history.pushState({ view: target }, '', '#' + target);
+            }
 
             validViews.forEach(v => {
                 const el = document.getElementById(`view-${v}`);
