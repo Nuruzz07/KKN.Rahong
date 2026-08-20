@@ -83,26 +83,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Floating Particles System */
-        #particle-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: -1; overflow: hidden;
-        }
-        .particle {
-            position: absolute;
-            opacity: 0.4;
-            animation: fall linear infinite, spin linear infinite;
-        }
-        @keyframes fall {
-            0% { transform: translateY(-10vh); opacity: 0; }
-            10% { opacity: 0.4; }
-            90% { opacity: 0.4; }
-            100% { transform: translateY(110vh); opacity: 0; }
-        }
-        @keyframes spin {
-            100% { transform: rotate(360deg); }
-        }
-
+        /* SPA View Transitions */
         .view-section {
             animation: fadeInView 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
@@ -145,12 +126,6 @@
             z-index: 2;
         }
 
-        /* Interactive Map Viewer Canvas */
-        .map-canvas-container {
-            transition: transform 0.25s cubic-bezier(0.1, 1, 0.1, 1);
-            transform-origin: center center;
-        }
-
         /* Leaflet Dark Popup Overrides */
         .leaflet-popup-content-wrapper {
             background: #1A1A1A !important;
@@ -166,13 +141,13 @@
 </head>
 <body class="antialiased selection:bg-brand-lime selection:text-brand-dark">
 
-    <!-- Ambient Dynamic Backgrounds & Particles -->
+    <!-- Ambient Dynamic Backgrounds -->
     <div class="bg-glow" id="main-glow"></div>
-    <div id="particle-container"></div>
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-32 left-1/2 -translate-x-1/2 z-[120] flex flex-col gap-2 w-[90%] max-w-sm pointer-events-none"></div>
 
+    <!-- Institutional Header Strip -->
     <div class="bg-brand-blue text-white text-[10px] sm:text-xs py-1.5 px-4 font-semibold border-b border-blue-600/50">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -193,7 +168,7 @@
             <div class="flex items-center justify-between h-20">
                 
                 <!-- Logo & Brand Identity -->
-                <div class="flex items-center space-x-3.5 cursor-pointer" onclick="switchView('welcome')">
+                <div class="flex items-center space-x-3.5 cursor-pointer" onclick="navigateToHash('welcome')">
                     <div class="w-11 h-11 rounded-xl bg-brand-blue p-2 shadow-lg flex items-center justify-center hover:scale-105 transition">
                         <svg viewBox="0 0 100 100" class="w-full h-full fill-brand-lime">
                             <polygon points="10,15 30,5 30,95 10,95"/>
@@ -216,8 +191,9 @@
                     </div>
                 </div>
 
+                <!-- Header Right Action & Hamburger Menu Toggle (☰) -->
                 <div class="flex items-center space-x-2.5">
-                    <button onclick="switchView('suara')" class="bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black px-3.5 py-2 rounded-xl text-xs tracking-wide transition shadow-lg flex items-center space-x-1.5 active:scale-95">
+                    <button onclick="navigateToHash('suara')" class="bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black px-3.5 py-2 rounded-xl text-xs tracking-wide transition shadow-lg flex items-center space-x-1.5 active:scale-95">
                         <i class="fa-solid fa-comments text-sm"></i>
                         <span class="hidden sm:inline">Suara Warga</span>
                     </button>
@@ -232,8 +208,9 @@
         </div>
     </header>
 
+    <!-- ACCORDION SLIDE-OVER DRAWER MENU OVERLAY (☰) -->
     <div id="drawer-menu" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300">
-        <div class="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-brand-card border-l border-brand-border p-6 shadow-2xl flex flex-col justify-between overflow-y-auto">
+        <div class="fixed top-0 right-0 bottom-0 w-[88%] max-w-sm bg-brand-card border-l border-brand-border p-6 shadow-2xl flex flex-col justify-between overflow-y-auto">
             
             <div class="space-y-6">
                 <!-- Drawer Header -->
@@ -252,83 +229,107 @@
                     </button>
                 </div>
 
-                <!-- CATEGORIZED MENU GROUPS -->
-                <div class="space-y-4 text-xs">
+                <!-- ACCORDION CATEGORIZED NAVIGATION LIST -->
+                <div class="space-y-3 text-xs font-semibold">
                     
-                    <!-- CATEGORY 1: BERANDA & TIM -->
-                    <div class="space-y-1">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-brand-lime px-2 block mb-1">
-                            <i class="fa-solid fa-house-user mr-1"></i> 1. Beranda & Tim
-                        </span>
-                        <button onclick="navigateFromDrawer('welcome')" class="w-full text-left px-3 py-2.5 rounded-xl bg-slate-900/90 text-brand-lime font-bold hover:bg-slate-800 transition flex items-center space-x-2.5">
-                            <i class="fa-solid fa-qrcode w-4 text-center text-brand-lime"></i>
-                            <span>Menu Awal (QR Gateway)</span>
+                    <!-- KATEGORI 1: BERANDA -->
+                    <div class="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/60">
+                        <button onclick="toggleAccordion('acc-beranda')" class="w-full text-left px-4 py-3.5 bg-slate-900 text-white font-bold hover:bg-slate-800 transition flex items-center justify-between border-b border-slate-800/80">
+                            <span class="flex items-center space-x-2 text-brand-lime">
+                                <i class="fa-solid fa-house w-4 text-center"></i>
+                                <span class="text-xs uppercase tracking-wider">1. Beranda</span>
+                            </span>
+                            <i id="icon-acc-beranda" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200"></i>
                         </button>
-                        <button onclick="navigateFromDrawer('portal')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
-                            <i class="fa-solid fa-house w-4 text-center text-brand-lime"></i>
-                            <span>Hub Utama / Beranda</span>
-                        </button>
-                        <button onclick="navigateFromDrawer('kelompok')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
-                            <i class="fa-solid fa-users w-4 text-center text-brand-lime"></i>
-                            <span>Bagan Tim KKN & 3 Kelompok</span>
-                        </button>
+                        <div id="acc-beranda" class="hidden space-y-1 p-2 bg-slate-950/80 border-t border-slate-800/50">
+                            <button onclick="navigateFromDrawer('welcome')" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:text-brand-lime hover:bg-slate-800/90 transition flex items-center space-x-2.5">
+                                <i class="fa-solid fa-qrcode text-brand-lime w-4 text-center"></i>
+                                <span>Menu Awal (QR Gateway)</span>
+                            </button>
+                            <button onclick="navigateFromDrawer('portal')" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:text-brand-lime hover:bg-slate-800/90 transition flex items-center space-x-2.5">
+                                <i class="fa-solid fa-cubes text-brand-lime w-4 text-center"></i>
+                                <span>Hub Utama / Beranda</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- CATEGORY 2: PILAR PROGRAM EKOTEOLOGI -->
-                    <div class="space-y-1 pt-2 border-t border-slate-800/80">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-blue-400 px-2 block mb-1">
-                            <i class="fa-solid fa-leaf mr-1"></i> 2. Pilar Program Ekoteologi
-                        </span>
-                        <button onclick="navigateFromDrawer('regulasi')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
-                            <i class="fa-solid fa-scale-balanced w-4 text-center text-brand-lime"></i>
-                            <span>Pilar I: Regulasi RW 05 (Hukum)</span>
+                    <!-- KATEGORI 2: PROGRAM & KEGIATAN -->
+                    <div class="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/60">
+                        <button onclick="toggleAccordion('acc-program')" class="w-full text-left px-4 py-3.5 bg-slate-900 text-white font-bold hover:bg-slate-800 transition flex items-center justify-between border-b border-slate-800/80">
+                            <span class="flex items-center space-x-2 text-blue-400">
+                                <i class="fa-solid fa-leaf w-4 text-center"></i>
+                                <span class="text-xs uppercase tracking-wider">2. Program & Kegiatan</span>
+                            </span>
+                            <i id="icon-acc-program" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200"></i>
                         </button>
-                        <button onclick="navigateFromDrawer('paranje')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
-                            <i class="fa-solid fa-leaf w-4 text-center text-brand-lime"></i>
-                            <span>Pilar II: Aksi Kp. Paranje & 3R</span>
-                        </button>
-                        <button onclick="navigateFromDrawer('siklus')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
-                            <i class="fa-solid fa-compass w-4 text-center text-brand-lime"></i>
-                            <span>Progres 4 Siklus Sisdamas</span>
-                        </button>
+                        <div id="acc-program" class="hidden space-y-1 p-2 bg-slate-950/80 border-t border-slate-800/50">
+                            <button onclick="navigateFromDrawer('regulasi')" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:text-blue-400 hover:bg-slate-800/90 transition flex items-center space-x-2.5">
+                                <i class="fa-solid fa-scale-balanced text-blue-400 w-4 text-center"></i>
+                                <span>Pilar I: Regulasi RW 05 (Hukum)</span>
+                            </button>
+                            <button onclick="navigateFromDrawer('paranje')" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:text-blue-400 hover:bg-slate-800/90 transition flex items-center space-x-2.5">
+                                <i class="fa-solid fa-recycle text-blue-400 w-4 text-center"></i>
+                                <span>Pilar II: Aksi Kp. Paranje & 3R</span>
+                            </button>
+                            <button onclick="navigateFromDrawer('siklus')" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:text-blue-400 hover:bg-slate-800/90 transition flex items-center space-x-2.5">
+                                <i class="fa-solid fa-compass text-blue-400 w-4 text-center"></i>
+                                <span>Progres 4 Siklus Sisdamas</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- CATEGORY 3: DATA & WILAYAH DESA -->
-                    <div class="space-y-1 pt-2 border-t border-slate-800/80">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-teal-300 px-2 block mb-1">
-                            <i class="fa-solid fa-map-location-dot mr-1"></i> 3. Data & Wilayah Desa
-                        </span>
-                        <button onclick="navigateFromDrawer('dusun')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
-                            <i class="fa-solid fa-map-location-dot w-4 text-center text-brand-lime"></i>
-                            <span>Profil & Peta Spasial Desa</span>
+                    <!-- KATEGORI 3: PROFIL & WILAYAH -->
+                    <div class="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/60">
+                        <button onclick="toggleAccordion('acc-profil')" class="w-full text-left px-4 py-3.5 bg-slate-900 text-white font-bold hover:bg-slate-800 transition flex items-center justify-between border-b border-slate-800/80">
+                            <span class="flex items-center space-x-2 text-teal-300">
+                                <i class="fa-solid fa-map-location-dot w-4 text-center"></i>
+                                <span class="text-xs uppercase tracking-wider">3. Profil & Wilayah</span>
+                            </span>
+                            <i id="icon-acc-profil" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200"></i>
                         </button>
-                        <button onclick="navigateFromDrawer('unduhan')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
-                            <i class="fa-solid fa-folder-arrow-down w-4 text-center text-brand-lime"></i>
-                            <span>Pusat Unduhan Berkas (PDF)</span>
-                        </button>
+                        <div id="acc-profil" class="hidden space-y-1 p-2 bg-slate-950/80 border-t border-slate-800/50">
+                            <button onclick="navigateFromDrawer('kelompok')" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:text-teal-300 hover:bg-slate-800/90 transition flex items-center space-x-2.5">
+                                <i class="fa-solid fa-users text-teal-300 w-4 text-center"></i>
+                                <span>Bagan Tim KKN & 3 Kelompok</span>
+                            </button>
+                            <button onclick="navigateFromDrawer('dusun')" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:text-teal-300 hover:bg-slate-800/90 transition flex items-center space-x-2.5">
+                                <i class="fa-solid fa-landmark text-teal-300 w-4 text-center"></i>
+                                <span>Profil & Peta Spasial Desa</span>
+                            </button>
+                            <button onclick="navigateFromDrawer('unduhan')" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:text-teal-300 hover:bg-slate-800/90 transition flex items-center space-x-2.5">
+                                <i class="fa-solid fa-folder-arrow-down text-teal-300 w-4 text-center"></i>
+                                <span>Pusat Unduhan Berkas (PDF/Drive)</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- CATEGORY 4: PUBLIKASI & KONTAK -->
-                    <div class="space-y-1 pt-2 border-t border-slate-800/80">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400 px-2 block mb-1">
-                            <i class="fa-solid fa-bullhorn mr-1"></i> 4. Publikasi & Kontak
-                        </span>
-                        <button onclick="navigateFromDrawer('galeri')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
-                            <i class="fa-solid fa-images w-4 text-center text-brand-lime"></i>
-                            <span>Galeri Foto Dokumentasi</span>
+                    <!-- KATEGORI 4: PUBLIKASI & KONTAK -->
+                    <div class="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/60">
+                        <button onclick="toggleAccordion('acc-publikasi')" class="w-full text-left px-4 py-3.5 bg-slate-900 text-white font-bold hover:bg-slate-800 transition flex items-center justify-between border-b border-slate-800/80">
+                            <span class="flex items-center space-x-2 text-purple-400">
+                                <i class="fa-solid fa-newspaper w-4 text-center"></i>
+                                <span class="text-xs uppercase tracking-wider">4. Publikasi & Kontak</span>
+                            </span>
+                            <i id="icon-acc-publikasi" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200"></i>
                         </button>
-                        <button onclick="navigateFromDrawer('logbook')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
-                            <i class="fa-solid fa-newspaper w-4 text-center text-brand-lime"></i>
-                            <span>Logbook Berita & Siaran Pers</span>
-                        </button>
-                        <button onclick="navigateFromDrawer('suara')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
-                            <i class="fa-solid fa-comments w-4 text-center text-brand-lime"></i>
-                            <span>Suara Warga & Aspirasi</span>
-                        </button>
-                        <button onclick="navigateFromDrawer('humas')" class="w-full text-left px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-2.5">
-                            <i class="fa-solid fa-headset w-4 text-center text-brand-lime"></i>
-                            <span>Guidelines & Kontak Humas</span>
-                        </button>
+                        <div id="acc-publikasi" class="hidden space-y-1 p-2 bg-slate-950/80 border-t border-slate-800/50">
+                            <button onclick="navigateFromDrawer('galeri')" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:text-purple-400 hover:bg-slate-800/90 transition flex items-center space-x-2.5">
+                                <i class="fa-solid fa-images text-purple-400 w-4 text-center"></i>
+                                <span>Galeri Foto Dokumentasi</span>
+                            </button>
+                            <button onclick="navigateFromDrawer('logbook')" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:text-purple-400 hover:bg-slate-800/90 transition flex items-center space-x-2.5">
+                                <i class="fa-solid fa-newspaper text-purple-400 w-4 text-center"></i>
+                                <span>Logbook Berita & Kompasiana</span>
+                            </button>
+                            <button onclick="navigateFromDrawer('suara')" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:text-purple-400 hover:bg-slate-800/90 transition flex items-center space-x-2.5">
+                                <i class="fa-solid fa-comments text-purple-400 w-4 text-center"></i>
+                                <span>Suara Warga & Aspirasi</span>
+                            </button>
+                            <button onclick="navigateFromDrawer('humas')" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:text-purple-400 hover:bg-slate-800/90 transition flex items-center space-x-2.5">
+                                <i class="fa-solid fa-headset text-purple-400 w-4 text-center"></i>
+                                <span>Guidelines & Kontak Humas</span>
+                            </button>
+                        </div>
                     </div>
 
                 </div>
@@ -346,6 +347,9 @@
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- VIEW 0: WELCOME SCREEN (DEFAULT QR GATEWAY)-->
+    <!-- ========================================== -->
     <div id="view-welcome" class="view-section min-h-screen pb-28 pt-4">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
             
@@ -376,7 +380,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
                     
                     <!-- Shortcut 1: Poster Sampah -->
-                    <div onclick="switchView('paranje')" class="bg-gradient-to-br from-emerald-950/60 to-slate-900 border-2 border-emerald-500/40 hover:border-emerald-400 p-4.5 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-1 shadow-lg flex flex-col justify-between space-y-3 group">
+                    <div onclick="navigateToHash('paranje')" class="bg-gradient-to-br from-emerald-950/60 to-slate-900 border-2 border-emerald-500/40 hover:border-emerald-400 p-4.5 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-1 shadow-lg flex flex-col justify-between space-y-3 group">
                         <div class="flex items-center space-x-3">
                             <div class="w-11 h-11 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-xl shrink-0">
                                 <i class="fa-solid fa-recycle"></i>
@@ -396,7 +400,7 @@
                     </div>
 
                     <!-- Shortcut 2: Papan Peta -->
-                    <div onclick="switchView('dusun')" class="bg-gradient-to-br from-blue-950/60 to-slate-900 border-2 border-blue-500/40 hover:border-blue-400 p-4.5 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-1 shadow-lg flex flex-col justify-between space-y-3 group">
+                    <div onclick="navigateToHash('dusun')" class="bg-gradient-to-br from-blue-950/60 to-slate-900 border-2 border-blue-500/40 hover:border-blue-400 p-4.5 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-1 shadow-lg flex flex-col justify-between space-y-3 group">
                         <div class="flex items-center space-x-3">
                             <div class="w-11 h-11 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center justify-center text-xl shrink-0">
                                 <i class="fa-solid fa-map-location-dot"></i>
@@ -416,7 +420,7 @@
                     </div>
 
                     <!-- Shortcut 3: Medsos / Berita -->
-                    <div onclick="switchView('logbook')" class="bg-gradient-to-br from-lime-950/40 to-slate-900 border-2 border-brand-lime/40 hover:border-brand-lime p-4.5 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-1 shadow-lg flex flex-col justify-between space-y-3 group">
+                    <div onclick="navigateToHash('logbook')" class="bg-gradient-to-br from-lime-950/40 to-slate-900 border-2 border-brand-lime/40 hover:border-brand-lime p-4.5 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-1 shadow-lg flex flex-col justify-between space-y-3 group">
                         <div class="flex items-center space-x-3">
                             <div class="w-11 h-11 rounded-xl bg-brand-lime/20 text-brand-lime border border-brand-lime/30 flex items-center justify-center text-xl shrink-0">
                                 <i class="fa-solid fa-newspaper"></i>
@@ -447,11 +451,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     
                     <!-- Card 1: Tim & Metodologi -->
-                    <div onclick="switchView('kelompok')" class="bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 hover:border-brand-lime/60 transition shadow-xl cursor-pointer group">
+                    <div onclick="navigateToHash('kelompok')" class="bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 hover:border-brand-lime/60 transition shadow-xl cursor-pointer group">
                         <div class="space-y-1">
                             <span class="text-[10px] font-black uppercase tracking-wider text-brand-lime px-2 py-0.5 rounded bg-brand-lime/10 border border-brand-lime/20 inline-block">Tim KKN 112</span>
                             <h3 class="text-base font-bold text-white group-hover:text-brand-lime transition">Bagan Komando & 3 Kelompok</h3>
-                            <p class="text-xs text-slate-400">Diagram struktur komando LP2M-DPL-Kordes, Peta Dusun 4 HD, & 15 mahasiswa.</p>
+                            <p class="text-xs text-slate-400">Diagram struktur komando LP2M-DPL-Kordes, space peta Kp. Paranje, & 15 mahasiswa.</p>
                         </div>
                         <div class="space-y-2 pt-2 border-t border-slate-800 text-xs font-semibold text-brand-lime flex items-center justify-between">
                             <span>Buka Halaman Tim</span>
@@ -460,7 +464,7 @@
                     </div>
 
                     <!-- Card 2: Pilar I Regulasi -->
-                    <div onclick="switchView('regulasi')" class="bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 hover:border-blue-400/60 transition shadow-xl cursor-pointer group">
+                    <div onclick="navigateToHash('regulasi')" class="bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 hover:border-blue-400/60 transition shadow-xl cursor-pointer group">
                         <div class="space-y-1">
                             <span class="text-[10px] font-black uppercase tracking-wider text-blue-400 px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 inline-block">Pilar I • Hukum</span>
                             <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition">Peraturan RW 05 Th 2026</h3>
@@ -473,14 +477,14 @@
                     </div>
 
                     <!-- Card 3: Pusat Unduhan -->
-                    <div onclick="switchView('unduhan')" class="bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 hover:border-teal-400/60 transition shadow-xl cursor-pointer group">
+                    <div onclick="navigateToHash('unduhan')" class="bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 hover:border-teal-400/60 transition shadow-xl cursor-pointer group">
                         <div class="space-y-1">
-                            <span class="text-[10px] font-black uppercase tracking-wider text-teal-300 px-2 py-0.5 rounded bg-teal-400/10 border border-teal-400/20 inline-block">Arsip PDF</span>
+                            <span class="text-[10px] font-black uppercase tracking-wider text-teal-300 px-2 py-0.5 rounded bg-teal-400/10 border border-teal-400/20 inline-block">Arsip Drive</span>
                             <h3 class="text-base font-bold text-white group-hover:text-teal-300 transition">Pusat Unduhan Berkas</h3>
-                            <p class="text-xs text-slate-400">Unduh PDF Peraturan RW 05, Modul 3R 112.COLLECTIVE, & Buku Profil Desa Rahong 2025.</p>
+                            <p class="text-xs text-slate-400">Unduh PDF Peraturan RW 05, Modul 3R, Drive Foto/Video, & Logbook Master.</p>
                         </div>
                         <div class="space-y-2 pt-2 border-t border-slate-800 text-xs font-semibold text-teal-300 flex items-center justify-between">
-                            <span>Unduh PDF Berkas</span>
+                            <span>Buka Repositori Drive</span>
                             <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
                         </div>
                     </div>
@@ -506,6 +510,9 @@
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- VIEW 1: PORTAL HUB UTAMA (BERANDA)         -->
+    <!-- ========================================== -->
     <div id="view-portal" class="view-section min-h-screen hidden pb-28 pt-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -526,11 +533,11 @@
                 </p>
 
                 <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
-                    <button onclick="switchView('regulasi')" class="bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-extrabold px-6 py-3 rounded-xl text-xs sm:text-sm transition shadow-lg flex items-center space-x-2">
+                    <button onclick="navigateToHash('regulasi')" class="bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-extrabold px-6 py-3 rounded-xl text-xs sm:text-sm transition shadow-lg flex items-center space-x-2">
                         <i class="fa-solid fa-scale-balanced"></i>
                         <span>Pilar I: Peraturan RW 05</span>
                     </button>
-                    <button onclick="switchView('paranje')" class="bg-brand-blue hover:bg-blue-600 text-white font-extrabold px-6 py-3 rounded-xl text-xs sm:text-sm transition shadow-lg border border-blue-400/30 flex items-center space-x-2">
+                    <button onclick="navigateToHash('paranje')" class="bg-brand-blue hover:bg-blue-600 text-white font-extrabold px-6 py-3 rounded-xl text-xs sm:text-sm transition shadow-lg border border-blue-400/30 flex items-center space-x-2">
                         <i class="fa-solid fa-leaf"></i>
                         <span>Pilar II: Aksi Kp. Paranje</span>
                     </button>
@@ -569,7 +576,7 @@
             <!-- CORE SUB-PORTAL CARDS HUB -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Card 1: Regulasi RW 05 -->
-                <div onclick="switchView('regulasi')" class="group relative overflow-hidden rounded-2xl glass-card p-6 cursor-pointer border border-slate-800 hover:border-brand-lime/60 transition-all duration-300 hover:-translate-y-1 shadow-lg">
+                <div onclick="navigateToHash('regulasi')" class="group relative overflow-hidden rounded-2xl glass-card p-6 cursor-pointer border border-slate-800 hover:border-brand-lime/60 transition-all duration-300 hover:-translate-y-1 shadow-lg">
                     <div class="space-y-4 relative z-10">
                         <div class="w-12 h-12 rounded-xl bg-brand-lime/20 text-brand-lime border border-brand-lime/30 flex items-center justify-center text-xl">
                             <i class="fa-solid fa-scale-balanced"></i>
@@ -587,7 +594,7 @@
                 </div>
 
                 <!-- Card 2: Role Model Kp. Paranje -->
-                <div onclick="switchView('paranje')" class="group relative overflow-hidden rounded-2xl glass-card p-6 cursor-pointer border border-slate-800 hover:border-brand-blue/60 transition-all duration-300 hover:-translate-y-1 shadow-lg">
+                <div onclick="navigateToHash('paranje')" class="group relative overflow-hidden rounded-2xl glass-card p-6 cursor-pointer border border-slate-800 hover:border-brand-blue/60 transition-all duration-300 hover:-translate-y-1 shadow-lg">
                     <div class="space-y-4 relative z-10">
                         <div class="w-12 h-12 rounded-xl bg-brand-blue/20 text-blue-400 border border-brand-blue/30 flex items-center justify-center text-xl">
                             <i class="fa-solid fa-leaf"></i>
@@ -605,7 +612,7 @@
                 </div>
 
                 <!-- Card 3: Profil & Peta Desa -->
-                <div onclick="switchView('dusun')" class="group relative overflow-hidden rounded-2xl glass-card p-6 cursor-pointer border border-slate-800 hover:border-brand-lime/60 transition-all duration-300 hover:-translate-y-1 shadow-lg">
+                <div onclick="navigateToHash('dusun')" class="group relative overflow-hidden rounded-2xl glass-card p-6 cursor-pointer border border-slate-800 hover:border-brand-lime/60 transition-all duration-300 hover:-translate-y-1 shadow-lg">
                     <div class="space-y-4 relative z-10">
                         <div class="w-12 h-12 rounded-xl bg-brand-lime/20 text-brand-lime border border-brand-lime/30 flex items-center justify-center text-xl">
                             <i class="fa-solid fa-map-location-dot"></i>
@@ -623,18 +630,18 @@
                 </div>
 
                 <!-- Card 4: Pusat Unduhan Berkas -->
-                <div onclick="switchView('unduhan')" class="group relative overflow-hidden rounded-2xl glass-card p-6 cursor-pointer border border-slate-800 hover:border-brand-blue/60 transition-all duration-300 hover:-translate-y-1 shadow-lg">
+                <div onclick="navigateToHash('unduhan')" class="group relative overflow-hidden rounded-2xl glass-card p-6 cursor-pointer border border-slate-800 hover:border-brand-blue/60 transition-all duration-300 hover:-translate-y-1 shadow-lg">
                     <div class="space-y-4 relative z-10">
                         <div class="w-12 h-12 rounded-xl bg-brand-blue/20 text-blue-400 border border-brand-blue/30 flex items-center justify-center text-xl">
                             <i class="fa-solid fa-folder-arrow-down"></i>
                         </div>
                         <div>
-                            <span class="text-[11px] font-bold text-blue-400 uppercase tracking-wider">Dokumen PDF</span>
-                            <h3 class="text-xl font-bold text-white mt-0.5 group-hover:text-blue-400 transition">Pusat Unduhan PDF</h3>
-                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">Unduh PDF Peraturan RW 05, Modul 3R 112.COLLECTIVE, & Profil Desa 2025.</p>
+                            <span class="text-[11px] font-bold text-blue-400 uppercase tracking-wider">Arsip Drive</span>
+                            <h3 class="text-xl font-bold text-white mt-0.5 group-hover:text-blue-400 transition">Pusat Unduhan Drive</h3>
+                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">Akses Drive Peraturan RW 05, Modul 3R, Drive Foto/Video, & Logbook Master.</p>
                         </div>
                         <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-blue-400 font-bold">
-                            <span>Unduh Berkas PDF</span>
+                            <span>Buka Drive Berkas</span>
                             <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
                         </div>
                     </div>
@@ -725,6 +732,9 @@
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- VIEW 2: PILAR I - REGULASI RW 05 (HUKUM)   -->
+    <!-- ========================================== -->
     <div id="view-regulasi" class="view-section min-h-screen hidden pb-28 pt-6">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
             
@@ -734,10 +744,9 @@
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Peraturan Rukun Warga 05 Tahun 2026</h2>
                     <p class="text-xs sm:text-sm text-slate-400 mt-1">Payung hukum tertulis kesepakatan 8 RT, Pengurus RW 05, dan Pemerintah Desa Rahong.</p>
                 </div>
-                <!-- GOOGLE DRIVE LINK DRAFT PERATURAN RW 05 -->
                 <a href="https://drive.google.com/file/d/1shQ9W5ISxu3hr0jilMml9lyDofQbt3E1/view?usp=drivesdk" target="_blank" class="self-start sm:self-auto px-4 py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition flex items-center space-x-2 shadow">
                     <i class="fa-solid fa-file-pdf"></i>
-                    <span>Unduh Draf Peraturan (Google Drive)</span>
+                    <span>Buka Draf Peraturan (Google Drive)</span>
                 </a>
             </div>
 
@@ -817,6 +826,9 @@
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- VIEW 3: PILAR II - AKSI KP. PARANJE & 3R   -->
+    <!-- ========================================== -->
     <div id="view-paranje" class="view-section min-h-screen hidden pb-28 pt-6">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
             
@@ -826,9 +838,8 @@
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Role Model RT 06 Kampung Paranje</h2>
                     <p class="text-xs sm:text-sm text-slate-400 mt-1">Penerapan pengelolaan sampah mandiri dan preservasi irigasi pertanian.</p>
                 </div>
-                <!-- GOOGLE DRIVE LINK MATERI EDUKASI -->
                 <a href="https://drive.google.com/file/d/1p8oPSIYdrthzymNaEZt7l8Y1rqz0q6Jv/view?usp=drivesdk" target="_blank" class="self-start sm:self-auto px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl transition border border-slate-700">
-                    <i class="fa-solid fa-book-open mr-1 text-brand-lime"></i> Unduh Modul 3R (Google Drive)
+                    <i class="fa-solid fa-book-open mr-1 text-brand-lime"></i> Buka Materi Edukasi (Google Drive)
                 </a>
             </div>
 
@@ -926,6 +937,9 @@
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- VIEW 4: TIM KKN 112 & 3 KELOMPOK           -->
+    <!-- ========================================== -->
     <div id="view-kelompok" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -950,199 +964,26 @@
                 <!-- Injected via JS -->
             </div>
 
-            <!-- VISUAL ORGANIZATIONAL HIERARCHY CHART SECTION -->
-            <div class="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl mt-8">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 gap-2">
-                    <div>
-                        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-lime/10 border border-brand-lime/30 text-brand-lime text-xs font-bold uppercase tracking-wider mb-1">
-                            <i class="fa-solid fa-sitemap"></i>
-                            <span>Bagan Komando KKN Desa Rahong 2026</span>
-                        </div>
-                        <h3 class="text-xl sm:text-2xl font-black text-white">Diagram Hierarki Struktur Organisasi</h3>
-                    </div>
-                    <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full font-mono">Hierarki Resmi LP2M - DPL - Kordes - KKP</span>
-                </div>
-
-                <!-- TREE HIERARCHY DIAGRAM CONTAINER -->
-                <div class="overflow-x-auto pb-4 pt-2">
-                    <div class="min-w-[768px] flex flex-col items-center space-y-6 text-center">
-                        
-                        <!-- LEVEL 0: LP2M -->
-                        <div class="relative group">
-                            <div class="bg-slate-900 border-2 border-slate-700 text-white px-6 py-2.5 rounded-xl shadow-lg w-72">
-                                <span class="text-[9px] font-bold text-slate-400 uppercase block">LEMBAGA PENGABDIAN MASYARAKAT</span>
-                                <h4 class="font-extrabold text-xs text-brand-lime">LP2M UIN Sunan Gunung Djati Bandung</h4>
-                            </div>
-                            <div class="w-0.5 h-6 bg-slate-700 mx-auto"></div>
-                        </div>
-
-                        <!-- LEVEL 1: DPL -->
-                        <div class="relative group">
-                            <div class="bg-gradient-to-r from-blue-600 to-brand-blue border-2 border-blue-400 text-white px-6 py-3.5 rounded-2xl shadow-xl w-72">
-                                <span class="bg-blue-900/80 text-blue-200 text-[10px] font-black px-2.5 py-0.5 rounded uppercase block mb-1">LEVEL 1 • DOSEN PEMBIMBING LAPANGAN</span>
-                                <h4 class="font-extrabold text-base">Adi Kurnia, M. Si</h4>
-                                <span class="text-[11px] text-brand-lime font-mono block mt-0.5"><i class="fa-solid fa-phone mr-1"></i>0853-1198-6141</span>
-                            </div>
-                            <div class="w-0.5 h-8 bg-brand-blue mx-auto"></div>
-                        </div>
-
-                        <!-- LEVEL 2: KORDES UTAMA -->
-                        <div class="relative group">
-                            <div class="bg-gradient-to-r from-brand-lime via-lime-400 to-emerald-400 border-2 border-brand-lime text-brand-dark px-6 py-4 rounded-2xl shadow-2xl w-80 ring-4 ring-brand-lime/20">
-                                <div class="flex items-center justify-between mb-1">
-                                    <span class="bg-brand-dark text-brand-lime text-[9px] font-black px-2 py-0.5 rounded uppercase">LEVEL 2 • KORDES UTAMA</span>
-                                    <span class="bg-brand-dark/20 text-brand-dark text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">3 Kelompok</span>
-                                </div>
-                                <h4 class="font-black text-lg">Muhamad Nuruzzaman</h4>
-                                <p class="text-[11px] font-semibold text-slate-900 mt-0.5">Koordinator Desa (Kordes) & Koord. Perancang Regulasi</p>
-                                <span class="text-xs font-mono font-black text-brand-dark block mt-1"><i class="fa-solid fa-phone mr-1"></i>0878-1529-8453</span>
-                            </div>
-                            <div class="w-0.5 h-8 bg-brand-lime mx-auto"></div>
-                        </div>
-
-                        <!-- LEVEL 3 SPLIT CONNECTOR LINE -->
-                        <div class="w-full relative px-12">
-                            <div class="h-0.5 bg-slate-700 w-full mx-auto"></div>
-                        </div>
-
-                        <!-- LEVEL 3: 3 KETUA KELOMPOK (KKP 1, 2, 3) -->
-                        <div class="grid grid-cols-3 gap-6 w-full px-2 items-start">
-                            
-                            <!-- BRANCH 1: KKP 1 (KELOMPOK 112) -->
-                            <div class="space-y-4 flex flex-col items-center">
-                                <div class="w-0.5 h-6 bg-slate-700 -mt-6"></div>
-                                <div class="bg-slate-900 border-2 border-brand-lime p-4 rounded-2xl shadow-lg w-full space-y-2">
-                                    <div class="flex items-center justify-between">
-                                        <span class="px-2 py-0.5 bg-brand-lime/20 text-brand-lime font-black text-[10px] rounded uppercase">KKP 1 • KKN 112</span>
-                                        <span class="text-[10px] text-slate-400">15 Orang</span>
-                                    </div>
-                                    <h5 class="font-extrabold text-sm text-white">Muhammad Jiyaulhaq</h5>
-                                    <span class="text-[10px] text-brand-lime font-mono block"><i class="fa-solid fa-phone mr-1"></i>0821-8579-3331</span>
-                                    <p class="text-[11px] text-slate-300 border-t border-slate-800 pt-2 mt-1">Digitalisasi Desa & Fiqih Lingkungan (Dusun 1 & 2)</p>
-                                </div>
-
-                                <div class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-left space-y-1.5 text-xs">
-                                    <span class="text-[10px] font-bold text-brand-lime uppercase block border-b border-slate-800 pb-1">Sub-Struktur 112:</span>
-                                    <div>• <b>Sekretaris:</b> Chalita Dzakya</div>
-                                    <div>• <b>Bendahara:</b> Mida Nurhamidah</div>
-                                    <div>• <b>Kadiv Acara:</b> Muhamad Vikri</div>
-                                    <div>• <b>Kadiv HumasLog:</b> Faiz Farhan H.</div>
-                                    <div>• <b>Kadiv PDD:</b> Aisyah Asri</div>
-                                </div>
-                            </div>
-
-                            <!-- BRANCH 2: KKP 2 (KELOMPOK 113) -->
-                            <div class="space-y-4 flex flex-col items-center">
-                                <div class="w-0.5 h-6 bg-slate-700 -mt-6"></div>
-                                <div class="bg-slate-900 border-2 border-blue-500 p-4 rounded-2xl shadow-lg w-full space-y-2">
-                                    <div class="flex items-center justify-between">
-                                        <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 font-black text-[10px] rounded uppercase">KKP 2 • KKN 113</span>
-                                        <span class="text-[10px] text-slate-400">15 Orang</span>
-                                    </div>
-                                    <h5 class="font-extrabold text-sm text-white">Muhammad Kahfi Sya'bani</h5>
-                                    <span class="text-[10px] text-blue-400 font-mono block"><i class="fa-solid fa-phone mr-1"></i>0812-2301-9054</span>
-                                    <p class="text-[11px] text-slate-300 border-t border-slate-800 pt-2 mt-1">Restorasi Irigasi & Edukasi Santri (Dusun 3 & 5)</p>
-                                </div>
-
-                                <div class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-left space-y-1.5 text-xs">
-                                    <span class="text-[10px] font-bold text-blue-400 uppercase block border-b border-slate-800 pb-1">Sub-Struktur 113:</span>
-                                    <div>• <b>Sekretaris:</b> Arin Nisa Rabbani</div>
-                                    <div>• <b>Bendahara:</b> Adinda Hani Sepia</div>
-                                    <div>• <b>Kadiv Acara:</b> Fariz Al Ghozali (Faris)</div>
-                                    <div>• <b>Kadiv Humlog:</b> Miftah Andhika Habenula</div>
-                                    <div>• <b>Kadiv Konsumsi:</b> Ajeng Khoirunnisa</div>
-                                    <div>• <b>Kadiv PDD:</b> M. Farid Ghifari</div>
-                                </div>
-                            </div>
-
-                            <!-- BRANCH 3: KKP 3 (KELOMPOK 114) -->
-                            <div class="space-y-4 flex flex-col items-center">
-                                <div class="w-0.5 h-6 bg-slate-700 -mt-6"></div>
-                                <div class="bg-slate-900 border-2 border-teal-400 p-4 rounded-2xl shadow-lg w-full space-y-2">
-                                    <div class="flex items-center justify-between">
-                                        <span class="px-2 py-0.5 bg-teal-400/20 text-teal-300 font-black text-[10px] rounded uppercase">KKP 3 • KKN 114</span>
-                                        <span class="text-[10px] text-slate-400">14 Orang</span>
-                                    </div>
-                                    <h5 class="font-extrabold text-sm text-white">M. Faqih Zumujiy</h5>
-                                    <span class="text-[10px] text-teal-300 font-mono block"><i class="fa-solid fa-phone mr-1"></i>0812-8225-0414</span>
-                                    <p class="text-[11px] text-slate-300 border-t border-slate-800 pt-2 mt-1">Bank Sampah & Ecobrick (Dusun 4 Cipining)</p>
-                                </div>
-
-                                <div class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-left space-y-1.5 text-xs">
-                                    <span class="text-[10px] font-bold text-teal-300 uppercase block border-b border-slate-800 pb-1">Sub-Struktur 114:</span>
-                                    <div>• <b>Sekretaris:</b> Minaryan Shofa</div>
-                                    <div>• <b>Bendahara:</b> Raisya Nazwa & Shafa Keisya (Dhia)</div>
-                                    <div>• <b>Kadiv Acara:</b> Shasa</div>
-                                    <div>• <b>Kadiv Humas:</b> Febri Rahadi</div>
-                                    <div>• <b>Kadiv Logistik:</b> Luqman Hakim</div>
-                                    <div>• <b>Kadiv Konsumsi:</b> Alifya Diyauttasnim</div>
-                                    <div>• <b>Kadiv PDD:</b> Yasyfi Syawali</div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- OFFICIAL DUSUN 4 (CIPINING/PARANJE) HIGH-RES SPATIAL MAP VIEWER -->
+            <!-- Space Placeholder for Kp. Paranje Spatial Map -->
             <div class="bg-brand-card border border-brand-border rounded-2xl p-6 space-y-4 shadow-xl">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 gap-3">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                     <div>
-                        <span class="text-[10px] font-bold text-brand-lime uppercase tracking-wider block">PETA SPASIAL DUSUN 4 (CIPINING/PARANJE) TAHUN 2026</span>
-                        <h3 class="text-base font-bold text-white">Perbatasan 8 RT & Titik Penempatan Wadah Sampah Terpilah</h3>
+                        <span class="text-[10px] font-bold text-brand-lime uppercase tracking-wider block">Peta Tematik Spasial RT 01 s.d RT 08</span>
+                        <h3 class="text-base font-bold text-white">Space Peta Wilayah Kp. Paranje (RW 05)</h3>
                     </div>
-                    <div class="flex items-center space-x-2">
-                        <button onclick="zoomMapImage(1.2)" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold border border-slate-700" title="Perbesar">
-                            <i class="fa-solid fa-magnifying-glass-plus"></i>
-                        </button>
-                        <button onclick="zoomMapImage(0.8)" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold border border-slate-700" title="Perkecil">
-                            <i class="fa-solid fa-magnifying-glass-minus"></i>
-                        </button>
-                        <button onclick="resetMapZoom()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold border border-slate-700" title="Reset Zoom">
-                            <i class="fa-solid fa-rotate-left"></i>
-                        </button>
-                        <button onclick="openMapLightbox()" class="px-3 py-1.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black rounded-lg text-xs flex items-center space-x-1 shadow">
-                            <i class="fa-solid fa-expand"></i>
-                            <span>Layar Penuh</span>
-                        </button>
-                    </div>
+                    <span class="text-xs bg-brand-lime/10 text-brand-lime px-2.5 py-1 rounded font-mono">JPG HD Active</span>
                 </div>
 
-                <!-- HD MAP CONTAINER (JPG INTERACTIVE CANVAS) -->
-                <div class="bg-slate-950 border border-slate-800 rounded-xl p-2 relative overflow-hidden text-center min-h-[360px] flex items-center justify-center">
-                    <div class="overflow-auto max-h-[520px] w-full no-scrollbar">
-                        <div id="map-zoom-wrapper" class="map-canvas-container inline-block">
-                            <img 
-                                id="dusun-4-map-img" 
-                                src="MAP-DUSUN-4.jpg" 
-                                alt="Peta Dusun Cipining Cianjur Desa Rahong 2026" 
-                                class="max-w-full h-auto rounded-lg shadow-2xl mx-auto block object-contain"
-                                onerror="this.onerror=null; this.src='MAP DUSUN 4 FINAL KALI (1)_page-0001 (1).jpg';"
-                            />
-                        </div>
+                <!-- HD Map Container Box -->
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-center space-y-3 relative overflow-hidden">
+                    <div class="relative w-full overflow-hidden rounded-lg bg-black min-h-[300px] flex items-center justify-center">
+                        <img id="map-dus4-img" src="MAP-DUSUN-4.jpg" alt="Peta Dusun 4 Cipining HD" class="w-full h-auto max-h-[600px] object-contain transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/1200x800/1a1a1a/CDF22B?text=Peta+Dusun+4+Cipining+2026+HD'">
                     </div>
-                </div>
-
-                <!-- MAP LEGEND & INFO BAR -->
-                <div class="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
-                    <div class="flex flex-wrap items-center gap-3 text-[11px] font-semibold">
-                        <span class="text-slate-400 font-bold uppercase text-[10px]">Cakupan Perbatasan 8 RT:</span>
-                        <span class="text-slate-200">• RT Pasirjami</span>
-                        <span class="text-slate-200">• RT Leuwiurug</span>
-                        <span class="text-slate-200">• RT Cipining</span>
-                        <span class="text-slate-200">• RT Cidahu</span>
-                        <span class="text-slate-200">• RT Cisalak</span>
-                        <span class="text-slate-200">• RT Paranje</span>
-                        <span class="text-slate-200">• RT Danasuta</span>
-                        <span class="text-slate-200">• RT Pasirkuda</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-brand-lime font-bold">♦ Lokasi Tong Sampah Terpilah</span>
-                        <!-- GOOGLE DRIVE LINK PETA DUSUN 4 PDF -->
-                        <a href="https://drive.google.com/file/d/1j43RtFM67bsR-P897LrS7PbAo5W0IGmZ/view?usp=drivesdk" target="_blank" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold rounded border border-slate-700">
-                            <i class="fa-solid fa-download mr-1"></i>Unduh File PDF (Google Drive)
+                    <div class="flex flex-wrap items-center justify-between pt-2 px-2 text-xs text-slate-300 gap-2">
+                        <span class="text-[11px] font-mono text-brand-lime"><i class="fa-solid fa-compass mr-1"></i>Peta Spasial RW 05 Desa Rahong 2026</span>
+                        <a href="https://drive.google.com/file/d/1j43RtFM67bsR-P897LrS7PbAo5W0IGmZ/view?usp=drivesdk" target="_blank" class="px-3 py-1.5 bg-brand-lime text-brand-dark font-black rounded-lg text-xs flex items-center space-x-1.5 shadow">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>Unduh File PDF (Google Drive)</span>
                         </a>
                     </div>
                 </div>
@@ -1151,6 +992,9 @@
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- VIEW 5: PORTAL SIKLUS SISDAMAS             -->
+    <!-- ========================================== -->
     <div id="view-siklus" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -1164,7 +1008,7 @@
                     <p class="text-xs sm:text-sm text-slate-400 mt-1">Sistem Pemberdayaan Masyarakat terstruktur: Perbandingan Juknis Resmi LP2M & Realisasi Eksekusi Desa Rahong.</p>
                 </div>
 
-                <button onclick="switchView('portal')" class="self-start md:self-auto px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 flex items-center space-x-2 transition">
+                <button onclick="navigateToHash('portal')" class="self-start md:self-auto px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 flex items-center space-x-2 transition">
                     <i class="fa-solid fa-arrow-left"></i>
                     <span>Kembali ke Hub Utama</span>
                 </button>
@@ -1183,6 +1027,9 @@
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- VIEW 6: PORTAL GALERI VISUAL & IMPACT     -->
+    <!-- ========================================== -->
     <div id="view-galeri" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -1196,20 +1043,18 @@
                     <p class="text-xs sm:text-sm text-slate-400 mt-1">Dokumentasi foto asli kegiatan mahasiswa KKN bersama warga Desa Rahong.</p>
                 </div>
 
-                <div class="flex flex-wrap items-center gap-3">
-                    <!-- GOOGLE DRIVE LINK FOLDER FOTO & VIDEO HD -->
-                    <a href="https://drive.google.com/drive/folders/1KmzeHVB3wDkVO_pZcPJch4flX5MZV7qL" target="_blank" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition flex items-center space-x-2 shadow">
-                        <i class="fa-brands fa-google-drive text-sm"></i>
+                <!-- Drive Folder Button & Category Filters -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <a href="https://drive.google.com/drive/folders/1KmzeHVB3wDkVO_pZcPJch4flX5MZV7qL" target="_blank" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition flex items-center space-x-1.5 shadow">
+                        <i class="fa-brands fa-google-drive"></i>
                         <span>Buka Drive Foto & Video HD</span>
                     </a>
-
-                    <!-- Category Filters -->
-                    <div class="flex flex-wrap gap-2" id="gallery-filters">
-                        <button onclick="filterGallery('semua')" id="gal-filter-semua" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-lime text-brand-dark transition">Semua</button>
-                        <button onclick="filterGallery('kegiatan')" id="gal-filter-kegiatan" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Kegiatan</button>
-                        <button onclick="filterGallery('lingkungan')" id="gal-filter-lingkungan" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Lingkungan</button>
-                        <button onclick="filterGallery('ekoteologi')" id="gal-filter-ekoteologi" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Ekoteologi</button>
-                        <button onclick="filterGallery('edukasi')" id="gal-filter-edukasi" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Edukasi</button>
+                    <div class="flex flex-wrap gap-1.5" id="gallery-filters">
+                        <button onclick="filterGallery('semua')" id="gal-filter-semua" class="gallery-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-lime text-brand-dark transition">Semua</button>
+                        <button onclick="filterGallery('kegiatan')" id="gal-filter-kegiatan" class="gallery-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Kegiatan</button>
+                        <button onclick="filterGallery('lingkungan')" id="gal-filter-lingkungan" class="gallery-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Lingkungan</button>
+                        <button onclick="filterGallery('ekoteologi')" id="gal-filter-ekoteologi" class="gallery-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Ekoteologi</button>
+                        <button onclick="filterGallery('edukasi')" id="gal-filter-edukasi" class="gallery-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Edukasi</button>
                     </div>
                 </div>
             </div>
@@ -1222,6 +1067,9 @@
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- VIEW 7: PORTAL LOGBOOK & PRESS RELEASE     -->
+    <!-- ========================================== -->
     <div id="view-logbook" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -1232,22 +1080,20 @@
                         <span>Pusat Publikasi & Jurnalistik</span>
                     </div>
                     <h2 class="text-3xl font-extrabold text-white">Logbook & Siaran Pers Resmi</h2>
-                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Laporan harian, berita utama, dan rilis pers media KKN 112 Rahong 2026.</p>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Laporan harian, berita utama Kompasiana, dan rilis pers media KKN 112 Rahong 2026.</p>
                 </div>
 
-                <div class="flex flex-wrap items-center gap-3">
-                    <!-- GOOGLE DOCS LINK LOGBOOK MASTER -->
-                    <a href="https://docs.google.com/document/d/1VO056J29deTn1JaZ9KRHzUrUu8WKgLU5/edit?usp=drivesdk&ouid=113675874246387041288&rtpof=true&sd=true" target="_blank" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition flex items-center space-x-2 shadow">
-                        <i class="fa-solid fa-file-word"></i>
-                        <span>Buka Logbook Master (Google Docs)</span>
+                <!-- Google Docs Logbook Master & Search Input -->
+                <div class="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto">
+                    <a href="https://docs.google.com/document/d/1VO056J29deTn1JaZ9KRHzUrUu8WKgLU5/edit?usp=drivesdk&ouid=113675874246387041288&rtpof=true&sd=true" target="_blank" class="px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition flex items-center justify-center space-x-2 shadow shrink-0">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <span>Logbook Master (Google Docs)</span>
                     </a>
-
-                    <!-- Search Input -->
                     <div class="relative w-full md:w-64">
                         <input
                             type="text"
                             id="news-search-input"
-                            placeholder="Cari topik / berita..."
+                            placeholder="Cari berita / topik..."
                             oninput="searchNews()"
                             class="w-full pl-10 pr-4 py-2.5 bg-brand-card border border-brand-border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-lime"
                         />
@@ -1269,6 +1115,9 @@
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- VIEW 8: PORTAL PROFIL & PETA 5 DUSUN DESA RAHONG -->
+    <!-- ========================================== -->
     <div id="view-dusun" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -1404,83 +1253,6 @@
                     </div>
                 </div>
 
-                <!-- TATA GUNA LAHAN & MATA PENCAHARIAN -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Tata Guna Lahan Card -->
-                    <div class="bg-brand-card border border-brand-border p-6 rounded-2xl space-y-4">
-                        <h3 class="text-base font-bold text-white flex items-center space-x-2">
-                            <i class="fa-solid fa-chart-pie text-brand-lime"></i>
-                            <span>Penggunaan Lahan Desa (Total 536 Ha)</span>
-                        </h3>
-
-                        <div class="space-y-3 text-xs">
-                            <div>
-                                <div class="flex justify-between font-semibold mb-1">
-                                    <span class="text-slate-200">Tanah Sawah (Pertanian)</span>
-                                    <span class="text-brand-lime font-bold">246 Ha (45.9%)</span>
-                                </div>
-                                <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
-                                    <div class="bg-brand-lime h-full rounded-full" style="width: 45.9%"></div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="flex justify-between font-semibold mb-1">
-                                    <span class="text-slate-200">Tanah Pemukiman Warga</span>
-                                    <span class="text-blue-400 font-bold">175.5 Ha (32.7%)</span>
-                                </div>
-                                <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
-                                    <div class="bg-blue-400 h-full rounded-full" style="width: 32.7%"></div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="flex justify-between font-semibold mb-1">
-                                    <span class="text-slate-200">Kebun Rakyat</span>
-                                    <span class="text-teal-300 font-bold">83 Ha (15.5%)</span>
-                                </div>
-                                <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
-                                    <div class="bg-teal-300 h-full rounded-full" style="width: 15.5%"></div>
-                                </div>
-                            </div>
-
-                            <div class="pt-2 grid grid-cols-2 gap-2 text-[11px] text-slate-300">
-                                <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800">• Tanah Pekarangan: <b>12 Ha</b></div>
-                                <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800">• Galian C: <b>9.5 Ha</b></div>
-                                <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800">• Tanah Desa/TN: <b>5.5 Ha</b></div>
-                                <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800">• Kuburan: <b>4.5 Ha</b></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Mata Pencaharian Card -->
-                    <div class="bg-brand-card border border-brand-border p-6 rounded-2xl space-y-4">
-                        <h3 class="text-base font-bold text-white flex items-center space-x-2">
-                            <i class="fa-solid fa-briefcase text-brand-lime"></i>
-                            <span>Struktur Mata Pencaharian Penduduk</span>
-                        </h3>
-
-                        <div class="grid grid-cols-2 gap-3 text-xs">
-                            <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                                <span class="text-slate-400 text-[10px] block">BURUH HARIAN / TANI</span>
-                                <span class="text-xl font-black text-brand-lime">1.497 Orang</span>
-                            </div>
-                            <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                                <span class="text-slate-400 text-[10px] block">PETANI PEMILIK/PENGGARAP</span>
-                                <span class="text-xl font-black text-blue-400">1.023 Orang</span>
-                            </div>
-                            <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                                <span class="text-slate-400 text-[10px] block">PEGAWAI SWASTA</span>
-                                <span class="text-xl font-black text-slate-200">673 Orang</span>
-                            </div>
-                            <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                                <span class="text-slate-400 text-[10px] block">PEDAGANG / WARUNG</span>
-                                <span class="text-xl font-black text-teal-300">611 Orang</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             <!-- SUB-TAB 2: DETAIL 5 DUSUN BINAAN & PETA SPASIAL -->
@@ -1507,97 +1279,105 @@
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- VIEW 9: PUSAT UNDUHAN BERKAS (DRIVE REPOSITORY) -->
+    <!-- ========================================== -->
     <div id="view-unduhan" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
-                    <span class="text-xs font-bold text-brand-lime uppercase tracking-wider">Repositori Digital Resmi</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Pusat Unduhan Berkas PDF & Google Drive</h2>
+                    <span class="text-xs font-bold text-brand-lime uppercase tracking-wider">Repositori Digital Google Drive & Docs</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Pusat Unduhan & Berkas Master</h2>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <!-- 1. Draf Peraturan -->
+                
+                <!-- Card 1: Draf Peraturan -->
                 <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
                     <div class="space-y-1.5">
                         <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-[10px] font-bold uppercase">Hukum & Kebijakan</span>
                         <h4 class="text-base font-bold text-white">Draf Peraturan RW 05 Tahun 2026</h4>
-                        <p class="text-xs text-slate-400">SK Peraturan RW 05, kuota gotong royong 10%, denda sampah, tembak burung, & setrum ikan.</p>
+                        <p class="text-xs text-slate-400">Draft PDF SK Peraturan RW 05, klausul gotong royong 10%, denda sampah, tembak burung, & setrum ikan.</p>
                     </div>
                     <a href="https://drive.google.com/file/d/1shQ9W5ISxu3hr0jilMml9lyDofQbt3E1/view?usp=drivesdk" target="_blank" class="w-full py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
-                        <i class="fa-solid fa-download"></i>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         <span>Buka Draf (Google Drive)</span>
                     </a>
                 </div>
 
-                <!-- 2. Peta Dusun 4 -->
+                <!-- Card 2: Modul 3R -->
                 <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
                     <div class="space-y-1.5">
-                        <span class="px-2 py-0.5 rounded bg-brand-lime/20 text-brand-lime text-[10px] font-bold uppercase">Peta Spasial Dusun 4</span>
-                        <h4 class="text-base font-bold text-white">Peta Dusun 4 Cipining 2026 (PDF)</h4>
-                        <p class="text-xs text-slate-400">Peta Cetak HD Dusun Cipining Skala 1:12.500, perbatasan 8 RT, & lokasi tong sampah terpilah.</p>
-                    </div>
-                    <a href="https://drive.google.com/file/d/1j43RtFM67bsR-P897LrS7PbAo5W0IGmZ/view?usp=drivesdk" target="_blank" class="w-full py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
-                        <i class="fa-solid fa-download"></i>
-                        <span>Unduh Peta PDF (Drive)</span>
-                    </a>
-                </div>
-
-                <!-- 3. Modul 3R -->
-                <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
-                    <div class="space-y-1.5">
-                        <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase">Modul 3R</span>
-                        <h4 class="text-base font-bold text-white">Modul Materi Edukasi 3R</h4>
-                        <p class="text-xs text-slate-400">PDF panduan pemilahan sampah organik & anorganik, pembuatan kompos, eco-enzyme, & ecobrick.</p>
+                        <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase">Modul 3R & Edukasi</span>
+                        <h4 class="text-base font-bold text-white">Materi Edukasi 112.COLLECTIVE</h4>
+                        <p class="text-xs text-slate-400">PDF panduan pemilahan sampah organik & anorganik, komposter, eco-enzyme, & ecobrick.</p>
                     </div>
                     <a href="https://drive.google.com/file/d/1p8oPSIYdrthzymNaEZt7l8Y1rqz0q6Jv/view?usp=drivesdk" target="_blank" class="w-full py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
-                        <i class="fa-solid fa-download"></i>
-                        <span>Unduh Materi (Drive)</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Buka Materi (Google Drive)</span>
                     </a>
                 </div>
 
-                <!-- 4. Logbook Master -->
+                <!-- Card 3: Peta Dusun 4 PDF -->
                 <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
                     <div class="space-y-1.5">
-                        <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 text-[10px] font-bold uppercase">Jurnalistik</span>
-                        <h4 class="text-base font-bold text-white">Logbook Master Mahasiswa</h4>
-                        <p class="text-xs text-slate-400">Dokumen Google Docs kumpulan catatan harian kegiatan KKN Sisdamas 112.</p>
+                        <span class="px-2 py-0.5 rounded bg-red-500/20 text-red-400 text-[10px] font-bold uppercase">Peta Cetak HD</span>
+                        <h4 class="text-base font-bold text-white">Peta Dusun 4 Cipining (PDF High-Res)</h4>
+                        <p class="text-xs text-slate-400">Master file Peta Dusun 4 Cipining resolusi tinggi siap cetak ukuran spanduk/papan.</p>
                     </div>
-                    <a href="https://docs.google.com/document/d/1VO056J29deTn1JaZ9KRHzUrUu8WKgLU5/edit?usp=drivesdk&ouid=113675874246387041288&rtpof=true&sd=true" target="_blank" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
+                    <a href="https://drive.google.com/file/d/1j43RtFM67bsR-P897LrS7PbAo5W0IGmZ/view?usp=drivesdk" target="_blank" class="w-full py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Buka Peta PDF (Google Drive)</span>
+                    </a>
+                </div>
+
+                <!-- Card 4: Logbook Master -->
+                <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
+                    <div class="space-y-1.5">
+                        <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-[10px] font-bold uppercase">Laporan Harian</span>
+                        <h4 class="text-base font-bold text-white">Logbook Master KKN 112 (Google Docs)</h4>
+                        <p class="text-xs text-slate-400">Dokumen live update catatan harian pengabdian mahasiswa, berita acara, & notulensi.</p>
+                    </div>
+                    <a href="https://docs.google.com/document/d/1VO056J29deTn1JaZ9KRHzUrUu8WKgLU5/edit?usp=drivesdk&ouid=113675874246387041288&rtpof=true&sd=true" target="_blank" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
                         <i class="fa-solid fa-file-word"></i>
-                        <span>Buka Logbook (Docs)</span>
+                        <span>Buka Logbook Docs</span>
                     </a>
                 </div>
 
-                <!-- 5. Folder Foto & Video -->
+                <!-- Card 5: Folder Drive Foto & Video HD -->
                 <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
                     <div class="space-y-1.5">
-                        <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[10px] font-bold uppercase">Dokumentasi</span>
-                        <h4 class="text-base font-bold text-white">Folder Foto & Video HD KKN</h4>
-                        <p class="text-xs text-slate-400">Folder Google Drive penyimpanan foto resolusi tinggi dan rekaman video kegiatan.</p>
+                        <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 text-[10px] font-bold uppercase">Dokumentasi HD</span>
+                        <h4 class="text-base font-bold text-white">Folder Drive Foto & Video HD</h4>
+                        <p class="text-xs text-slate-400">Folder Google Drive penyimpanan seluruh foto kegiatan resolusi tinggi, video mentah, & press kit.</p>
                     </div>
-                    <a href="https://drive.google.com/drive/folders/1KmzeHVB3wDkVO_pZcPJch4flX5MZV7qL" target="_blank" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
+                    <a href="https://drive.google.com/drive/folders/1KmzeHVB3wDkVO_pZcPJch4flX5MZV7qL" target="_blank" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
                         <i class="fa-brands fa-google-drive"></i>
-                        <span>Buka Drive Media HD</span>
+                        <span>Buka Folder Dokumentasi</span>
                     </a>
                 </div>
 
-                <!-- 6. Monografi Desa -->
+                <!-- Card 6: Monografi Profil Desa -->
                 <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
                     <div class="space-y-1.5">
-                        <span class="px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 text-[10px] font-bold uppercase">Monografi</span>
+                        <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[10px] font-bold uppercase">Monografi</span>
                         <h4 class="text-base font-bold text-white">Buku Profil Desa Rahong 2025</h4>
                         <p class="text-xs text-slate-400">Dokumen monografi resmi Pemdes Rahong tahun 2025, data 10.767 jiwa, 9 Poktan, & silsilah kades.</p>
                     </div>
-                    <a href="PROFIL%20DESA%20RAHONG%20TAHUN%202025.pdf" download class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 border border-slate-700">
-                        <i class="fa-solid fa-download"></i>
-                        <span>Unduh Profil Desa (PDF)</span>
-                    </a>
+                    <button onclick="showToast('Mengakses arsip Monografi Pemdes Rahong 2025.')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 border border-slate-700">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                        <span>Arsip Profil Desa</span>
+                    </button>
                 </div>
+
             </div>
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- VIEW 10: SUARA WARGA & KOTAK ASPIRASI -->
+    <!-- ========================================== -->
     <div id="view-suara" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
             <div class="border-b border-slate-800 pb-4">
@@ -1667,23 +1447,7 @@
         </div>
     </div>
 
-    <!-- FULLSCREEN MAP LIGHTBOX MODAL -->
-    <div id="map-lightbox-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-between p-4 hidden">
-        <div class="w-full flex items-center justify-between border-b border-slate-800 pb-3">
-            <span class="text-xs font-bold text-brand-lime uppercase tracking-wider"><i class="fa-solid fa-map-location-dot mr-2"></i>Inspeksi Layar Penuh Peta Dusun 4 (Cipining/Paranje)</span>
-            <button onclick="closeMapLightbox()" class="p-2 bg-slate-800 text-white rounded-xl hover:bg-slate-700">
-                <i class="fa-solid fa-xmark text-lg w-5 h-5 flex items-center justify-center"></i>
-            </button>
-        </div>
-        <div class="flex-1 w-full overflow-auto flex items-center justify-center p-2">
-            <img src="MAP-DUSUN-4.jpg" alt="Peta Dusun 4 Fullscreen" class="max-h-[82vh] max-w-full object-contain rounded-lg shadow-2xl" onerror="this.onerror=null; this.src='MAP DUSUN 4 FINAL KALI (1)_page-0001 (1).jpg';">
-        </div>
-        <div class="w-full text-center text-xs text-slate-400 border-t border-slate-800 pt-2">
-            Peta Spasial Resmi Dusun Cipining Cianjur Desa Rahong Tahun 2026 • KKN 112 UIN SGD BDG
-        </div>
-    </div>
-
-    <!-- LIGHTBOX MODAL (PHOTO GALLERY) -->
+    <!-- LIGHTBOX MODAL -->
     <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 hidden">
         <button onclick="closeLightbox()" class="absolute top-5 right-5 p-2 bg-slate-800 text-white rounded-full hover:bg-slate-700 z-10">
             <i class="fa-solid fa-xmark text-xl w-6 h-6 flex items-center justify-center"></i>
@@ -1723,7 +1487,7 @@
         </div>
     </div>
 
-    <!-- ARTICLE READER MODAL -->
+    <!-- ARTICLE READER MODAL (WITH KOMPASIANA DIRECT LINK & PHOTOS) -->
     <div id="news-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
         <div class="max-w-3xl w-full bg-white text-slate-900 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto relative">
             <button onclick="closeNewsModal()" class="absolute top-5 right-5 p-2 bg-slate-100 text-slate-700 rounded-full hover:bg-slate-200">
@@ -1739,13 +1503,15 @@
                 </div>
                 <h2 id="news-modal-title" class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight"></h2>
             </div>
+            
             <div id="news-modal-content" class="border-t border-b border-slate-200 py-4 text-sm sm:text-base leading-relaxed space-y-4 text-slate-700"></div>
-            <div class="flex items-center justify-between pt-2">
-                <button onclick="copyShareLink()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2 rounded-xl text-xs font-semibold flex items-center space-x-1.5">
-                    <i class="fa-solid fa-share-nodes"></i>
-                    <span>Bagikan Berita Ini</span>
-                </button>
-                <button onclick="closeNewsModal()" class="bg-brand-dark hover:bg-black text-white px-5 py-2 rounded-xl text-xs font-bold">Tutup Artikel</button>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-between pt-2 gap-3">
+                <a id="news-modal-kompasiana-btn" href="https://www.kompasiana.com/kknrahonghebat1829/6a7f1e6534777c10f561bac5/sinergi-kkn-112-warga-perbaiki-bendungan-si-cantik-di-desa-rahong" target="_blank" class="w-full sm:w-auto px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition flex items-center justify-center space-x-2 shadow">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    <span>Buka Artikel Asli di Kompasiana ↗</span>
+                </a>
+                <button onclick="closeNewsModal()" class="w-full sm:w-auto bg-brand-dark hover:bg-black text-white px-5 py-2 rounded-xl text-xs font-bold">Tutup Artikel</button>
             </div>
         </div>
     </div>
@@ -1772,32 +1538,6 @@
                     'Pengembangan Portal Digital Desa Berdata (Sisdamas Hub)',
                     'Kajian Fiqh al-Bi\'ah & Penyusunan Silabus Ekoteologi MDTA',
                     'Digitalisasi Profil RT/RW & Pemetaan Spasial Sumber Air'
-                ],
-                exOfficio: [
-                    { role: 'Koordinator Desa (3 Kelompok)', name: 'Muhamad Nuruzzaman', note: 'Rangkap Anggota HumasLog 112' },
-                    { role: 'Ketua Kelompok (KKP 1)', name: 'Muhammad Jiyaulhaq', note: 'Penanggung Jawab Kelompok 112' },
-                    { role: 'Sekretaris', name: 'Chalita Dzakya', note: 'Administrasi & Notulensi' },
-                    { role: 'Bendahara', name: 'Mida Nurhamidah Adnam', note: 'Keuangan & Anggaran' }
-                ],
-                divisions: [
-                    {
-                        name: 'Divisi Acara',
-                        kadiv: 'Muhamad Vikri',
-                        members: ['Zulpah Tazkiyatul Muharom', 'Karima Nurfadilah', 'Sarah Fauziah Azzahra', 'Arfia Diva Al Zahra (Konsumsi)'],
-                        tupoksi: ['Membuat & merancang konsep kegiatan', 'Penyusunan rundown acara & koordinasi konsumsi']
-                    },
-                    {
-                        name: 'Divisi HumasLog (Humas & Logistik)',
-                        kadiv: 'Faiz Farhan Habibie',
-                        members: ['Wafa Faozia Aulia', 'Muhamad Nuruzzaman (Kordes 3 Kelompok)'],
-                        tupoksi: ['Narahubung pihak-pihak terkait & eksternal', 'Mempersiapkan barang & kebutuhan logistik']
-                    },
-                    {
-                        name: 'Divisi PDD (Publikasi, Dekorasi, Dokumentasi)',
-                        kadiv: 'Aisyah Asri',
-                        members: ['Siti Nurul Falah', 'Muhammad Andi Imosya Palippoei', 'Rahma Fatimatuzahra'],
-                        tupoksi: ['Desain logo, vest, ID Card, & lanyard', 'Pengelolaan Instagram, TikTok, email, & live report']
-                    }
                 ],
                 fullRoster: [
                     { no: 1, nim: '1232100146', name: 'Aisyah Asri', prodi: 'PIAUD', fakultas: 'FTK', role: 'Kadiv PDD' },
@@ -1837,38 +1577,6 @@
                     'Gerakan Jum\'at Bersih Sumber Mata Air & Sungai Desa',
                     'Kuliah Ekoteologi Santri & Pembinaan Karang Taruna'
                 ],
-                exOfficio: [
-                    { role: 'Koordinator Desa Utama', name: 'Muhamad Nuruzzaman', note: 'Kordes 3 Kelompok Desa Rahong' },
-                    { role: 'Ketua Kelompok (KKP 2)', name: 'Muhammad Kahfi Sya\'bani', note: 'Penanggung Jawab Kelompok 113' },
-                    { role: 'Sekretaris', name: 'Arin Nisa Rabbani', note: 'Administrasi & Notulensi' },
-                    { role: 'Bendahara', name: 'Adinda Hani Sepia Gunawan', note: 'Pengelolaan Keuangan' }
-                ],
-                divisions: [
-                    {
-                        name: 'Divisi Acara',
-                        kadiv: 'Fariz Al Ghozali (Faris)',
-                        members: ['Rahma Wati', 'Selvy Hanifah'],
-                        tupoksi: ['Perancangan konsep & rundown kegiatan', 'Koordinasi pelaksanaan acara']
-                    },
-                    {
-                        name: 'Divisi Humlog (Humas & Logistik)',
-                        kadiv: 'Miftah Andhika Habenula',
-                        members: ['Muhammad Al-Fath Ismail (Alpet)', 'Siti Nurul Khotimah (Ulul)', 'Kinanti Dwi Kurniawan (Kinan)'],
-                        tupoksi: ['Narahubung warga & tokoh masyarakat', 'Pengadaan & kehumasan logistik']
-                    },
-                    {
-                        name: 'Divisi Konsumsi',
-                        kadiv: 'Ajeng Khoirunnisa',
-                        members: ['Muhamd Faisal Nadir Arifin (Nadhir)'],
-                        tupoksi: ['Penyediaan & pengelolaan konsumsi kegiatan']
-                    },
-                    {
-                        name: 'Divisi PDD (Publikasi, Dekorasi, Dokumentasi)',
-                        kadiv: 'Muhammad Farid Ghifari (Farid)',
-                        members: ['Wahidatul \'Adawiyah (Wahidah adaweh)', 'Chika Camila (Chika)'],
-                        tupoksi: ['Publikasi, dekorasi, & dokumentasi aksi']
-                    }
-                ],
                 fullRoster: [
                     { no: 1, nim: '1234010165', name: 'Adinda Hani Sepia Gunawan', prodi: 'Bimbingan Konseling Islam', fakultas: 'FDK', role: 'Bendahara' },
                     { no: 2, nim: '1232100052', name: 'Ajeng Khoirunnisa', prodi: 'PIAUD', fakultas: 'FTK', role: 'Kadiv Konsumsi' },
@@ -1907,44 +1615,6 @@
                     'Pelatihan Komposter Rumah Tangga & Pembuatan Ecobrick',
                     'Edukasi Pemilahan Sampah Organik/Anorganik di Sekolah'
                 ],
-                exOfficio: [
-                    { role: 'Koordinator Desa Utama', name: 'Muhamad Nuruzzaman', note: 'Kordes 3 Kelompok Desa Rahong' },
-                    { role: 'Ketua Kelompok (KKP 3)', name: 'Muhammad Faqih Zumujiy', note: 'Penanggung Jawab Kelompok 114' },
-                    { role: 'Sekretaris', name: 'Minaryan Shofa', note: 'Administrasi & Notulensi' },
-                    { role: 'Bendahara 1 & 2', name: 'Raisya Nazwa & Shafa Keisya (Dhia)', note: 'Pengelolaan Keuangan' }
-                ],
-                divisions: [
-                    {
-                        name: 'Divisi Acara',
-                        kadiv: 'Shafa Keisya Aghnia (Shasa)',
-                        members: ['Muhammad Faried Sefthiyan (Regina)', 'Syadiq Asmar Putra (Evi)'],
-                        tupoksi: ['Konsep acara & rundown sosialisasi bank sampah']
-                    },
-                    {
-                        name: 'Divisi Humas',
-                        kadiv: 'Febri Rahadi',
-                        members: ['Adityo Ikhsan Hakim (Adit)'],
-                        tupoksi: ['Narahubung warga RT/RW Dusun 4 Cipining']
-                    },
-                    {
-                        name: 'Divisi Logistik',
-                        kadiv: 'Luqman Hakim Wahyudi',
-                        members: ['Muhammad Aulia Rahman (Boa)'],
-                        tupoksi: ['Pengadaan tong komposter & peralatan ecobrick']
-                    },
-                    {
-                        name: 'Divisi Konsumsi',
-                        kadiv: 'Alifya Diyauttasnim (Alif)',
-                        members: ['Muhammad Ramdani'],
-                        tupoksi: ['Penyediaan konsumsi pelatihan komposter warga']
-                    },
-                    {
-                        name: 'Divisi PDD',
-                        kadiv: 'Yasyfi Syawali Sugiawati (Yasfi)',
-                        members: ['Siti Zaynab (Jenab)', 'Arvi Farand Arkani'],
-                        tupoksi: ['Desain banner bank sampah, modul ecobrick, & dokumentasi']
-                    }
-                ],
                 fullRoster: [
                     { no: 1, nim: '1234010141', name: 'Adityo Ikhsan Hakim (Adit)', prodi: 'Bimbingan Konseling Islam', fakultas: 'FDK', role: 'Anggota Humas' },
                     { no: 2, nim: '1232100130', name: 'Alifya Diyauttasnim (Alif)', prodi: 'PIAUD', fakultas: 'FTK', role: 'Kadiv Konsumsi' },
@@ -1979,9 +1649,7 @@
                     'Pelaksanaan Rembug Warga di 5 Dusun utama',
                     'Identifikasi isu utama lingkungan dan sanitasi irigasi',
                     'Penyusunan tim pendamping warga berbasis RT'
-                ],
-                tools: ['Refleksi Historis', 'Diagram Venn Kelembagaan', 'Alur Sejarah Desa'],
-                output: 'Dokumen Rekapitulasi Refleksi Sosial & Kesepakatan Kolektif Awal'
+                ]
             },
             {
                 id: 2,
@@ -1997,9 +1665,7 @@
                     'Pendataan potensi limbah rumah tangga & lokasi bank sampah',
                     'Sensus partisipatif kegiatan keagamaan & MDTA',
                     'Penyusunan Peta Isu dan Potensi KKN'
-                ],
-                tools: ['Transect Walk (Penelusuran Lokasi)', 'Peta Tematik Spasial', 'Pohon Masalah'],
-                output: 'Buku Peta Potensi & Masalah Ekoteologi Desa Rahong'
+                ]
             },
             {
                 id: 3,
@@ -2015,9 +1681,7 @@
                     'Penyusunan RKM prioritas bidang Ekoteologi & Pendidikan',
                     'Pembentukan kelompok kerja (Pokja) Sampah & Irigasi Desa',
                     'Penetapan anggaran stimulan & jadwal eksekusi'
-                ],
-                tools: ['Matriks Prioritas Program', 'Rancangan Anggaran RKM', 'FGD Pemuda'],
-                output: 'Dokumen Matriks Rencana Kerja Masyarakat (RKM) Legal'
+                ]
             },
             {
                 id: 4,
@@ -2033,73 +1697,17 @@
                     'Pelatihan Pemilahan Sampah Organik & Ecobrick di Sekolah',
                     'Penyelenggaraan Tabligh Ekoteologi & Kuliah Lingkungan MDTA',
                     'Pameran Hasil Karya KKN & Penyerahan Portal Digital Desa'
-                ],
-                tools: ['Monev Partisipatif', 'Kuisioner Dampak Warga', 'Laporan Akhir Sisdamas'],
-                output: 'Portal Digital Aktif, Modul Ekoteologi & Laporan Final KKN 112'
+                ]
             }
         ];
 
         const PHOTOS_GALLERY = [
-            {
-                id: 1,
-                category: 'kegiatan',
-                title: 'Rembug Warga Siklus I KKN 112 Desa Rahong',
-                date: '08 Juli 2026',
-                dusun: 'Dusun 1 Babakan Jati',
-                src: 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?auto=format&fit=crop&w=800&q=80',
-                aspect: 'aspect-[4/3]',
-                description: 'Diskusi hangat bersama tokoh masyarakat, RT/RW, dan Karang Taruna Desa Rahong dalam rangka menggali aspirasi awal Siklus I Sisdamas.'
-            },
-            {
-                id: 2,
-                category: 'lingkungan',
-                title: 'Observasi Bendungan & Irigasi Dusun 5',
-                date: '09 Juli 2026',
-                dusun: 'Dusun 5 Peusar',
-                src: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
-                aspect: 'aspect-[16/9]',
-                description: 'Mahasiswa KKN Kelompok 112 menyusuri saluran irigasi sawah untuk memetakan titik penyumbatan sampah dan debit air.'
-            },
-            {
-                id: 3,
-                category: 'ekoteologi',
-                title: 'Kajian Ekoteologi & Fiqh al-Bi\'ah',
-                date: '10 Juli 2026',
-                dusun: 'Dusun 2 Rahong Pusat',
-                src: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=800&q=80',
-                aspect: 'aspect-[3/4]',
-                description: 'Diskusi prinsip Fiqih Lingkungan bersama ustadz dan pengajar MDTA untuk silabus edukasi keagamaan.'
-            },
-            {
-                id: 4,
-                category: 'edukasi',
-                title: 'Edukasi Kebersihan & Pemilahan Sampah MDTA',
-                date: '11 Juli 2026',
-                dusun: 'Dusun 3 Depok',
-                src: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80',
-                aspect: 'aspect-[4/3]',
-                description: 'Mengajarkan anak-anak sekolah MDTA membedakan sampah organik dan anorganik dengan metode permainan interaktif.'
-            },
-            {
-                id: 5,
-                category: 'kegiatan',
-                title: 'Silaturahmi Tim KKN 112 ke Kantor Kades',
-                date: '07 Juli 2026',
-                dusun: 'Desa Rahong',
-                src: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80',
-                aspect: 'aspect-[16/9]',
-                description: 'Penerimaan resmi tim mahasiswa KKN UIN SGD Bandung oleh Kepala Desa Rahong beserta jajaran sekretariat.'
-            },
-            {
-                id: 6,
-                category: 'lingkungan',
-                title: 'Survei Calon Lokasi Bank Sampah',
-                date: '12 Juli 2026',
-                dusun: 'Dusun 4 Cipining',
-                src: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80',
-                aspect: 'aspect-[3/4]',
-                description: 'Peninjauan lahan terbuka warga yang disepakati untuk dijadikan tempat pengolahan komposter dan ecobrick.'
-            }
+            { id: 1, category: 'kegiatan', title: 'Rembug Warga Siklus I KKN 112 Desa Rahong', date: '08 Juli 2026', dusun: 'Dusun 1 Babakan Jati', src: 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?auto=format&fit=crop&w=800&q=80', aspect: 'aspect-[4/3]', description: 'Diskusi hangat bersama tokoh masyarakat, RT/RW, dan Karang Taruna Desa Rahong.' },
+            { id: 2, category: 'lingkungan', title: 'Observasi Bendungan & Irigasi Dusun 5', date: '09 Juli 2026', dusun: 'Dusun 5 Peusar', src: 'berita-bendungan-1.jpg', aspect: 'aspect-[16/9]', description: 'Mahasiswa KKN Kelompok 112 bersama warga menyusuri saluran irigasi sawah di Bendungan Si Cantik.' },
+            { id: 3, category: 'ekoteologi', title: 'Kajian Ekoteologi & Fiqh al-Bi\'ah', date: '10 Juli 2026', dusun: 'Dusun 2 Rahong Pusat', src: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=800&q=80', aspect: 'aspect-[3/4]', description: 'Diskusi prinsip Fiqih Lingkungan bersama ustadz dan pengajar MDTA.' },
+            { id: 4, category: 'edukasi', title: 'Edukasi Kebersihan & Pemilahan Sampah MDTA', date: '11 Juli 2026', dusun: 'Dusun 3 Depok', src: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80', aspect: 'aspect-[4/3]', description: 'Mengajarkan anak-anak sekolah MDTA membedakan sampah organik dan anorganik.' },
+            { id: 5, category: 'kegiatan', title: 'Silaturahmi Tim KKN 112 ke Kantor Kades', date: '07 Juli 2026', dusun: 'Desa Rahong', src: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80', aspect: 'aspect-[16/9]', description: 'Penerimaan resmi tim mahasiswa KKN UIN SGD Bandung oleh Kepala Desa Rahong.' },
+            { id: 6, category: 'lingkungan', title: 'Kerja Bakti Penataan Batu Bendungan Si Cantik', date: '14 Agustus 2026', dusun: 'Dusun 4 Cipining', src: 'berita-bendungan-2.jpg', aspect: 'aspect-[3/4]', description: 'Bahu-membahu warga dan mahasiswa KKN 112 dalam kerja bakti di aliran sungai.' }
         ];
 
         const PRESS_RELEASES = [
@@ -2107,24 +1715,14 @@
                 id: 'pr-kompasiana-1',
                 isFeatured: true,
                 title: 'Sinergi KKN 112 & Warga Perbaiki Bendungan Si Cantik di Desa Rahong',
-                date: '14 Agustus 2026',
+                date: '14 Agustus 2026 | 20:55 WIB',
                 author: 'Muhamad Nuruzzaman (112Collective)',
-                category: 'Kompasiana / Kampusiana',
+                category: 'Kompasiana',
                 kompasianaUrl: 'https://www.kompasiana.com/kknrahonghebat1829/6a7f1e6534777c10f561bac5/sinergi-kkn-112-warga-perbaiki-bendungan-si-cantik-di-desa-rahong',
-                coverImage: 'berita-bendungan-1.jpg',
-                secondaryImage: 'berita-bendungan-2.jpg',
-                excerpt: 'Aksi Padat Karya Tunai Desa (PKTD) Dana Desa 2026 melibatkan 30-40 warga RW 05, mahasiswa KKN 112 UIN SGD Bandung, dan mahasiswa UNSUR Cianjur untuk memperbaiki tanggul Bendungan Si Cantik yang sempat jebol.',
-                content: `CIANJUR, KOMPASIANA — Semangat gotong royong dan kepedulian terhadap fasilitas desa kembali ditunjukkan secara nyata oleh masyarakat Desa Rahong, Kecamatan Cilaku, Kabupaten Cianjur. Mahasiswa Kuliah Kerja Nyata (KKN) Sisdamas Kelompok 112 UIN Sunan Gunung Djati Bandung berkolaborasi dengan mahasiswa Universitas Suryakancana (UNSUR), Pengurus RW 05, serta Kepala Dusun setempat turun langsung ke lapangan membantu warga memperbaiki tanggul di Bendungan Si Cantik yang sempat jebol dan mengalami kerusakan.\n\nKegiatan kerja bakti ini merupakan bagian dari aksi pemeliharaan saluran air melalui skema program Padat Karya Tunai Desa (PKTD) yang bersumber dari Dana Desa Tahun 2026. Sebanyak kurang lebih 30 hingga 40 orang yang terdiri dari perangkat kewilayahan, warga RW 05, dan mahasiswa lintas kampus berbaur bahu-membahu menata bebatuan serta material guna memulihkan kembali fungsi tanggul dan aliran air bendungan.\n\nMenjaga Urat Nadi Pengairan Warga\nKeberadaan Bendungan Si Cantik di wilayah RW 05 memegang peranan krusial bagi kehidupan masyarakat sekitar, khususnya dalam menyuplai air untuk area persawahan, lahan pertanian, dan pemenuhan kebutuhan sanitasi sehari-hari warga. Kerusakan pada struktur tanggul bendungan dikhawatirkan dapat menghambat pasokan air irigasi apabila tidak segera ditangani secara bersama-sama.\n\nSejak pagi hari, antusiasme warga terlihat sangat tinggi. Dengan peralatan sederhana, warga bersama para mahasiswa mengangkat batu, membersihkan endapan lumpur, dan menyusun kembali struktur tanggul penahan air. Kehadiran Kepala Dusun dan tokoh warga di lokasi turut memberikan arahan teknis serta menyuntikkan semangat kebersamaan di tengah teriknya cuaca.\n\nKolaborasi Harmonis Mahasiswa dan Masyarakat\nKerja bakti pemulihan Bendungan Si Cantik ini juga menjadi wujud kolaborasi produktif antara mahasiswa KKN UIN Sunan Gunung Djati Bandung dan mahasiswa UNSUR Cianjur. Tidak hanya menjalankan agenda program kerja di atas kertas, mahasiswa terjun langsung merasakan dinamika sosial pedesaan dan belajar arti penting solidaritas kemasyarakatan.\n\n"Gotong royong di Bendungan Si Cantik ini bukan sekadar memperbaiki fisik tanggul yang rusak, melainkan merawat tali silaturahmi antara mahasiswa dengan warga dan aparatur desa. Melihat kekompakan puluhan warga dan mahasiswa dari dua kampus yang bersatu, inilah esensi pengabdian masyarakat yang sesungguhnya," ungkap salah satu perwakilan mahasiswa KKN.\n\nMelalui kerja bakti pemeliharaan saluran air ini, diharapkan aliran irigasi dari Bendungan Si Cantik dapat kembali mengalir lancar, memberikan manfaat jangka panjang bagi ketahanan pangan lokal di RW 05 Desa Rahong, serta memperkokoh tradisi gotong royong antarwarga.`
-            },
-            {
-                id: 'pr-1',
-                isFeatured: false,
-                title: 'KKN Kelompok 112 Luncurkan Program Ekoteologi & Media Guidelines di Desa Rahong 2026',
-                date: '08 Juli 2026',
-                author: 'Tim Humas KKN 112',
-                category: 'Siaran Pers Resmi',
-                excerpt: 'Langkah awal pemberdayaan berbasis Sisdamas resmi dimulai melalui Rembug Warga dan penyamaan persepsi gerakan pelestarian lingkungan berlandaskan nilai keagamaan.',
-                content: `Desa Rahong — Tim KKN Kelompok 112 dari UIN Sunan Gunung Djati Bandung secara resmi memulai rangkaian Pengabdian Kepada Masyarakat Berbasis Sisdamas (Sistem Pemberdayaan Masyarakat) 2026.\n\nKegiatan yang mengusung tema "Pemberdayaan Desa Berbasis Ekoteologi" ini berfokus pada restorasi lingkungan irigasi pertanian, pemilahan sampah mandiri, serta penguatan pendidikan karakter berwawasan lingkungan di MDTA setempat.\n\nKepala Desa Rahong menyambut hangat kedatangan 44 mahasiswa tersebut. Dalam sambutannya, beliau menegaskan pentingnya kolaborasi ilmiah akademisi dengan kearifan lokal warga. "Kami berharap kehadiran adik-adik mahasiswa tidak hanya membawa program di atas kertas, melainkan aksi nyata yang dampaknya bisa diteruskan warga secara mandiri," ungkapnya saat musyawarah terbuka.`
+                coverImg: 'berita-bendungan-1.jpg',
+                secondaryImg: 'berita-bendungan-2.jpg',
+                excerpt: 'Aksi kebersamaan puluhan warga dan mahasiswa lintas kampus saat memperbaiki tanggul saluran irigasi di Desa Rahong melalui program PKTD Dana Desa Tahun 2026.',
+                content: `CIANJUR, KOMPASIANA — Semangat gotong royong dan kepedulian terhadap fasilitas desa kembali ditunjukkan secara nyata oleh masyarakat Desa Rahong, Kecamatan Cilaku, Kabupaten Cianjur. Mahasiswa Kuliah Kerja Nyata (KKN) Sisdamas Kelompok 112 UIN Sunan Gunung Djati Bandung berkolaborasi dengan mahasiswa Universitas Suryakancana (UNSUR), Pengurus RW 05, serta Kepala Dusun setempat turun langsung ke lapangan membantu warga memperbaiki tanggul di Bendungan Si Cantik yang sempat jebol dan mengalami kerusakan.\n\nKegiatan kerja bakti ini merupakan bagian dari aksi pemeliharaan saluran air melalui skema program Padat Karya Tunai Desa (PKTD) yang bersumber dari Dana Desa Tahun 2026. Sebanyak kurang lebih 30 hingga 40 orang yang terdiri dari perangkat kewilayahan, warga RW 05, dan mahasiswa lintas kampus berbaur bahu-membahu menata bebatuan serta material guna memulihkan kembali fungsi tanggul dan aliran air bendungan.\n\n[IMAGE_SECONDARY]\n\nMenjaga Urat Nadi Pengairan Warga\n\nKeberadaan Bendungan Si Cantik di wilayah RW 05 memegang peranan krusial bagi kehidupan masyarakat sekitar, khususnya dalam menyuplai air untuk area persawahan, lahan pertanian, dan pemenuhan kebutuhan sanitasi sehari-hari warga. Kerusakan pada struktur tanggul bendungan dikhawatirkan dapat menghambat pasokan air irigasi apabila tidak segera ditangani secara bersama-sama.\n\nSeSejak pagi hari, antusiasme warga terlihat sangat tinggi. Dengan peralatan sederhana, warga bersama para mahasiswa mengangkat batu, membersihkan endapan lumpur, dan menyusun kembali struktur tanggul penahan air.\n\n"Gotong royong di Bendungan Si Cantik ini bukan sekadar memperbaiki fisik tanggul yang rusak, melainkan merawat tali silaturahmi antara mahasiswa dengan warga dan aparatur desa," ungkap Muhamad Nuruzzaman.`
             },
             {
                 id: 'pr-2',
@@ -2135,10 +1733,19 @@
                 category: 'Catatan Lapangan',
                 excerpt: 'Pemeriksaan langsung bendungan desa mengungkapkan pentingnya integrasi edukasi buang sampah dengan perbaikan sistem pengairan sawah.',
                 content: `Dusun 5 Peusar — Memasuki tahapan observasi Siklus I, tim mahasiswa melakukan penelusuran aliran irigasi sepanjang 2.5 kilometer yang mengaliri puluhan hektar sawah warga Desa Rahong.\n\nDari hasil Transect Walk bersama pengurus Mitra Cai (P3A), ditemukan beberapa titik penyumbatan sampah plastik limbah rumah tangga. Kondisi ini menurunkan efisiensi aliran air menuju area persawahan bagian hilir.`
+            },
+            {
+                id: 'pr-3',
+                isFeatured: false,
+                title: 'Digitalisasi Transparansi: Portal KKN 112 Desa Rahong Resmi Diperkenalkan',
+                date: '12 Juli 2026',
+                author: 'Tim Media & IT',
+                category: 'Teknologi & Inovasi',
+                excerpt: 'Portal interaktif dikembangkan menggunakan Tailwind CSS dengan spesifikasi warna resmi Media Guidelines KKN 112.',
+                content: `Desa Rahong — Sebagai wujud digital legacy, KKN 112 Desa Rahong meluncurkan web portal resmi. Platform ini memuat seluruh rekam jejak logbook harian, status 4 Siklus Sisdamas, galeri foto resolusi tinggi, serta peta dampak kegiatan.`
             }
         ];
 
-        // DUSUN DATA ACCURATE FROM PDF 2025
         const DUSUN_IMPACT_DATA = [
             { id: 'd1', name: 'Dusun I Babakan Jati', focus: 'Pusat Pertanian Jati Mandiri & Karag', icon: 'fa-building-columns', activeProg: 3, status: 'Aktif Refleksi', rw: 'RW 01', rtCount: 7, luas: '107 Ha', jiwa: 1926, kadus: 'Abdul Rachman' },
             { id: 'd2', name: 'Dusun II Rahong Pusat', focus: 'Pemerintahan Desa, Fiqih Lingkungan & Poktan Sri Rahayu', icon: 'fa-landmark', activeProg: 3, status: 'Aktif Refleksi', rw: 'RW 02', rtCount: 7, luas: '110 Ha', jiwa: 2465, kadus: 'Gunawan' },
@@ -2148,7 +1755,6 @@
         ];
 
         // STATE VARIABLES
-        let currentView = 'welcome';
         let activeCycleId = 1;
         let activeKelompokId = 'k112';
         let activeGalleryFilter = 'semua';
@@ -2160,9 +1766,8 @@
         let leafletMap = null;
         let dusunMap = null;
         let dusunMarkers = {};
-        let mapScale = 1.0;
 
-        // INITIALIZATION WITH BROWSER HASH ROUTING & HISTORY
+        // INITIALIZATION WITH HASH ROUTING & BACK BUTTON SUPPORT
         document.addEventListener('DOMContentLoaded', () => {
             renderKelompokTabs();
             renderKelompokDetail();
@@ -2174,27 +1779,56 @@
             renderDusunDetail();
 
             initPoskoMap();
-
-            // Read URL Hash for direct page opening
-            const initialHash = window.location.hash.replace('#', '');
-            const validViews = ['welcome', 'portal', 'regulasi', 'paranje', 'kelompok', 'siklus', 'galeri', 'logbook', 'dusun', 'unduhan', 'suara', 'humas'];
-            const startView = validViews.includes(initialHash) ? initialHash : 'welcome';
-
-            if (!window.location.hash) {
-                history.replaceState({ view: startView }, '', '#' + startView);
-            }
-            switchView(startView, false);
+            
+            // Listen to browser Back / Forward buttons
+            window.addEventListener('hashchange', handleHashChange);
+            
+            // Initial route check
+            handleHashChange();
         });
 
-        // LISTEN TO BROWSER BACK/FORWARD BUTTON (POPSTATE EVENT)
-        window.addEventListener('popstate', (e) => {
-            const hash = window.location.hash.replace('#', '');
-            if (hash) {
-                switchView(hash, false);
+        // ACCORDION DRAWER TOGGLE FUNCTION
+        function toggleAccordion(accId) {
+            const content = document.getElementById(accId);
+            const icon = document.getElementById(`icon-${accId}`);
+            
+            if (!content) return;
+
+            const isHidden = content.classList.contains('hidden');
+
+            // Close all other accordions for clean UX
+            ['acc-beranda', 'acc-program', 'acc-profil', 'acc-publikasi'].forEach(id => {
+                const el = document.getElementById(id);
+                const ic = document.getElementById(`icon-${id}`);
+                if (el && id !== accId) {
+                    el.classList.add('hidden');
+                }
+                if (ic && id !== accId) {
+                    ic.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            if (isHidden) {
+                content.classList.remove('hidden');
+                if (icon) icon.style.transform = 'rotate(180deg)';
             } else {
-                switchView('welcome', false);
+                content.classList.add('hidden');
+                if (icon) icon.style.transform = 'rotate(0deg)';
             }
-        });
+        }
+
+        function handleHashChange() {
+            let hash = window.location.hash.replace('#', '');
+            const validViews = ['welcome', 'portal', 'regulasi', 'paranje', 'kelompok', 'siklus', 'galeri', 'logbook', 'dusun', 'unduhan', 'suara', 'humas'];
+            if (!validViews.includes(hash)) {
+                hash = 'welcome';
+            }
+            switchViewDisplay(hash);
+        }
+
+        function navigateToHash(target) {
+            window.location.hash = `#${target}`;
+        }
 
         function toggleMenu() {
             const menu = document.getElementById('drawer-menu');
@@ -2209,19 +1843,11 @@
 
         function navigateFromDrawer(target) {
             toggleMenu();
-            switchView(target);
+            navigateToHash(target);
         }
 
-        // SPA ROUTER SWITCH VIEW WITH BROWSER HISTORY INTEGRATION
-        function switchView(target, pushHistory = true) {
+        function switchViewDisplay(target) {
             const validViews = ['welcome', 'portal', 'regulasi', 'paranje', 'kelompok', 'siklus', 'galeri', 'logbook', 'dusun', 'unduhan', 'suara', 'humas'];
-            if (!validViews.includes(target)) target = 'welcome';
-
-            currentView = target;
-
-            if (pushHistory && window.location.hash !== '#' + target) {
-                history.pushState({ view: target }, '', '#' + target);
-            }
 
             validViews.forEach(v => {
                 const el = document.getElementById(`view-${v}`);
@@ -2243,33 +1869,6 @@
                     if (dusunMap) dusunMap.invalidateSize();
                 }, 300);
             }
-        }
-
-        /* HD MAP ZOOM & LIGHTBOX CONTROLLERS */
-        function zoomMapImage(factor) {
-            mapScale = Math.max(0.6, Math.min(3.0, mapScale * factor));
-            const wrapper = document.getElementById('map-zoom-wrapper');
-            if (wrapper) {
-                wrapper.style.transform = `scale(${mapScale})`;
-            }
-        }
-
-        function resetMapZoom() {
-            mapScale = 1.0;
-            const wrapper = document.getElementById('map-zoom-wrapper');
-            if (wrapper) {
-                wrapper.style.transform = 'scale(1)';
-            }
-        }
-
-        function openMapLightbox() {
-            const modal = document.getElementById('map-lightbox-modal');
-            if (modal) modal.classList.remove('hidden');
-        }
-
-        function closeMapLightbox() {
-            const modal = document.getElementById('map-lightbox-modal');
-            if (modal) modal.classList.add('hidden');
         }
 
         function switchDusunSubTab(tab) {
@@ -2314,11 +1913,11 @@
             }).addTo(dusunMap);
 
             const dusunLocations = [
-                { id: 'd1', name: 'Dusun I Babakan Jati', coords: [-6.8500, 107.1520], color: '#6366F1', rw: 'RW 01 (7 RT)', kadus: 'Abdul Rachman', jiwa: '1.926 Jiwa', pos: 'Barat' },
-                { id: 'd2', name: 'Dusun II Rahong Pusat', coords: [-6.8475, 107.1650], color: '#EC4899', rw: 'RW 02 (7 RT)', kadus: 'Gunawan', jiwa: '2.465 Jiwa', pos: 'Utara/Pusat' },
-                { id: 'd3', name: 'Dusun III Depok', coords: [-6.8540, 107.1680], color: '#10B981', rw: 'RW 03 (7 RT)', kadus: 'M. Mulyana', jiwa: '1.468 Jiwa', pos: 'Tengah' },
-                { id: 'd4', name: 'Dusun IV Cipining / Paranje', coords: [-6.8620, 107.1700], color: '#F43F5E', rw: 'RW 05 (8 RT)', kadus: 'Dede Muhtar S', jiwa: '2.333 Jiwa', pos: 'Selatan' },
-                { id: 'd5', name: 'Dusun V Peusar', coords: [-6.8530, 107.1780], color: '#EAB308', rw: 'RW 04 (6 RT)', kadus: 'Iwan Gunawan', jiwa: '2.575 Jiwa', pos: 'Timur' }
+                { id: 'd1', name: 'Dusun I Babakan Jati', coords: [-6.8500, 107.1520], color: '#6366F1', rw: 'RW 01 (7 RT)', kadus: 'Abdul Rachman', jiwa: '1.926 Jiwa' },
+                { id: 'd2', name: 'Dusun II Rahong Pusat', coords: [-6.8475, 107.1650], color: '#EC4899', rw: 'RW 02 (7 RT)', kadus: 'Gunawan', jiwa: '2.465 Jiwa' },
+                { id: 'd3', name: 'Dusun III Depok', coords: [-6.8540, 107.1680], color: '#10B981', rw: 'RW 03 (7 RT)', kadus: 'M. Mulyana', jiwa: '1.468 Jiwa' },
+                { id: 'd4', name: 'Dusun IV Cipining / Paranje', coords: [-6.8620, 107.1700], color: '#F43F5E', rw: 'RW 05 (8 RT)', kadus: 'Dede Muhtar S', jiwa: '2.333 Jiwa' },
+                { id: 'd5', name: 'Dusun V Peusar', coords: [-6.8530, 107.1780], color: '#EAB308', rw: 'RW 04 (6 RT)', kadus: 'Iwan Gunawan', jiwa: '2.575 Jiwa' }
             ];
 
             const createCustomIcon = (colorHex) => {
@@ -2433,35 +2032,6 @@
             const container = document.getElementById('kelompok-detail-card');
             if (!container || !k) return;
 
-            let divisionsHtml = '';
-            if (k.divisions && k.divisions.length > 0) {
-                divisionsHtml = `
-                    <div class="space-y-4 pt-4 border-t border-slate-800">
-                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-2">
-                            <i class="fa-solid fa-sitemap text-brand-lime"></i>
-                            <span>Struktur Divisi & Tupoksi:</span>
-                        </h4>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            ${k.divisions.map(d => `
-                                <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-3 flex flex-col justify-between">
-                                    <div class="space-y-2">
-                                        <span class="px-2 py-0.5 bg-brand-blue/20 text-blue-400 font-bold text-[10px] rounded uppercase block w-max">${d.name}</span>
-                                        <div>
-                                            <span class="text-[10px] text-slate-400 font-medium block">Kepala Divisi:</span>
-                                            <span class="text-xs font-bold text-white">${d.kadiv}</span>
-                                        </div>
-                                        <div>
-                                            <span class="text-[10px] text-slate-400 font-medium block">Anggota:</span>
-                                            <p class="text-xs text-slate-300 leading-snug">${d.members.join(', ')}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-
             let rosterTableHtml = '';
             if (k.fullRoster && k.fullRoster.length > 0) {
                 rosterTableHtml = `
@@ -2469,9 +2039,8 @@
                         <div class="flex items-center justify-between">
                             <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-2">
                                 <i class="fa-solid fa-id-card text-brand-lime"></i>
-                                <span>Tabel Resmi Peserta Kelompok ${k.number} (${k.fullRoster.length} Mahasiswa):</span>
+                                <span>Tabel Peserta Kelompok ${k.number} (${k.fullRoster.length} Mahasiswa):</span>
                             </h4>
-                            <span class="text-[10px] bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded font-mono">Daftar SK LP2M UIN SGD</span>
                         </div>
                         <div class="overflow-x-auto rounded-xl border border-slate-800">
                             <table class="w-full text-left border-collapse text-xs">
@@ -2482,7 +2051,7 @@
                                         <th class="p-3 font-extrabold">NAMA MAHASISWA</th>
                                         <th class="p-3 font-extrabold">PROGRAM STUDI</th>
                                         <th class="p-3 font-extrabold">FAKULTAS</th>
-                                        <th class="p-3 font-extrabold text-brand-lime">JABATAN STRUKTUR</th>
+                                        <th class="p-3 font-extrabold text-brand-lime">JABATAN</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-slate-800/60 bg-slate-950/60">
@@ -2533,7 +2102,6 @@
                         </div>
                     </div>
 
-                    ${divisionsHtml}
                     ${rosterTableHtml}
                 </div>
             `;
@@ -2693,7 +2261,9 @@
                         <div class="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between space-y-6 text-white">
                             <div class="space-y-4">
                                 <div class="flex flex-wrap items-center gap-3 text-xs">
-                                    <span class="px-3 py-1 rounded-full bg-brand-lime text-brand-dark font-black uppercase">Berita Utama KKN 112</span>
+                                    <span class="px-3 py-1 rounded-full bg-blue-600 text-white font-black uppercase flex items-center space-x-1">
+                                        <i class="fa-solid fa-newspaper mr-1"></i> ${featured.category}
+                                    </span>
                                     <span class="text-slate-400"><i class="fa-regular fa-calendar text-brand-lime mr-1"></i>${featured.date}</span>
                                 </div>
                                 <h3 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">${featured.title}</h3>
@@ -2702,21 +2272,19 @@
                             <div class="flex flex-wrap items-center justify-between pt-4 border-t border-slate-800 gap-3">
                                 <span class="text-xs text-slate-400"><i class="fa-solid fa-user-pen text-brand-lime mr-1"></i>${featured.author}</span>
                                 <div class="flex items-center space-x-2">
-                                    ${featured.kompasianaUrl ? `
-                                        <a href="${featured.kompasianaUrl}" target="_blank" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs transition flex items-center space-x-1.5 shadow">
-                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                            <span>Baca di Kompasiana ↗</span>
-                                        </a>
-                                    ` : ''}
-                                    <button onclick="openNewsModal('${featured.id}')" class="bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black px-4 py-2 rounded-xl text-xs sm:text-sm transition flex items-center space-x-1.5">
-                                        <span>Baca Selengkapnya</span>
+                                    <a href="${featured.kompasianaUrl}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center space-x-1.5 shadow">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                        <span>Kompasiana ↗</span>
+                                    </a>
+                                    <button onclick="openNewsModal('${featured.id}')" class="bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black px-4 py-2 rounded-xl text-xs transition flex items-center space-x-1.5 shadow">
+                                        <span>Baca Artikel</span>
                                         <i class="fa-solid fa-arrow-right"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="lg:col-span-5 bg-slate-900 min-h-[260px] relative overflow-hidden flex items-center justify-center">
-                            <img src="${featured.coverImage || 'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80'}" alt="${featured.title}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/800x600/1a1a1a/CDF22B?text=Liputan+KKN+112'">
+                        <div class="lg:col-span-5 bg-slate-900 min-h-[260px] relative overflow-hidden">
+                            <img src="${featured.coverImg}" alt="Bendungan Si Cantik" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/800x600/1a1a1a/CDF22B?text=Liputan+Kompasiana+KKN+112'">
                         </div>
                     </div>
                 `;
@@ -2725,13 +2293,8 @@
             const gridContainer = document.getElementById('news-grid');
             if (gridContainer) {
                 gridContainer.innerHTML = PRESS_RELEASES.map(n => `
-                    <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between hover:border-brand-lime/50 transition space-y-4">
+                    <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between hover:border-brand-lime/50 transition">
                         <div class="space-y-3">
-                            ${n.coverImage ? `
-                                <div class="w-full h-44 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 mb-2">
-                                    <img src="${n.coverImage}" alt="${n.title}" class="w-full h-full object-cover hover:scale-105 transition duration-300" onerror="this.onerror=null;this.src='https://placehold.co/800x600/1a1a1a/CDF22B?text=Liputan+KKN+112'">
-                                </div>
-                            ` : ''}
                             <div class="flex items-center justify-between text-xs text-slate-500">
                                 <span class="font-bold text-brand-lime bg-slate-900 px-2.5 py-0.5 rounded border border-slate-800">${n.category}</span>
                                 <span>${n.date}</span>
@@ -2739,19 +2302,12 @@
                             <h3 onclick="openNewsModal('${n.id}')" class="text-base font-bold text-white line-clamp-2 hover:text-brand-lime cursor-pointer transition">${n.title}</h3>
                             <p class="text-slate-400 text-xs sm:text-sm line-clamp-3 leading-relaxed">${n.excerpt}</p>
                         </div>
-                        <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-                            <span class="text-slate-500 font-medium truncate max-w-[120px]">${n.author}</span>
-                            <div class="flex items-center space-x-2">
-                                ${n.kompasianaUrl ? `
-                                    <a href="${n.kompasianaUrl}" target="_blank" class="text-blue-400 hover:text-blue-300 font-bold flex items-center space-x-1 text-[11px] bg-blue-500/10 border border-blue-500/20 px-2 py-1 rounded">
-                                        <span>Kompasiana ↗</span>
-                                    </a>
-                                ` : ''}
-                                <button onclick="openNewsModal('${n.id}')" class="text-brand-lime hover:underline font-bold flex items-center space-x-1">
-                                    <span>Baca</span>
-                                    <i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
+                        <div class="pt-5 mt-4 border-t border-slate-800 flex items-center justify-between text-xs">
+                            <span class="text-slate-500 font-medium">${n.author}</span>
+                            <button onclick="openNewsModal('${n.id}')" class="text-brand-lime hover:underline font-bold flex items-center space-x-1">
+                                <span>Baca</span>
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
                         </div>
                     </div>
                 `).join('');
@@ -2795,47 +2351,33 @@
             if (author) author.innerText = n.author;
             const title = document.getElementById('news-modal-title');
             if (title) title.innerText = n.title;
-            const content = document.getElementById('news-modal-content');
             
-            let htmlContent = '';
-            if (n.coverImage) {
-                htmlContent += `
-                    <div class="space-y-2 mb-4">
-                        <img src="${n.coverImage}" alt="${n.title}" class="w-full h-auto max-h-[380px] object-cover rounded-xl shadow-lg border border-slate-200">
-                        <p class="text-[11px] text-slate-500 italic text-center">Bahu-membahu di aliran sungai: Warga dan mahasiswa saat menata material batu penahan arus di Bendungan Si Cantik, Desa Rahong. (Foto: 112Collective)</p>
-                    </div>
-                `;
-            }
-            
-            const paragraphs = n.content.split('\n\n');
-            paragraphs.forEach((p, idx) => {
-                htmlContent += `<p class="leading-relaxed">${p}</p>`;
-                if (idx === 1 && n.secondaryImage) {
-                    htmlContent += `
-                        <div class="my-5 space-y-2">
-                            <img src="${n.secondaryImage}" alt="Aksi Gotong Royong" class="w-full h-auto max-h-[380px] object-cover rounded-xl shadow-lg border border-slate-200">
-                            <p class="text-[11px] text-slate-500 italic text-center">Aksi kebersamaan puluhan warga RW 05 dan mahasiswa KKN 112 & UNSUR saat perbaikan tanggul. (Foto: 112Collective)</p>
-                        </div>
-                    `;
+            const kompasBtn = document.getElementById('news-modal-kompasiana-btn');
+            if (kompasBtn) {
+                if (n.kompasianaUrl) {
+                    kompasBtn.href = n.kompasianaUrl;
+                    kompasBtn.classList.remove('hidden');
+                } else {
+                    kompasBtn.classList.add('hidden');
                 }
-            });
-
-            if (n.kompasianaUrl) {
-                htmlContent += `
-                    <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div class="space-y-0.5">
-                            <span class="text-xs font-bold text-blue-900 block">Artikel Ini Juga Dipublikasikan di Kompasiana:</span>
-                            <p class="text-xs text-blue-700">Baca versi publikasi media nasional dan berikan dukungan/tanggapan Anda.</p>
-                        </div>
-                        <a href="${n.kompasianaUrl}" target="_blank" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-black rounded-lg transition shadow flex items-center justify-center space-x-1.5 shrink-0">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                            <span>Buka Artikel Asli di Kompasiana ↗</span>
-                        </a>
-                    </div>
-                `;
             }
 
-            if (content) content.innerHTML = htmlContent;
+            const content = document.getElementById('news-modal-content');
+            if (content) {
+                let paragraphs = n.content.split('\n\n').map(p => {
+                    if (p.includes('[IMAGE_SECONDARY]') && n.secondaryImg) {
+                        return `
+                            <div class="my-4 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 p-2 text-center space-y-2">
+                                <img src="${n.secondaryImg}" alt="Aksi Bendungan" class="w-full h-auto max-h-[400px] object-cover rounded-lg" onerror="this.onerror=null;this.src='https://placehold.co/800x500/1a1a1a/CDF22B?text=Foto+Aksi+Gotong+Royong'">
+                                <p class="text-xs text-slate-500 italic">Bahu-membahu di aliran sungai: Warga dan mahasiswa saat menata material batu penahan arus di Bendungan Si Cantik. | (Sumber: Media 112Collective)</p>
+                            </div>
+                        `;
+                    }
+                    return `<p>${p}</p>`;
+                }).join('');
+                content.innerHTML = paragraphs;
+            }
+
             const modal = document.getElementById('news-modal');
             if (modal) modal.classList.remove('hidden');
         }
