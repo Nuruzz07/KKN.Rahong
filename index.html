@@ -16,9 +16,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- Mozilla PDF.js Engine (Renders PDF files directly to HD Canvas in browser) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
     <script>
         tailwind.config = {
             theme: {
@@ -149,7 +146,7 @@
             z-index: 2;
         }
 
-        /* Map Canvas Interactive Container */
+        /* Interactive Map Viewer Canvas */
         .map-canvas-container {
             transition: transform 0.25s cubic-bezier(0.1, 1, 0.1, 1);
             transform-origin: center center;
@@ -192,6 +189,7 @@
         </div>
     </div>
 
+    <!-- Main Navigation Header -->
     <header class="sticky top-0 z-40 glass-nav shadow-xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
@@ -387,21 +385,21 @@
                     </div>
 
                     <!-- Shortcut 2: Papan Peta -->
-                    <div onclick="switchView('kelompok')" class="bg-gradient-to-br from-blue-950/60 to-slate-900 border-2 border-blue-500/40 hover:border-blue-400 p-4.5 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-1 shadow-lg flex flex-col justify-between space-y-3 group">
+                    <div onclick="switchView('dusun')" class="bg-gradient-to-br from-blue-950/60 to-slate-900 border-2 border-blue-500/40 hover:border-blue-400 p-4.5 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-1 shadow-lg flex flex-col justify-between space-y-3 group">
                         <div class="flex items-center space-x-3">
                             <div class="w-11 h-11 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center justify-center text-xl shrink-0">
                                 <i class="fa-solid fa-map-location-dot"></i>
                             </div>
                             <div>
                                 <span class="text-[10px] font-black uppercase text-blue-400 block">Dari Papan Peta Desa</span>
-                                <h4 class="text-sm font-bold text-white group-hover:text-blue-300 transition">Peta Dusun 4 Cipining HD</h4>
+                                <h4 class="text-sm font-bold text-white group-hover:text-blue-300 transition">Peta 5 Dusun & Posko</h4>
                             </div>
                         </div>
                         <p class="text-xs text-slate-300 leading-snug">
-                            Inspeksi HD perbatasan 8 RT Dusun Cipining, titik papan sentral, & titik tempat sampah.
+                            Peta interaktif 5 Dusun, pembagian 35 RT, dan lokasi Posko KKN 112, 113, 114.
                         </p>
                         <div class="text-[11px] text-blue-400 font-bold flex items-center justify-between pt-2 border-t border-slate-800">
-                            <span>Buka Peta Dusun 4 HD</span>
+                            <span>Lihat Peta Spasial</span>
                             <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
                         </div>
                     </div>
@@ -442,10 +440,10 @@
                         <div class="space-y-1">
                             <span class="text-[10px] font-black uppercase tracking-wider text-brand-lime px-2 py-0.5 rounded bg-brand-lime/10 border border-brand-lime/20 inline-block">Tim KKN 112</span>
                             <h3 class="text-base font-bold text-white group-hover:text-brand-lime transition">Bagan Komando & Peta Dusun 4</h3>
-                            <p class="text-xs text-slate-400">Diagram struktur komando LP2M-DPL-Kordes, Peta Dusun Cipining HD, & 15 mahasiswa.</p>
+                            <p class="text-xs text-slate-400">Diagram struktur komando LP2M-DPL-Kordes, Peta Spasial Dusun 4 HD, & 15 mahasiswa.</p>
                         </div>
                         <div class="space-y-2 pt-2 border-t border-slate-800 text-xs font-semibold text-brand-lime flex items-center justify-between">
-                            <span>Buka Halaman Tim</span>
+                            <span>Buka Halaman Tim & Peta</span>
                             <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
                         </div>
                     </div>
@@ -468,7 +466,7 @@
                         <div class="space-y-1">
                             <span class="text-[10px] font-black uppercase tracking-wider text-teal-300 px-2 py-0.5 rounded bg-teal-400/10 border border-teal-400/20 inline-block">Arsip PDF</span>
                             <h3 class="text-base font-bold text-white group-hover:text-teal-300 transition">Pusat Unduhan Berkas</h3>
-                            <p class="text-xs text-slate-400">Unduh PDF Peraturan RW 05, Modul 3R 112.COLLECTIVE, & Peta Dusun 4 Cipining PDF.</p>
+                            <p class="text-xs text-slate-400">Unduh PDF Peraturan RW 05, Peta Dusun 4, Modul 3R 112.COLLECTIVE, & Profil Desa.</p>
                         </div>
                         <div class="space-y-2 pt-2 border-t border-slate-800 text-xs font-semibold text-teal-300 flex items-center justify-between">
                             <span>Unduh PDF Berkas</span>
@@ -1087,130 +1085,67 @@
                 </div>
             </div>
 
-            <!-- HD INTERACTIVE MAP VIEWER (DUSUN 4 CIPINING / RW 05 PARANJE) -->
+            <!-- OFFICIAL DUSUN 4 (CIPINING/PARANJE) HIGH-RES SPATIAL MAP VIEWER -->
             <div class="bg-brand-card border border-brand-border rounded-2xl p-6 space-y-4 shadow-xl">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 gap-3">
                     <div>
-                        <div class="flex items-center space-x-2">
-                            <span class="text-[10px] font-bold text-brand-lime uppercase tracking-wider block px-2 py-0.5 rounded bg-brand-lime/10 border border-brand-lime/20">PETA GEOSPASIAL RESMI</span>
-                            <span class="text-[10px] bg-blue-500/20 text-blue-400 font-mono px-2 py-0.5 rounded">SKALA 1:12.500</span>
-                        </div>
-                        <h3 class="text-base font-bold text-white mt-1">PETA DUSUN CIPINING (DUSUN 4) CIANJUR DESA RAHONG TAHUN 2026</h3>
+                        <span class="text-[10px] font-bold text-brand-lime uppercase tracking-wider block">PETA SPASIAL DUSUN 4 (CIPINING/PARANJE) TAHUN 2026</span>
+                        <h3 class="text-base font-bold text-white">Perbatasan 8 RT & Titik Penempatan Wadah Sampah Terpilah</h3>
                     </div>
-                    
-                    <div class="flex items-center space-x-2 self-start sm:self-auto">
-                        <button onclick="zoomMap(1.2)" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold transition flex items-center space-x-1 border border-slate-700" title="Perbesar Map">
-                            <i class="fa-solid fa-magnifying-glass-plus text-brand-lime"></i>
-                            <span class="hidden sm:inline">Zoom In</span>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="zoomMapImage(1.2)" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold border border-slate-700" title="Perbesar">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
                         </button>
-                        <button onclick="zoomMap(0.8)" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold transition flex items-center space-x-1 border border-slate-700" title="Perkecil Map">
-                            <i class="fa-solid fa-magnifying-glass-minus text-brand-lime"></i>
-                            <span class="hidden sm:inline">Zoom Out</span>
+                        <button onclick="zoomMapImage(0.8)" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold border border-slate-700" title="Perkecil">
+                            <i class="fa-solid fa-magnifying-glass-minus"></i>
                         </button>
-                        <button onclick="resetMapZoom()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition flex items-center space-x-1 border border-slate-700" title="Reset Tampilan">
-                            <i class="fa-solid fa-rotate-right"></i>
+                        <button onclick="resetMapZoom()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold border border-slate-700" title="Reset Zoom">
+                            <i class="fa-solid fa-rotate-left"></i>
                         </button>
-                        <button onclick="openMapLightbox()" class="px-3 py-1.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black rounded-lg text-xs transition shadow flex items-center space-x-1.5">
+                        <button onclick="openMapLightbox()" class="px-3 py-1.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black rounded-lg text-xs flex items-center space-x-1 shadow">
                             <i class="fa-solid fa-expand"></i>
                             <span>Layar Penuh</span>
                         </button>
-                        <a href="MAP%20DUSUN%204%20FINAL%20KALI%20(1).pdf" download class="px-3 py-1.5 bg-brand-blue hover:bg-blue-600 text-white font-bold rounded-lg text-xs transition shadow flex items-center space-x-1.5 border border-blue-400/40">
-                            <i class="fa-solid fa-file-pdf"></i>
-                            <span class="hidden sm:inline">Unduh PDF</span>
+                    </div>
+                </div>
+
+                <!-- HD MAP CONTAINER (PNG/JPG INTERACTIVE CANVAS) -->
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-2 relative overflow-hidden text-center min-h-[360px] flex items-center justify-center">
+                    <div class="overflow-auto max-h-[520px] w-full no-scrollbar">
+                        <div id="map-zoom-wrapper" class="map-canvas-container inline-block">
+                            <img 
+                                id="dusun-4-map-img" 
+                                src="MAP-DUSUN-4.jpg" 
+                                alt="Peta Dusun Cipining Cianjur Desa Rahong 2026" 
+                                class="max-w-full h-auto rounded-lg shadow-2xl mx-auto block object-contain"
+                                onerror="this.onerror=null; this.src='MAP DUSUN 4 FINAL KALI (1)_page-0001 (1).jpg';"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MAP LEGEND & INFO BAR -->
+                <div class="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
+                    <div class="flex flex-wrap items-center gap-3 text-[11px] font-semibold">
+                        <span class="text-slate-400 font-bold uppercase text-[10px]">Cakupan Perbatasan 8 RT:</span>
+                        <span class="text-slate-200">• RT Pasirjami</span>
+                        <span class="text-slate-200">• RT Leuwiurug</span>
+                        <span class="text-slate-200">• RT Cipining</span>
+                        <span class="text-slate-200">• RT Cidahu</span>
+                        <span class="text-slate-200">• RT Cisalak</span>
+                        <span class="text-slate-200">• RT Paranje</span>
+                        <span class="text-slate-200">• RT Danasuta</span>
+                        <span class="text-slate-200">• RT Pasirkuda</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-brand-lime font-bold">♦ Lokasi Tong Sampah Terpilah</span>
+                        <a href="MAP%20DUSUN%204%20FINAL%20KALI%20(1).pdf" download class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold rounded border border-slate-700">
+                            <i class="fa-solid fa-download mr-1"></i>Unduh PDF (Skala 1:12.500)
                         </a>
                     </div>
                 </div>
-
-                <!-- Interactive High-Res PDF Canvas Viewer Engine Container -->
-                <div class="bg-slate-950 border border-slate-800 rounded-xl p-2 min-h-[380px] sm:min-h-[500px] flex items-center justify-center relative overflow-hidden map-viewer-frame shadow-inner" id="map-frame-container">
-                    
-                    <div id="pdf-map-wrapper" class="map-canvas-container flex items-center justify-center w-full h-full">
-                        <!-- High Resolution PDF.js Canvas Render Target -->
-                        <canvas id="pdf-map-canvas" class="max-w-full h-auto rounded-lg shadow-2xl cursor-zoom-in" onclick="openMapLightbox()"></canvas>
-                    </div>
-
-                    <!-- Loading Indicator Overlay -->
-                    <div id="pdf-loading-spinner" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center space-y-3 z-20">
-                        <i class="fa-solid fa-spinner fa-spin text-brand-lime text-3xl"></i>
-                        <span class="text-xs text-slate-300 font-bold">Memuat Peta PDF HD Dusun Cipining 2026...</span>
-                    </div>
-
-                    <div class="absolute bottom-3 left-3 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-800 text-[10px] text-slate-300 flex items-center space-x-2 pointer-events-none z-10">
-                        <i class="fa-solid fa-hand-pointer text-brand-lime"></i>
-                        <span>Klik gambar untuk tampilan Layar Penuh (Fullscreen HD)</span>
-                    </div>
-                </div>
-
-                <!-- PERBATASAN 8 RT & LEGENDA WARNA DARI PDF -->
-                <div class="space-y-3 pt-2">
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Legenda & Perbatasan 8 RT Dusun Cipining (RW 05 Kp. Paranje):</span>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-2 text-xs">
-                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex items-center space-x-2">
-                            <span class="w-3.5 h-3.5 rounded-md shrink-0 border border-white/20" style="background-color: #FDE68A;"></span>
-                            <span class="font-bold text-slate-200 text-[11px]">RT PASIRJAMI</span>
-                        </div>
-                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex items-center space-x-2">
-                            <span class="w-3.5 h-3.5 rounded-md shrink-0 border border-white/20" style="background-color: #C084FC;"></span>
-                            <span class="font-bold text-slate-200 text-[11px]">RT LEUWIURUG</span>
-                        </div>
-                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex items-center space-x-2">
-                            <span class="w-3.5 h-3.5 rounded-md shrink-0 border border-white/20" style="background-color: #818CF8;"></span>
-                            <span class="font-bold text-slate-200 text-[11px]">RT CIPINING</span>
-                        </div>
-                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex items-center space-x-2">
-                            <span class="w-3.5 h-3.5 rounded-md shrink-0 border border-white/20" style="background-color: #A3E635;"></span>
-                            <span class="font-bold text-slate-200 text-[11px]">RT CIDAHU</span>
-                        </div>
-                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex items-center space-x-2">
-                            <span class="w-3.5 h-3.5 rounded-md shrink-0 border border-white/20" style="background-color: #22D3EE;"></span>
-                            <span class="font-bold text-slate-200 text-[11px]">RT CISALAK</span>
-                        </div>
-                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex items-center space-x-2">
-                            <span class="w-3.5 h-3.5 rounded-md shrink-0 border border-white/20" style="background-color: #4ADE80;"></span>
-                            <span class="font-bold text-slate-200 text-[11px]">RT PARANJE (RT 06)</span>
-                        </div>
-                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex items-center space-x-2">
-                            <span class="w-3.5 h-3.5 rounded-md shrink-0 border border-white/20" style="background-color: #F472B6;"></span>
-                            <span class="font-bold text-slate-200 text-[11px]">RT DANASUTA</span>
-                        </div>
-                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 flex items-center space-x-2">
-                            <span class="w-3.5 h-3.5 rounded-md shrink-0 border border-white/20" style="background-color: #38BDF8;"></span>
-                            <span class="font-bold text-slate-200 text-[11px]">RT PASIRKUDA</span>
-                        </div>
-                        <div class="col-span-2 bg-emerald-950/50 p-2.5 rounded-xl border border-emerald-500/40 flex items-center space-x-2 text-brand-lime">
-                            <i class="fa-solid fa-diamond text-red-500 text-xs shrink-0"></i>
-                            <span class="font-black text-[11px]">♦ SEBARAN LOKASI TONG SAMPAH TERPILAH</span>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-        </div>
-    </div>
-
-    <!-- MAP FULLSCREEN LIGHTBOX MODAL (RENDERED VIA PDF.JS CANVAS) -->
-    <div id="map-lightbox-modal" class="fixed inset-0 z-[150] bg-black/95 backdrop-blur-lg flex flex-col justify-between p-4 hidden">
-        <div class="flex items-center justify-between text-white border-b border-slate-800 pb-3 z-10">
-            <div class="flex items-center space-x-3">
-                <span class="px-2.5 py-1 bg-brand-lime text-brand-dark text-xs font-black uppercase rounded">INSPEKSI PETA HD</span>
-                <h4 class="text-sm font-bold text-white truncate">PETA DUSUN CIPINING (DUSUN 4) DESA RAHONG 2026</h4>
-            </div>
-            <button onclick="closeMapLightbox()" class="w-9 h-9 bg-slate-800 hover:bg-slate-700 text-white rounded-full flex items-center justify-center transition">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-        </div>
-
-        <div class="flex-1 flex items-center justify-center overflow-auto p-2" id="map-modal-content">
-            <canvas id="pdf-modal-canvas" class="max-h-[85vh] max-w-full object-contain rounded-xl shadow-2xl transition-transform duration-300"></canvas>
-        </div>
-
-        <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-300">
-            <span class="font-mono text-[11px]"><i class="fa-solid fa-circle-info text-brand-lime mr-1"></i> Skala 1:12.500 • KKN 112 UIN SGD BDG 2026</span>
-            <a href="MAP%20DUSUN%204%20FINAL%20KALI%20(1).pdf" download class="px-4 py-2 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black rounded-xl transition flex items-center space-x-1.5 shadow">
-                <i class="fa-solid fa-file-pdf"></i>
-                <span>Unduh File PDF Asli</span>
-            </a>
         </div>
     </div>
 
@@ -1593,6 +1528,18 @@
 
                 <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
                     <div class="space-y-1.5">
+                        <span class="px-2 py-0.5 rounded bg-brand-lime/20 text-brand-lime text-[10px] font-bold uppercase">Peta Spasial Dusun 4</span>
+                        <h4 class="text-base font-bold text-white">Peta Dusun 4 Cipining 2026 (PDF)</h4>
+                        <p class="text-xs text-slate-400">PDF Peta Resmi Dusun Cipining Skala 1:12.500, perbatasan 8 RT, & titik lokasi tong sampah terpilah.</p>
+                    </div>
+                    <a href="MAP%20DUSUN%204%20FINAL%20KALI%20(1).pdf" download class="w-full py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Unduh Peta Dusun 4 (PDF)</span>
+                    </a>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
+                    <div class="space-y-1.5">
                         <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase">Modul 3R</span>
                         <h4 class="text-base font-bold text-white">Modul 112.COLLECTIVE (Sampah)</h4>
                         <p class="text-xs text-slate-400">PDF panduan pemilahan sampah organik & anorganik, pembuatan kompos, eco-enzyme, & ecobrick.</p>
@@ -1600,18 +1547,6 @@
                     <a href="112%20JOSJIS.pdf" download class="w-full py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
                         <i class="fa-solid fa-download"></i>
                         <span>Unduh Modul 3R (PDF)</span>
-                    </a>
-                </div>
-
-                <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
-                    <div class="space-y-1.5">
-                        <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[10px] font-bold uppercase">Peta Wilayah</span>
-                        <h4 class="text-base font-bold text-white">Peta Dusun 4 Cipining 2026</h4>
-                        <p class="text-xs text-slate-400">Peta geospasial resmi perbatasan 8 RT & titik tong sampah terpilah KKN 112.</p>
-                    </div>
-                    <a href="MAP%20DUSUN%204%20FINAL%20KALI%20(1).pdf" download class="w-full py-2.5 bg-brand-blue hover:bg-blue-600 text-white font-bold text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 border border-blue-400/40">
-                        <i class="fa-solid fa-download"></i>
-                        <span>Unduh Peta Dusun 4 (PDF)</span>
                     </a>
                 </div>
             </div>
@@ -1690,7 +1625,23 @@
         </div>
     </div>
 
-    <!-- LIGHTBOX MODAL FOR GALLERY -->
+    <!-- FULLSCREEN MAP LIGHTBOX MODAL -->
+    <div id="map-lightbox-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-between p-4 hidden">
+        <div class="w-full flex items-center justify-between border-b border-slate-800 pb-3">
+            <span class="text-xs font-bold text-brand-lime uppercase tracking-wider"><i class="fa-solid fa-map-location-dot mr-2"></i>Inspeksi Layar Penuh Peta Dusun 4 (Cipining/Paranje)</span>
+            <button onclick="closeMapLightbox()" class="p-2 bg-slate-800 text-white rounded-xl hover:bg-slate-700">
+                <i class="fa-solid fa-xmark text-lg w-5 h-5 flex items-center justify-center"></i>
+            </button>
+        </div>
+        <div class="flex-1 w-full overflow-auto flex items-center justify-center p-2">
+            <img src="MAP-DUSUN-4.jpg" alt="Peta Dusun 4 Fullscreen" class="max-h-[82vh] max-w-full object-contain rounded-lg shadow-2xl" onerror="this.onerror=null; this.src='MAP DUSUN 4 FINAL KALI (1)_page-0001 (1).jpg';">
+        </div>
+        <div class="w-full text-center text-xs text-slate-400 border-t border-slate-800 pt-2">
+            Peta Spasial Resmi Dusun Cipining Cianjur Desa Rahong Tahun 2026 • KKN 112 UIN SGD BDG
+        </div>
+    </div>
+
+    <!-- LIGHTBOX MODAL (PHOTO GALLERY) -->
     <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 hidden">
         <button onclick="closeLightbox()" class="absolute top-5 right-5 p-2 bg-slate-800 text-white rounded-full hover:bg-slate-700 z-10">
             <i class="fa-solid fa-xmark text-xl w-6 h-6 flex items-center justify-center"></i>
@@ -2152,7 +2103,7 @@
         ];
 
         // STATE VARIABLES
-        let currentView = 'welcome';
+        let currentView = 'welcome'; // DEFAULT VIEW IS WELCOME SCREEN
         let activeCycleId = 1;
         let activeKelompokId = 'k112';
         let activeGalleryFilter = 'semua';
@@ -2164,10 +2115,7 @@
         let leafletMap = null;
         let dusunMap = null;
         let dusunMarkers = {};
-
-        // MAP VIEWER ZOOM SCALE
-        let mapScale = 1;
-        const PDF_PATH = 'MAP%20DUSUN%204%20FINAL%20KALI%20(1).pdf';
+        let mapScale = 1.0;
 
         document.addEventListener('DOMContentLoaded', () => {
             renderKelompokTabs();
@@ -2181,69 +2129,9 @@
 
             initPoskoMap();
             
-            // Render PDF directly to HD Canvas using PDF.js
-            initPdfRender(PDF_PATH);
-
+            // Set default view to Welcome Screen
             switchView('welcome', false);
         });
-
-        /* MOZILLA PDF.JS AUTOMATIC CANVAS RENDERING ENGINE */
-        function initPdfRender(pdfUrl) {
-            if (typeof pdfjsLib === 'undefined') {
-                console.warn('PDF.js library not loaded yet');
-                return;
-            }
-
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-            const spinner = document.getElementById('pdf-loading-spinner');
-
-            pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
-                pdf.getPage(1).then(page => {
-                    const outputScale = window.devicePixelRatio || 1;
-                    const scale = 2.2 * outputScale; // Crisp HD Scale
-                    const viewport = page.getViewport({ scale: scale });
-
-                    // 1. Render to Main View Canvas
-                    const canvasMain = document.getElementById('pdf-map-canvas');
-                    if (canvasMain) {
-                        const ctxMain = canvasMain.getContext('2d');
-                        canvasMain.width = Math.floor(viewport.width);
-                        canvasMain.height = Math.floor(viewport.height);
-
-                        const renderContextMain = {
-                            canvasContext: ctxMain,
-                            viewport: viewport
-                        };
-                        page.render(renderContextMain);
-                    }
-
-                    // 2. Render to Fullscreen Lightbox Canvas
-                    const canvasModal = document.getElementById('pdf-modal-canvas');
-                    if (canvasModal) {
-                        const ctxModal = canvasModal.getContext('2d');
-                        canvasModal.width = Math.floor(viewport.width);
-                        canvasModal.height = Math.floor(viewport.height);
-
-                        const renderContextModal = {
-                            canvasContext: ctxModal,
-                            viewport: viewport
-                        };
-                        page.render(renderContextModal);
-                    }
-
-                    if (spinner) spinner.style.display = 'none';
-                });
-            }).catch(err => {
-                console.error('PDF.js rendering error:', err);
-                if (spinner) {
-                    spinner.innerHTML = `
-                        <i class="fa-solid fa-triangle-exclamation text-amber-400 text-2xl"></i>
-                        <span class="text-xs text-slate-300 font-bold">Gagal memuat PDF otomatis. Silakan unduh PDF di bawah.</span>
-                    `;
-                }
-            });
-        }
 
         function toggleMenu() {
             const menu = document.getElementById('drawer-menu');
@@ -2289,20 +2177,20 @@
             }
         }
 
-        // MAP VIEWER ZOOM CONTROLS
-        function zoomMap(factor) {
-            mapScale = Math.max(0.6, Math.min(3.5, mapScale * factor));
-            const wrapper = document.getElementById('pdf-map-wrapper');
+        /* HD MAP ZOOM & LIGHTBOX CONTROLLERS */
+        function zoomMapImage(factor) {
+            mapScale = Math.max(0.6, Math.min(3.0, mapScale * factor));
+            const wrapper = document.getElementById('map-zoom-wrapper');
             if (wrapper) {
                 wrapper.style.transform = `scale(${mapScale})`;
             }
         }
 
         function resetMapZoom() {
-            mapScale = 1;
-            const wrapper = document.getElementById('pdf-map-wrapper');
+            mapScale = 1.0;
+            const wrapper = document.getElementById('map-zoom-wrapper');
             if (wrapper) {
-                wrapper.style.transform = `scale(1)`;
+                wrapper.style.transform = 'scale(1)';
             }
         }
 
