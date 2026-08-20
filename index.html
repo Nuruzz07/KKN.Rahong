@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+    <!-- Mozilla PDF.js Engine (Renders PDF files directly to HD Canvas in browser) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -146,22 +149,10 @@
             z-index: 2;
         }
 
-        /* Map Viewer Zoomable Frame */
-        .map-viewer-frame {
-            overflow: hidden;
-            position: relative;
-            cursor: grab;
-            user-select: none;
-        }
-        .map-viewer-frame:active {
-            cursor: grabbing;
-        }
-        .map-viewer-img {
+        /* Map Canvas Interactive Container */
+        .map-canvas-container {
             transition: transform 0.25s cubic-bezier(0.1, 1, 0.1, 1);
             transform-origin: center center;
-            max-width: 100%;
-            height: auto;
-            margin: 0 auto;
         }
 
         /* Leaflet Dark Popup Overrides */
@@ -201,7 +192,6 @@
         </div>
     </div>
 
-    <!-- Main Navigation Header -->
     <header class="sticky top-0 z-40 glass-nav shadow-xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
@@ -292,7 +282,7 @@
                     
                     <button onclick="navigateFromDrawer('kelompok')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
                         <i class="fa-solid fa-users w-5 text-center text-brand-lime"></i>
-                        <span>5. Bagan Tim KKN & 3 Kelompok</span>
+                        <span>5. Bagan Tim KKN & Peta Dusun 4</span>
                     </button>
 
                     <button onclick="navigateFromDrawer('siklus')" class="w-full text-left px-3.5 py-3 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 transition flex items-center space-x-3">
@@ -397,21 +387,21 @@
                     </div>
 
                     <!-- Shortcut 2: Papan Peta -->
-                    <div onclick="switchView('dusun')" class="bg-gradient-to-br from-blue-950/60 to-slate-900 border-2 border-blue-500/40 hover:border-blue-400 p-4.5 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-1 shadow-lg flex flex-col justify-between space-y-3 group">
+                    <div onclick="switchView('kelompok')" class="bg-gradient-to-br from-blue-950/60 to-slate-900 border-2 border-blue-500/40 hover:border-blue-400 p-4.5 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-1 shadow-lg flex flex-col justify-between space-y-3 group">
                         <div class="flex items-center space-x-3">
                             <div class="w-11 h-11 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center justify-center text-xl shrink-0">
                                 <i class="fa-solid fa-map-location-dot"></i>
                             </div>
                             <div>
                                 <span class="text-[10px] font-black uppercase text-blue-400 block">Dari Papan Peta Desa</span>
-                                <h4 class="text-sm font-bold text-white group-hover:text-blue-300 transition">Peta 5 Dusun & Posko</h4>
+                                <h4 class="text-sm font-bold text-white group-hover:text-blue-300 transition">Peta Dusun 4 Cipining HD</h4>
                             </div>
                         </div>
                         <p class="text-xs text-slate-300 leading-snug">
-                            Peta interaktif 5 Dusun, pembagian 35 RT, dan lokasi Posko KKN 112, 113, 114.
+                            Inspeksi HD perbatasan 8 RT Dusun Cipining, titik papan sentral, & titik tempat sampah.
                         </p>
                         <div class="text-[11px] text-blue-400 font-bold flex items-center justify-between pt-2 border-t border-slate-800">
-                            <span>Lihat Peta Spasial</span>
+                            <span>Buka Peta Dusun 4 HD</span>
                             <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
                         </div>
                     </div>
@@ -451,8 +441,8 @@
                     <div onclick="switchView('kelompok')" class="bg-brand-card border border-brand-border rounded-2xl p-5 space-y-4 hover:border-brand-lime/60 transition shadow-xl cursor-pointer group">
                         <div class="space-y-1">
                             <span class="text-[10px] font-black uppercase tracking-wider text-brand-lime px-2 py-0.5 rounded bg-brand-lime/10 border border-brand-lime/20 inline-block">Tim KKN 112</span>
-                            <h3 class="text-base font-bold text-white group-hover:text-brand-lime transition">Bagan Komando & 3 Kelompok</h3>
-                            <p class="text-xs text-slate-400">Diagram struktur komando LP2M-DPL-Kordes, space peta Kp. Paranje, & 15 mahasiswa.</p>
+                            <h3 class="text-base font-bold text-white group-hover:text-brand-lime transition">Bagan Komando & Peta Dusun 4</h3>
+                            <p class="text-xs text-slate-400">Diagram struktur komando LP2M-DPL-Kordes, Peta Dusun Cipining HD, & 15 mahasiswa.</p>
                         </div>
                         <div class="space-y-2 pt-2 border-t border-slate-800 text-xs font-semibold text-brand-lime flex items-center justify-between">
                             <span>Buka Halaman Tim</span>
@@ -478,7 +468,7 @@
                         <div class="space-y-1">
                             <span class="text-[10px] font-black uppercase tracking-wider text-teal-300 px-2 py-0.5 rounded bg-teal-400/10 border border-teal-400/20 inline-block">Arsip PDF</span>
                             <h3 class="text-base font-bold text-white group-hover:text-teal-300 transition">Pusat Unduhan Berkas</h3>
-                            <p class="text-xs text-slate-400">Unduh PDF Peraturan RW 05, Modul 3R 112.COLLECTIVE, & Buku Profil Desa Rahong 2025.</p>
+                            <p class="text-xs text-slate-400">Unduh PDF Peraturan RW 05, Modul 3R 112.COLLECTIVE, & Peta Dusun 4 Cipining PDF.</p>
                         </div>
                         <div class="space-y-2 pt-2 border-t border-slate-800 text-xs font-semibold text-teal-300 flex items-center justify-between">
                             <span>Unduh PDF Berkas</span>
@@ -1131,12 +1121,23 @@
                     </div>
                 </div>
 
-                <!-- Interactive High-Res Map Frame Container -->
+                <!-- Interactive High-Res PDF Canvas Viewer Engine Container -->
                 <div class="bg-slate-950 border border-slate-800 rounded-xl p-2 min-h-[380px] sm:min-h-[500px] flex items-center justify-center relative overflow-hidden map-viewer-frame shadow-inner" id="map-frame-container">
-                    <img id="dusuncipining-map-img" src="MAP%20DUSUN%204%20FINAL%20KALI%20(1).pdf" alt="Peta Dusun Cipining Cianjur Desa Rahong 2026 KKN 112" class="map-viewer-img rounded-lg object-contain shadow-2xl cursor-zoom-in" onclick="openMapLightbox()" onerror="this.onerror=null;this.src='https://placehold.co/1200x900/1a1a1a/CDF22B?text=PETA+DUSUN+CIPINING+2026+HD+(Silakan+Buka+di+PDF+Viewer)';">
-                    <div class="absolute bottom-3 left-3 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-800 text-[10px] text-slate-300 flex items-center space-x-2 pointer-events-none">
+                    
+                    <div id="pdf-map-wrapper" class="map-canvas-container flex items-center justify-center w-full h-full">
+                        <!-- High Resolution PDF.js Canvas Render Target -->
+                        <canvas id="pdf-map-canvas" class="max-w-full h-auto rounded-lg shadow-2xl cursor-zoom-in" onclick="openMapLightbox()"></canvas>
+                    </div>
+
+                    <!-- Loading Indicator Overlay -->
+                    <div id="pdf-loading-spinner" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center space-y-3 z-20">
+                        <i class="fa-solid fa-spinner fa-spin text-brand-lime text-3xl"></i>
+                        <span class="text-xs text-slate-300 font-bold">Memuat Peta PDF HD Dusun Cipining 2026...</span>
+                    </div>
+
+                    <div class="absolute bottom-3 left-3 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-800 text-[10px] text-slate-300 flex items-center space-x-2 pointer-events-none z-10">
                         <i class="fa-solid fa-hand-pointer text-brand-lime"></i>
-                        <span>Klik gambar untuk tampilan HD inspeksi penuh</span>
+                        <span>Klik gambar untuk tampilan Layar Penuh (Fullscreen HD)</span>
                     </div>
                 </div>
 
@@ -1188,7 +1189,7 @@
         </div>
     </div>
 
-    <!-- MAP FULLSCREEN LIGHTBOX MODAL -->
+    <!-- MAP FULLSCREEN LIGHTBOX MODAL (RENDERED VIA PDF.JS CANVAS) -->
     <div id="map-lightbox-modal" class="fixed inset-0 z-[150] bg-black/95 backdrop-blur-lg flex flex-col justify-between p-4 hidden">
         <div class="flex items-center justify-between text-white border-b border-slate-800 pb-3 z-10">
             <div class="flex items-center space-x-3">
@@ -1201,7 +1202,7 @@
         </div>
 
         <div class="flex-1 flex items-center justify-center overflow-auto p-2" id="map-modal-content">
-            <img id="map-lightbox-img" src="MAP%20DUSUN%204%20FINAL%20KALI%20(1).pdf" alt="Peta Dusun Cipining HD Fullscreen" class="max-h-[85vh] max-w-full object-contain rounded-xl shadow-2xl transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/1200x900/1a1a1a/CDF22B?text=PETA+DUSUN+CIPINING+2026+HD+(Buka+Format+PDF)';">
+            <canvas id="pdf-modal-canvas" class="max-h-[85vh] max-w-full object-contain rounded-xl shadow-2xl transition-transform duration-300"></canvas>
         </div>
 
         <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-300">
@@ -1604,13 +1605,13 @@
 
                 <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
                     <div class="space-y-1.5">
-                        <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[10px] font-bold uppercase">Monografi</span>
-                        <h4 class="text-base font-bold text-white">Buku Profil Desa Rahong 2025</h4>
-                        <p class="text-xs text-slate-400">Dokumen monografi resmi Pemdes Rahong tahun 2025, data 10.767 jiwa, 9 Poktan, & silsilah kades.</p>
+                        <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[10px] font-bold uppercase">Peta Wilayah</span>
+                        <h4 class="text-base font-bold text-white">Peta Dusun 4 Cipining 2026</h4>
+                        <p class="text-xs text-slate-400">Peta geospasial resmi perbatasan 8 RT & titik tong sampah terpilah KKN 112.</p>
                     </div>
-                    <a href="PROFIL%20DESA%20RAHONG%20TAHUN%202025.pdf" download class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 border border-slate-700">
+                    <a href="MAP%20DUSUN%204%20FINAL%20KALI%20(1).pdf" download class="w-full py-2.5 bg-brand-blue hover:bg-blue-600 text-white font-bold text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 border border-blue-400/40">
                         <i class="fa-solid fa-download"></i>
-                        <span>Unduh Profil Desa (PDF)</span>
+                        <span>Unduh Peta Dusun 4 (PDF)</span>
                     </a>
                 </div>
             </div>
@@ -2145,13 +2146,13 @@
         const DUSUN_IMPACT_DATA = [
             { id: 'd1', name: 'Dusun I Babakan Jati', focus: 'Pusat Pertanian Jati Mandiri & Karag', icon: 'fa-building-columns', activeProg: 3, status: 'Aktif Refleksi', rw: 'RW 01', rtCount: 7, luas: '107 Ha', jiwa: 1926, kadus: 'Abdul Rachman' },
             { id: 'd2', name: 'Dusun II Rahong Pusat', focus: 'Pemerintahan Desa, Fiqih Lingkungan & Poktan Sri Rahayu', icon: 'fa-landmark', activeProg: 3, status: 'Aktif Refleksi', rw: 'RW 02', rtCount: 7, luas: '110 Ha', jiwa: 2465, kadus: 'Gunawan' },
-            { id: 'd3', name: 'Dusun III Depok', focus: 'Edu-Edukasi MDTA, Poktan Sumber Tani & Nyampleng', icon: 'fa-graduation-cap', activeProg: 2, status: 'Persiapan Siklus II', rw: 'RW 03', rtCount: 7, luas: '1468 Ha', jiwa: 1468, kadus: 'M. Mulyana' },
+            { id: 'd3', name: 'Dusun III Depok', focus: 'Edu-Edukasi MDTA, Poktan Sumber Tani & Nyampleng', icon: 'fa-graduation-cap', activeProg: 2, status: 'Persiapan Siklus II', rw: 'RW 03', rtCount: 7, luas: '103.5 Ha', jiwa: 1468, kadus: 'M. Mulyana' },
             { id: 'd4', name: 'Dusun IV Cipining', focus: 'Bank Sampah Unit, UMKM Opak & Poktan Karya Guna', icon: 'fa-store', activeProg: 3, status: 'Survei Lokasi', rw: 'RW 05', rtCount: 8, luas: '115 Ha', jiwa: 2333, kadus: 'Dede Muhtar S' },
             { id: 'd5', name: 'Dusun V Peusar', focus: 'Restorasi Irigasi Leuwi Cantik & Poktan Harapan Mekar', icon: 'fa-droplets', activeProg: 2, status: 'Observasi Aliran', rw: 'RW 04', rtCount: 6, luas: '100.5 Ha', jiwa: 2575, kadus: 'Iwan Gunawan' }
         ];
 
         // STATE VARIABLES
-        let currentView = 'welcome'; // DEFAULT VIEW IS WELCOME SCREEN
+        let currentView = 'welcome';
         let activeCycleId = 1;
         let activeKelompokId = 'k112';
         let activeGalleryFilter = 'semua';
@@ -2164,8 +2165,9 @@
         let dusunMap = null;
         let dusunMarkers = {};
 
-        // MAP VIEWER STATE
+        // MAP VIEWER ZOOM SCALE
         let mapScale = 1;
+        const PDF_PATH = 'MAP%20DUSUN%204%20FINAL%20KALI%20(1).pdf';
 
         document.addEventListener('DOMContentLoaded', () => {
             renderKelompokTabs();
@@ -2179,9 +2181,69 @@
 
             initPoskoMap();
             
-            // Set default view to Welcome Screen
+            // Render PDF directly to HD Canvas using PDF.js
+            initPdfRender(PDF_PATH);
+
             switchView('welcome', false);
         });
+
+        /* MOZILLA PDF.JS AUTOMATIC CANVAS RENDERING ENGINE */
+        function initPdfRender(pdfUrl) {
+            if (typeof pdfjsLib === 'undefined') {
+                console.warn('PDF.js library not loaded yet');
+                return;
+            }
+
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+            const spinner = document.getElementById('pdf-loading-spinner');
+
+            pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
+                pdf.getPage(1).then(page => {
+                    const outputScale = window.devicePixelRatio || 1;
+                    const scale = 2.2 * outputScale; // Crisp HD Scale
+                    const viewport = page.getViewport({ scale: scale });
+
+                    // 1. Render to Main View Canvas
+                    const canvasMain = document.getElementById('pdf-map-canvas');
+                    if (canvasMain) {
+                        const ctxMain = canvasMain.getContext('2d');
+                        canvasMain.width = Math.floor(viewport.width);
+                        canvasMain.height = Math.floor(viewport.height);
+
+                        const renderContextMain = {
+                            canvasContext: ctxMain,
+                            viewport: viewport
+                        };
+                        page.render(renderContextMain);
+                    }
+
+                    // 2. Render to Fullscreen Lightbox Canvas
+                    const canvasModal = document.getElementById('pdf-modal-canvas');
+                    if (canvasModal) {
+                        const ctxModal = canvasModal.getContext('2d');
+                        canvasModal.width = Math.floor(viewport.width);
+                        canvasModal.height = Math.floor(viewport.height);
+
+                        const renderContextModal = {
+                            canvasContext: ctxModal,
+                            viewport: viewport
+                        };
+                        page.render(renderContextModal);
+                    }
+
+                    if (spinner) spinner.style.display = 'none';
+                });
+            }).catch(err => {
+                console.error('PDF.js rendering error:', err);
+                if (spinner) {
+                    spinner.innerHTML = `
+                        <i class="fa-solid fa-triangle-exclamation text-amber-400 text-2xl"></i>
+                        <span class="text-xs text-slate-300 font-bold">Gagal memuat PDF otomatis. Silakan unduh PDF di bawah.</span>
+                    `;
+                }
+            });
+        }
 
         function toggleMenu() {
             const menu = document.getElementById('drawer-menu');
@@ -2230,17 +2292,17 @@
         // MAP VIEWER ZOOM CONTROLS
         function zoomMap(factor) {
             mapScale = Math.max(0.6, Math.min(3.5, mapScale * factor));
-            const img = document.getElementById('dusuncipining-map-img');
-            if (img) {
-                img.style.transform = `scale(${mapScale})`;
+            const wrapper = document.getElementById('pdf-map-wrapper');
+            if (wrapper) {
+                wrapper.style.transform = `scale(${mapScale})`;
             }
         }
 
         function resetMapZoom() {
             mapScale = 1;
-            const img = document.getElementById('dusuncipining-map-img');
-            if (img) {
-                img.style.transform = `scale(1)`;
+            const wrapper = document.getElementById('pdf-map-wrapper');
+            if (wrapper) {
+                wrapper.style.transform = `scale(1)`;
             }
         }
 
