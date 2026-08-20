@@ -103,7 +103,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* SPA View Transitions */
         .view-section {
             animation: fadeInView 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
@@ -167,13 +166,13 @@
 </head>
 <body class="antialiased selection:bg-brand-lime selection:text-brand-dark">
 
+    <!-- Ambient Dynamic Backgrounds & Particles -->
     <div class="bg-glow" id="main-glow"></div>
     <div id="particle-container"></div>
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-32 left-1/2 -translate-x-1/2 z-[120] flex flex-col gap-2 w-[90%] max-w-sm pointer-events-none"></div>
 
-    <!-- Institutional Header Strip -->
     <div class="bg-brand-blue text-white text-[10px] sm:text-xs py-1.5 px-4 font-semibold border-b border-blue-600/50">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -217,7 +216,6 @@
                     </div>
                 </div>
 
-                <!-- Header Right Action & Hamburger Menu Toggle (☰) -->
                 <div class="flex items-center space-x-2.5">
                     <button onclick="switchView('suara')" class="bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black px-3.5 py-2 rounded-xl text-xs tracking-wide transition shadow-lg flex items-center space-x-1.5 active:scale-95">
                         <i class="fa-solid fa-comments text-sm"></i>
@@ -234,7 +232,6 @@
         </div>
     </header>
 
-    <!-- SLIDE-OVER DRAWER MENU OVERLAY (☰) - CATEGORIZED ACCORDION MENU -->
     <div id="drawer-menu" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300">
         <div class="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-brand-card border-l border-brand-border p-6 shadow-2xl flex flex-col justify-between overflow-y-auto">
             
@@ -349,9 +346,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 0: WELCOME SCREEN (DEFAULT QR GATEWAY)-->
-    <!-- ========================================== -->
     <div id="view-welcome" class="view-section min-h-screen pb-28 pt-4">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
             
@@ -512,9 +506,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 1: PORTAL HUB UTAMA (BERANDA)         -->
-    <!-- ========================================== -->
     <div id="view-portal" class="view-section min-h-screen hidden pb-28 pt-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -734,9 +725,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 2: PILAR I - REGULASI RW 05 (HUKUM)   -->
-    <!-- ========================================== -->
     <div id="view-regulasi" class="view-section min-h-screen hidden pb-28 pt-6">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
             
@@ -746,9 +734,10 @@
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Peraturan Rukun Warga 05 Tahun 2026</h2>
                     <p class="text-xs sm:text-sm text-slate-400 mt-1">Payung hukum tertulis kesepakatan 8 RT, Pengurus RW 05, dan Pemerintah Desa Rahong.</p>
                 </div>
-                <a href="Peraturan%20RW%2005%20Desa%20Rahong%20-%20Draft%20KKN%20112%20(1).pdf" download class="self-start sm:self-auto px-4 py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition flex items-center space-x-2 shadow">
+                <!-- GOOGLE DRIVE LINK DRAFT PERATURAN RW 05 -->
+                <a href="https://drive.google.com/file/d/1shQ9W5ISxu3hr0jilMml9lyDofQbt3E1/view?usp=drivesdk" target="_blank" class="self-start sm:self-auto px-4 py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition flex items-center space-x-2 shadow">
                     <i class="fa-solid fa-file-pdf"></i>
-                    <span>Unduh Draf Peraturan (PDF)</span>
+                    <span>Unduh Draf Peraturan (Google Drive)</span>
                 </a>
             </div>
 
@@ -828,9 +817,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 3: PILAR II - AKSI KP. PARANJE & 3R   -->
-    <!-- ========================================== -->
     <div id="view-paranje" class="view-section min-h-screen hidden pb-28 pt-6">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
             
@@ -840,8 +826,9 @@
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Role Model RT 06 Kampung Paranje</h2>
                     <p class="text-xs sm:text-sm text-slate-400 mt-1">Penerapan pengelolaan sampah mandiri dan preservasi irigasi pertanian.</p>
                 </div>
-                <a href="112%20JOSJIS.pdf" download class="self-start sm:self-auto px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl transition border border-slate-700">
-                    <i class="fa-solid fa-book-open mr-1 text-brand-lime"></i> Unduh Modul 3R PDF
+                <!-- GOOGLE DRIVE LINK MATERI EDUKASI -->
+                <a href="https://drive.google.com/file/d/1p8oPSIYdrthzymNaEZt7l8Y1rqz0q6Jv/view?usp=drivesdk" target="_blank" class="self-start sm:self-auto px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl transition border border-slate-700">
+                    <i class="fa-solid fa-book-open mr-1 text-brand-lime"></i> Unduh Modul 3R (Google Drive)
                 </a>
             </div>
 
@@ -939,9 +926,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 4: TIM KKN 112 & 3 KELOMPOK           -->
-    <!-- ========================================== -->
     <div id="view-kelompok" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -1126,7 +1110,7 @@
                     </div>
                 </div>
 
-                <!-- HD MAP CONTAINER (PNG/JPG INTERACTIVE CANVAS) -->
+                <!-- HD MAP CONTAINER (JPG INTERACTIVE CANVAS) -->
                 <div class="bg-slate-950 border border-slate-800 rounded-xl p-2 relative overflow-hidden text-center min-h-[360px] flex items-center justify-center">
                     <div class="overflow-auto max-h-[520px] w-full no-scrollbar">
                         <div id="map-zoom-wrapper" class="map-canvas-container inline-block">
@@ -1156,8 +1140,9 @@
                     </div>
                     <div class="flex items-center space-x-2">
                         <span class="text-brand-lime font-bold">♦ Lokasi Tong Sampah Terpilah</span>
-                        <a href="MAP%20DUSUN%204%20FINAL%20KALI%20(1).pdf" download class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold rounded border border-slate-700">
-                            <i class="fa-solid fa-download mr-1"></i>Unduh PDF (Skala 1:12.500)
+                        <!-- GOOGLE DRIVE LINK PETA DUSUN 4 PDF -->
+                        <a href="https://drive.google.com/file/d/1j43RtFM67bsR-P897LrS7PbAo5W0IGmZ/view?usp=drivesdk" target="_blank" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold rounded border border-slate-700">
+                            <i class="fa-solid fa-download mr-1"></i>Unduh File PDF (Google Drive)
                         </a>
                     </div>
                 </div>
@@ -1166,9 +1151,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 5: PORTAL SIKLUS SISDAMAS             -->
-    <!-- ========================================== -->
     <div id="view-siklus" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -1201,9 +1183,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 6: PORTAL GALERI VISUAL & IMPACT     -->
-    <!-- ========================================== -->
     <div id="view-galeri" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -1217,13 +1196,21 @@
                     <p class="text-xs sm:text-sm text-slate-400 mt-1">Dokumentasi foto asli kegiatan mahasiswa KKN bersama warga Desa Rahong.</p>
                 </div>
 
-                <!-- Category Filters -->
-                <div class="flex flex-wrap gap-2" id="gallery-filters">
-                    <button onclick="filterGallery('semua')" id="gal-filter-semua" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-lime text-brand-dark transition">Semua</button>
-                    <button onclick="filterGallery('kegiatan')" id="gal-filter-kegiatan" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Kegiatan</button>
-                    <button onclick="filterGallery('lingkungan')" id="gal-filter-lingkungan" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Lingkungan</button>
-                    <button onclick="filterGallery('ekoteologi')" id="gal-filter-ekoteologi" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Ekoteologi</button>
-                    <button onclick="filterGallery('edukasi')" id="gal-filter-edukasi" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Edukasi</button>
+                <div class="flex flex-wrap items-center gap-3">
+                    <!-- GOOGLE DRIVE LINK FOLDER FOTO & VIDEO HD -->
+                    <a href="https://drive.google.com/drive/folders/1KmzeHVB3wDkVO_pZcPJch4flX5MZV7qL" target="_blank" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition flex items-center space-x-2 shadow">
+                        <i class="fa-brands fa-google-drive text-sm"></i>
+                        <span>Buka Drive Foto & Video HD</span>
+                    </a>
+
+                    <!-- Category Filters -->
+                    <div class="flex flex-wrap gap-2" id="gallery-filters">
+                        <button onclick="filterGallery('semua')" id="gal-filter-semua" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-lime text-brand-dark transition">Semua</button>
+                        <button onclick="filterGallery('kegiatan')" id="gal-filter-kegiatan" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Kegiatan</button>
+                        <button onclick="filterGallery('lingkungan')" id="gal-filter-lingkungan" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Lingkungan</button>
+                        <button onclick="filterGallery('ekoteologi')" id="gal-filter-ekoteologi" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Ekoteologi</button>
+                        <button onclick="filterGallery('edukasi')" id="gal-filter-edukasi" class="gallery-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Edukasi</button>
+                    </div>
                 </div>
             </div>
 
@@ -1235,9 +1222,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 7: PORTAL LOGBOOK & PRESS RELEASE     -->
-    <!-- ========================================== -->
     <div id="view-logbook" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -1251,16 +1235,24 @@
                     <p class="text-xs sm:text-sm text-slate-400 mt-1">Laporan harian, berita utama, dan rilis pers media KKN 112 Rahong 2026.</p>
                 </div>
 
-                <!-- Search Input -->
-                <div class="relative w-full md:w-72">
-                    <input
-                        type="text"
-                        id="news-search-input"
-                        placeholder="Cari topik / berita..."
-                        oninput="searchNews()"
-                        class="w-full pl-10 pr-4 py-2.5 bg-brand-card border border-brand-border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-lime"
-                    />
-                    <i class="fa-solid fa-magnifying-glass text-slate-400 absolute left-3.5 top-3.5 text-sm"></i>
+                <div class="flex flex-wrap items-center gap-3">
+                    <!-- GOOGLE DOCS LINK LOGBOOK MASTER -->
+                    <a href="https://docs.google.com/document/d/1VO056J29deTn1JaZ9KRHzUrUu8WKgLU5/edit?usp=drivesdk&ouid=113675874246387041288&rtpof=true&sd=true" target="_blank" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition flex items-center space-x-2 shadow">
+                        <i class="fa-solid fa-file-word"></i>
+                        <span>Buka Logbook Master (Google Docs)</span>
+                    </a>
+
+                    <!-- Search Input -->
+                    <div class="relative w-full md:w-64">
+                        <input
+                            type="text"
+                            id="news-search-input"
+                            placeholder="Cari topik / berita..."
+                            oninput="searchNews()"
+                            class="w-full pl-10 pr-4 py-2.5 bg-brand-card border border-brand-border rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-lime"
+                        />
+                        <i class="fa-solid fa-magnifying-glass text-slate-400 absolute left-3.5 top-3.5 text-sm"></i>
+                    </div>
                 </div>
             </div>
 
@@ -1277,9 +1269,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 8: PORTAL PROFIL & PETA 5 DUSUN DESA RAHONG -->
-    <!-- ========================================== -->
     <div id="view-dusun" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -1518,61 +1507,97 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 9: PUSAT UNDUHAN BERKAS (PDF)         -->
-    <!-- ========================================== -->
     <div id="view-unduhan" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
                     <span class="text-xs font-bold text-brand-lime uppercase tracking-wider">Repositori Digital Resmi</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Pusat Unduhan Berkas PDF</h2>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Pusat Unduhan Berkas PDF & Google Drive</h2>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <!-- 1. Draf Peraturan -->
                 <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
                     <div class="space-y-1.5">
                         <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-[10px] font-bold uppercase">Hukum & Kebijakan</span>
                         <h4 class="text-base font-bold text-white">Draf Peraturan RW 05 Tahun 2026</h4>
-                        <p class="text-xs text-slate-400">PDF SK Peraturan RW 05, klausul gotong royong 10%, denda sampah, tembak burung, & setrum ikan.</p>
+                        <p class="text-xs text-slate-400">SK Peraturan RW 05, kuota gotong royong 10%, denda sampah, tembak burung, & setrum ikan.</p>
                     </div>
-                    <a href="Peraturan%20RW%2005%20Desa%20Rahong%20-%20Draft%20KKN%20112%20(1).pdf" download class="w-full py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
+                    <a href="https://drive.google.com/file/d/1shQ9W5ISxu3hr0jilMml9lyDofQbt3E1/view?usp=drivesdk" target="_blank" class="w-full py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
                         <i class="fa-solid fa-download"></i>
-                        <span>Unduh Peraturan (PDF)</span>
+                        <span>Buka Draf (Google Drive)</span>
                     </a>
                 </div>
 
+                <!-- 2. Peta Dusun 4 -->
                 <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
                     <div class="space-y-1.5">
                         <span class="px-2 py-0.5 rounded bg-brand-lime/20 text-brand-lime text-[10px] font-bold uppercase">Peta Spasial Dusun 4</span>
                         <h4 class="text-base font-bold text-white">Peta Dusun 4 Cipining 2026 (PDF)</h4>
-                        <p class="text-xs text-slate-400">PDF Peta Resmi Dusun Cipining Skala 1:12.500, perbatasan 8 RT, & titik lokasi tong sampah terpilah.</p>
+                        <p class="text-xs text-slate-400">Peta Cetak HD Dusun Cipining Skala 1:12.500, perbatasan 8 RT, & lokasi tong sampah terpilah.</p>
                     </div>
-                    <a href="MAP%20DUSUN%204%20FINAL%20KALI%20(1).pdf" download class="w-full py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
+                    <a href="https://drive.google.com/file/d/1j43RtFM67bsR-P897LrS7PbAo5W0IGmZ/view?usp=drivesdk" target="_blank" class="w-full py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
                         <i class="fa-solid fa-download"></i>
-                        <span>Unduh Peta Dusun 4 (PDF)</span>
+                        <span>Unduh Peta PDF (Drive)</span>
                     </a>
                 </div>
 
+                <!-- 3. Modul 3R -->
                 <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
                     <div class="space-y-1.5">
                         <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase">Modul 3R</span>
-                        <h4 class="text-base font-bold text-white">Modul 112.COLLECTIVE (Sampah)</h4>
+                        <h4 class="text-base font-bold text-white">Modul Materi Edukasi 3R</h4>
                         <p class="text-xs text-slate-400">PDF panduan pemilahan sampah organik & anorganik, pembuatan kompos, eco-enzyme, & ecobrick.</p>
                     </div>
-                    <a href="112%20JOSJIS.pdf" download class="w-full py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
+                    <a href="https://drive.google.com/file/d/1p8oPSIYdrthzymNaEZt7l8Y1rqz0q6Jv/view?usp=drivesdk" target="_blank" class="w-full py-2.5 bg-brand-lime hover:bg-[#b8de1e] text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
                         <i class="fa-solid fa-download"></i>
-                        <span>Unduh Modul 3R (PDF)</span>
+                        <span>Unduh Materi (Drive)</span>
+                    </a>
+                </div>
+
+                <!-- 4. Logbook Master -->
+                <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
+                    <div class="space-y-1.5">
+                        <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 text-[10px] font-bold uppercase">Jurnalistik</span>
+                        <h4 class="text-base font-bold text-white">Logbook Master Mahasiswa</h4>
+                        <p class="text-xs text-slate-400">Dokumen Google Docs kumpulan catatan harian kegiatan KKN Sisdamas 112.</p>
+                    </div>
+                    <a href="https://docs.google.com/document/d/1VO056J29deTn1JaZ9KRHzUrUu8WKgLU5/edit?usp=drivesdk&ouid=113675874246387041288&rtpof=true&sd=true" target="_blank" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
+                        <i class="fa-solid fa-file-word"></i>
+                        <span>Buka Logbook (Docs)</span>
+                    </a>
+                </div>
+
+                <!-- 5. Folder Foto & Video -->
+                <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
+                    <div class="space-y-1.5">
+                        <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[10px] font-bold uppercase">Dokumentasi</span>
+                        <h4 class="text-base font-bold text-white">Folder Foto & Video HD KKN</h4>
+                        <p class="text-xs text-slate-400">Folder Google Drive penyimpanan foto resolusi tinggi dan rekaman video kegiatan.</p>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1KmzeHVB3wDkVO_pZcPJch4flX5MZV7qL" target="_blank" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-brand-dark font-black text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 shadow">
+                        <i class="fa-brands fa-google-drive"></i>
+                        <span>Buka Drive Media HD</span>
+                    </a>
+                </div>
+
+                <!-- 6. Monografi Desa -->
+                <div class="bg-brand-card border border-brand-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
+                    <div class="space-y-1.5">
+                        <span class="px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 text-[10px] font-bold uppercase">Monografi</span>
+                        <h4 class="text-base font-bold text-white">Buku Profil Desa Rahong 2025</h4>
+                        <p class="text-xs text-slate-400">Dokumen monografi resmi Pemdes Rahong tahun 2025, data 10.767 jiwa, 9 Poktan, & silsilah kades.</p>
+                    </div>
+                    <a href="PROFIL%20DESA%20RAHONG%20TAHUN%202025.pdf" download class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition text-center flex items-center justify-center space-x-2 border border-slate-700">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Unduh Profil Desa (PDF)</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 10: SUARA WARGA & KOTAK ASPIRASI -->
-    <!-- ========================================== -->
     <div id="view-suara" class="view-section min-h-screen hidden pb-28 pt-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
             <div class="border-b border-slate-800 pb-4">
@@ -2079,8 +2104,18 @@
 
         const PRESS_RELEASES = [
             {
-                id: 'pr-1',
+                id: 'pr-kompasiana-1',
                 isFeatured: true,
+                title: 'Sinergi KKN 112 & Warga Perbaiki Bendungan Si Cantik di Desa Rahong',
+                date: '14 Agustus 2026',
+                author: 'Muhamad Nuruzzaman (112Collective)',
+                category: 'Kompasiana / Kampusiana',
+                excerpt: 'Aksi Padat Karya Tunai Desa (PKTD) Dana Desa 2026 melibatkan 30-40 warga RW 05, mahasiswa KKN 112 UIN SGD Bandung, dan mahasiswa UNSUR Cianjur untuk memperbaiki tanggul Bendungan Si Cantik yang sempat jebol.',
+                content: `CIANJUR, KOMPASIANA — Semangat gotong royong dan kepedulian terhadap fasilitas desa kembali ditunjukkan secara nyata oleh masyarakat Desa Rahong, Kecamatan Cilaku, Kabupaten Cianjur. Mahasiswa Kuliah Kerja Nyata (KKN) Sisdamas Kelompok 112 UIN Sunan Gunung Djati Bandung berkolaborasi dengan mahasiswa Universitas Suryakancana (UNSUR), Pengurus RW 05, serta Kepala Dusun setempat turun langsung ke lapangan membantu warga memperbaiki tanggul di Bendungan Si Cantik yang sempat jebol dan mengalami kerusakan.\n\nKegiatan kerja bakti ini merupakan bagian dari aksi pemeliharaan saluran air melalui skema program Padat Karya Tunai Desa (PKTD) yang bersumber dari Dana Desa Tahun 2026. Sebanyak kurang lebih 30 hingga 40 orang yang terdiri dari perangkat kewilayahan, warga RW 05, dan mahasiswa lintas kampus berbaur bahu-membahu menata bebatuan serta material guna memulihkan kembali fungsi tanggul dan aliran air bendungan.\n\nMenjaga Urat Nadi Pengairan Warga\nKeberadaan Bendungan Si Cantik di wilayah RW 05 memegang peranan krusial bagi kehidupan masyarakat sekitar, khususnya dalam menyuplai air untuk area persawahan, lahan pertanian, dan pemenuhan kebutuhan sanitasi sehari-hari warga. Kerusakan pada struktur tanggul bendungan dikhawatirkan dapat menghambat pasokan air irigasi apabila tidak segera ditangani secara bersama-sama.\n\nSejak pagi hari, antusiasme warga terlihat sangat tinggi. Dengan peralatan sederhana, warga bersama para mahasiswa mengangkat batu, membersihkan endapan lumpur, dan menyusun kembali struktur tanggul penahan air. Kehadiran Kepala Dusun dan tokoh warga di lokasi turut memberikan arahan teknis serta menyuntikkan semangat kebersamaan di tengah teriknya cuaca.\n\nKolaborasi Harmonis Mahasiswa dan Masyarakat\nKerja bakti pemulihan Bendungan Si Cantik ini juga menjadi wujud kolaborasi produktif antara mahasiswa KKN UIN Sunan Gunung Djati Bandung dan mahasiswa UNSUR Cianjur. Tidak hanya menjalankan agenda program kerja di atas kertas, mahasiswa terjun langsung merasakan dinamika sosial pedesaan dan belajar arti penting solidaritas kemasyarakatan.\n\n"Gotong royong di Bendungan Si Cantik ini bukan sekadar memperbaiki fisik tanggul yang rusak, melainkan merawat tali silaturahmi antara mahasiswa dengan warga dan aparatur desa. Melihat kekompakan puluhan warga dan mahasiswa dari dua kampus yang bersatu, inilah esensi pengabdian masyarakat yang sesungguhnya," ungkap salah satu perwakilan mahasiswa KKN.\n\nMelalui kerja bakti pemeliharaan saluran air ini, diharapkan aliran irigasi dari Bendungan Si Cantik dapat kembali mengalir lancar, memberikan manfaat jangka panjang bagi ketahanan pangan lokal di RW 05 Desa Rahong, serta memperkokoh tradisi gotong royong antarwarga.`
+            },
+            {
+                id: 'pr-1',
+                isFeatured: false,
                 title: 'KKN Kelompok 112 Luncurkan Program Ekoteologi & Media Guidelines di Desa Rahong 2026',
                 date: '08 Juli 2026',
                 author: 'Tim Humas KKN 112',
@@ -2097,16 +2132,6 @@
                 category: 'Catatan Lapangan',
                 excerpt: 'Pemeriksaan langsung bendungan desa mengungkapkan pentingnya integrasi edukasi buang sampah dengan perbaikan sistem pengairan sawah.',
                 content: `Dusun 5 Peusar — Memasuki tahapan observasi Siklus I, tim mahasiswa melakukan penelusuran aliran irigasi sepanjang 2.5 kilometer yang mengaliri puluhan hektar sawah warga Desa Rahong.\n\nDari hasil Transect Walk bersama pengurus Mitra Cai (P3A), ditemukan beberapa titik penyumbatan sampah plastik limbah rumah tangga. Kondisi ini menurunkan efisiensi aliran air menuju area persawahan bagian hilir.`
-            },
-            {
-                id: 'pr-3',
-                isFeatured: false,
-                title: 'Digitalisasi Transparansi: Portal KKN 112 Desa Rahong Resmi Diperkenalkan',
-                date: '12 Juli 2026',
-                author: 'Tim Media & IT',
-                category: 'Teknologi & Inovasi',
-                excerpt: 'Portal interaktif dikembangkan menggunakan Tailwind CSS dengan spesifikasi warna resmi Media Guidelines KKN 112.',
-                content: `Desa Rahong — Sebagai wujud digital legacy, KKN 112 Desa Rahong meluncurkan web portal resmi. Platform ini memuat seluruh rekam jejak logbook harian, status 4 Siklus Sisdamas, galeri foto resolusi tinggi, serta peta dampak kegiatan.`
             }
         ];
 
